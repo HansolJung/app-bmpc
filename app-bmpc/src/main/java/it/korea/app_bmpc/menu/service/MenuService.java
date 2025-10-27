@@ -1,0 +1,458 @@
+package it.korea.app_bmpc.menu.service;
+
+import java.io.File;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import it.korea.app_bmpc.common.utils.FileUtils;
+import it.korea.app_bmpc.menu.dto.MenuCategoryDTO;
+import it.korea.app_bmpc.menu.dto.MenuDTO;
+import it.korea.app_bmpc.menu.dto.MenuOptionDTO;
+import it.korea.app_bmpc.menu.dto.MenuOptionGroupDTO;
+import it.korea.app_bmpc.menu.entity.MenuCategoryEntity;
+import it.korea.app_bmpc.menu.entity.MenuEntity;
+import it.korea.app_bmpc.menu.entity.MenuFileEntity;
+import it.korea.app_bmpc.menu.entity.MenuOptionEntity;
+import it.korea.app_bmpc.menu.entity.MenuOptionGroupEntity;
+import it.korea.app_bmpc.menu.repository.MenuCategoryRepository;
+import it.korea.app_bmpc.menu.repository.MenuOptionGroupRepository;
+import it.korea.app_bmpc.menu.repository.MenuOptionRepository;
+import it.korea.app_bmpc.menu.repository.MenuRepository;
+import it.korea.app_bmpc.store.entity.StoreEntity;
+import it.korea.app_bmpc.store.repository.StoreRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class MenuService {
+
+    @Value("${server.file.menu.path}")
+    private String filePath;
+
+    private final MenuRepository menuRepository;
+    private final MenuCategoryRepository menuCategoryRepository;
+    private final MenuOptionGroupRepository menuOptionGroupRepository;
+    private final MenuOptionRepository menuOptionRepository;
+    private final StoreRepository storeRepository;
+    private final FileUtils fileUtils;
+
+    /**
+     * 메뉴 상세정보 가져오기
+     * @param menuId 메뉴 아이디
+     * @return
+     * @throws Exception
+     */
+    @Transactional(readOnly = true)
+    public MenuDTO.Detail getMenu(int menuId) throws Exception {
+        return MenuDTO.Detail.of(menuRepository.getMenu(menuId)
+            .orElseThrow(()-> new RuntimeException("해당 메뉴가 존재하지 않습니다.")));
+    }
+
+    /**
+     * 메뉴 카테고리 등록하기
+     * @param request
+     * @return 
+     */
+    @Transactional
+    public void createMenuCategory(MenuCategoryDTO.Request request) throws Exception {
+
+        StoreEntity storeEntity = storeRepository.findById(request.getStoreId())
+            .orElseThrow(()-> new RuntimeException("해당 가게가 존재하지 않습니다."));
+        
+        MenuCategoryEntity entity = new MenuCategoryEntity();
+        entity.setMenuCaName(request.getMenuCaName());
+        entity.setDisplayOrder(request.getDisplayOrder());
+        entity.setDelYn("N");
+        entity.setStore(storeEntity);
+
+        storeEntity.addMenuCategory(entity, false);
+
+        menuCategoryRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 카테고리 수정하기
+     * @param request
+     * @return 
+     */
+    @Transactional
+    public void updateMenuCategory(MenuCategoryDTO.Request request) throws Exception {
+
+        MenuCategoryEntity entity = menuCategoryRepository.findById(request.getMenuCaId())
+            .orElseThrow(() -> new RuntimeException("해당 메뉴 카테고리가 존재하지 않습니다."));
+        
+        // 삭제 여부 확인
+        if ("Y".equals(entity.getDelYn())) {
+            throw new RuntimeException("삭제된 메뉴 카테고리는 수정할 수 없습니다.");
+        }
+
+        entity.setMenuCaName(request.getMenuCaName());
+        entity.setDisplayOrder(request.getDisplayOrder());
+
+        menuCategoryRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 등록하기
+     * @param request
+     * @throws Exception
+     */
+    @Transactional
+    public void createMenu(MenuDTO.Request request) throws Exception {
+
+        MultipartFile mainImage = request.getMainImage();
+
+        if (mainImage == null || mainImage.isEmpty()) {   // 메인 이미지가 없거나 빈 파일일 경우
+            throw new RuntimeException("메인 이미지는 필수입니다.");
+        }
+        
+        // 메뉴 카테고리 조회
+        MenuCategoryEntity category = menuCategoryRepository.findById(request.getMenuCategoryId())
+            .orElseThrow(() -> new RuntimeException("해당 메뉴 카테고리가 존재하지 않습니다."));
+
+        MenuEntity entity = new MenuEntity();
+        entity.setMenuCategory(category);
+        entity.setMenuName(request.getMenuName());
+        entity.setDescription(request.getDescription());
+        entity.setPrice(request.getPrice());
+        entity.setSoldoutYn(request.getSoldoutYn());
+        entity.setDelYn("N");
+
+        category.addMenu(entity, true);   // 메뉴 카테고리와 메뉴 매핑
+
+        // 메인 이미지 파일 업로드
+        Map<String, Object> mainImageMap = fileUtils.uploadImageFiles(request.getMainImage(), filePath);
+
+        if (mainImageMap != null) {
+            MenuFileEntity fileEntity = new MenuFileEntity();
+            fileEntity.setFileName(mainImageMap.get("fileName").toString());
+            fileEntity.setStoredName(mainImageMap.get("storedFileName").toString());
+            fileEntity.setFilePath(mainImageMap.get("filePath").toString());
+            fileEntity.setFileThumbName(mainImageMap.get("thumbName").toString());
+            fileEntity.setFileSize(request.getMainImage().getSize());
+
+            entity.addFile(fileEntity, false);   // 메뉴와 메뉴 파일 매핑
+        }
+
+        menuRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 수정
+     * @param request
+     * @throws Exception
+     */
+    @Transactional
+    public void updateMenu(MenuDTO.Request request) throws Exception {
+
+        // 1. 수정하기 위해 기존 정보를 불러온다 
+        MenuEntity entity = menuRepository.getMenu(request.getMenuId())   
+            .orElseThrow(()-> new RuntimeException("해당 메뉴가 존재하지 않습니다."));
+
+        // 삭제 여부 확인
+        if ("Y".equals(entity.getDelYn())) {
+            throw new RuntimeException("삭제된 메뉴는 수정할 수 없습니다.");
+        }
+
+        MenuDTO.Detail detail = MenuDTO.Detail.of(entity);
+
+        entity.setMenuName(request.getMenuName());
+        entity.setDescription(request.getDescription());
+        entity.setPrice(request.getPrice());
+        entity.setSoldoutYn(request.getSoldoutYn());
+
+        // 2. 메뉴 카테고리 변경시 수정한다
+        if (request.getMenuCategoryId() != entity.getMenuCategory().getMenuCaId()) {
+            MenuCategoryEntity newCategory = menuCategoryRepository.findById(request.getMenuCategoryId())
+                .orElseThrow(() -> new RuntimeException("해당 메뉴 카테고리가 존재하지 않습니다."));
+            
+            // 기존 카테고리에서 메뉴 제거
+            entity.getMenuCategory().getMenuList().remove(entity);
+            
+            // 새 카테고리에 메뉴 추가
+            newCategory.addMenu(entity, true);
+            entity.setMenuCategory(newCategory);
+        }
+
+        
+        
+        // 3. 업로드 할 메인 이미지 파일이 있으면 업로드
+        if (request.getMainImage() != null && !request.getMainImage().isEmpty()) {
+     
+            // 3-1 파일 업로드
+            Map<String, Object> mainImageMap = fileUtils.uploadImageFiles(request.getMainImage(), filePath);
+
+            // 3-2. 파일 등록
+            // 파일이 있을 경우에만 파일 엔티티 생성
+            if (mainImageMap != null) {
+                MenuFileEntity fileEntity = new MenuFileEntity();
+                fileEntity.setFileName(mainImageMap.get("fileName").toString());
+                fileEntity.setStoredName(mainImageMap.get("storedFileName").toString());
+                fileEntity.setFilePath(mainImageMap.get("filePath").toString());
+                fileEntity.setFileThumbName(mainImageMap.get("thumbName").toString());
+                fileEntity.setFileSize(request.getMainImage().getSize());
+
+                // 기존 파일 연관관계 끊기
+                MenuFileEntity oldFile = entity.getFile();
+                oldFile.setMenu(null);
+                entity.setFile(null);
+
+                entity.addFile(fileEntity, true);
+            }
+        }
+
+        menuRepository.save(entity);
+
+        if (request.getMainImage() != null && !request.getMainImage().isEmpty()) {
+            // 3-3. 기존 파일 삭제 (작업 도중 DB에 문제가 생길 수도 있기 때문에 물리적 파일 삭제는 제일 마지막에 진행)
+            // 메뉴 상세 정보 DTO 가 가지고 있는 파일 정보로 삭제
+            deleteImageFiles(detail.getFilePath(), detail.getStoredName(), detail.getFileThumbName());
+        }
+    }
+
+    /**
+     * 메뉴 옵션 그룹 등록하기
+     * @param request
+     * @throws Exception
+     */
+    @Transactional
+    public void createMenuOptionGroup(MenuOptionGroupDTO.Request request) throws Exception {
+
+        // 메뉴 조회
+        MenuEntity menuEntity = menuRepository.findById(request.getMenuId())
+            .orElseThrow(() -> new RuntimeException("해당 메뉴가 존재하지 않습니다."));
+
+        // 옵션 그룹 엔티티 생성
+        MenuOptionGroupEntity entity = new MenuOptionGroupEntity();
+        entity.setMenu(menuEntity);
+        entity.setMenuOptGrpName(request.getMenuOptGrpName());
+        entity.setRequiredYn(request.getRequiredYn());
+        entity.setDelYn("N");
+        entity.setMinSelect(request.getMinSelect());
+        entity.setMaxSelect(request.getMaxSelect());
+        entity.setDisplayOrder(request.getDisplayOrder());
+
+        menuEntity.addMenuOptionGroup(entity, true);   // 메뉴와 메뉴 옵션 그룹 매핑
+
+        menuOptionGroupRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 옵션 그룹 수정하기
+     * @param request
+     * @throws Exception
+     */
+    @Transactional
+    public void updateMenuOptionGroup(MenuOptionGroupDTO.Request request) throws Exception {
+
+        // 기존 옵션 그룹 조회
+        MenuOptionGroupEntity entity = menuOptionGroupRepository.findById(request.getMenuOptGrpId())
+            .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션 그룹이 존재하지 않습니다."));
+        
+        // 삭제 여부 확인
+        if ("Y".equals(entity.getDelYn())) {
+            throw new RuntimeException("삭제된 옵션 그룹은 수정할 수 없습니다.");
+        }
+
+        entity.setMenuOptGrpName(request.getMenuOptGrpName());
+        entity.setRequiredYn(request.getRequiredYn());
+        entity.setMinSelect(request.getMinSelect());
+        entity.setMaxSelect(request.getMaxSelect());
+        entity.setDisplayOrder(request.getDisplayOrder());
+
+        menuOptionGroupRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 옵션 등록하기
+     * @param request
+     * @throws Exception
+     */
+    @Transactional
+    public void createMenuOption(MenuOptionDTO.Request request) throws Exception {
+
+        // 옵션 그룹 조회
+        MenuOptionGroupEntity groupEntity = menuOptionGroupRepository.findById(request.getMenuOptGrpId())
+            .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션 그룹이 존재하지 않습니다."));
+
+        // 옵션 엔티티 생성
+        MenuOptionEntity entity = new MenuOptionEntity();
+        entity.setMenuOptionGroup(groupEntity);
+        entity.setMenuOptName(request.getMenuOptName());
+        entity.setPrice(request.getPrice());
+        entity.setAvailableYn(request.getAvailableYn());
+        entity.setDelYn("N");
+        entity.setMaxSelect(request.getMaxSelect());
+        entity.setDisplayOrder(request.getDisplayOrder());
+
+        groupEntity.addMenuOption(entity, true);  // 메뉴 옵션 그룹과 메뉴 옵션 매핑
+
+        menuOptionRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 옵션 수정하기
+     * @param request
+     * @throws Exception
+     */
+    public void updateMenuOption(MenuOptionDTO.Request request) throws Exception {
+
+        MenuOptionEntity entity = menuOptionRepository.findById(request.getMenuOptId())
+            .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션이 존재하지 않습니다."));
+
+        // 삭제 여부 확인
+        if ("Y".equals(entity.getDelYn())) {
+            throw new RuntimeException("삭제된 옵션은 수정할 수 없습니다.");
+        }
+
+        entity.setMenuOptName(request.getMenuOptName());
+        entity.setPrice(request.getPrice());
+        entity.setAvailableYn(request.getAvailableYn());
+        entity.setMaxSelect(request.getMaxSelect());
+        entity.setDisplayOrder(request.getDisplayOrder());
+
+        menuOptionRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 카테고리 삭제
+     * @param menuCategoryId 메뉴 카테고리 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void deleteMenuCategory(int menuCategoryId) throws Exception {
+
+        MenuCategoryEntity entity = menuCategoryRepository.findById(menuCategoryId)
+            .orElseThrow(() -> new RuntimeException("해당 메뉴 카테고리가 존재하지 않습니다."));
+
+        // 이미 삭제된 경우 예외처리
+        if ("Y".equals(entity.getDelYn())) {
+            throw new RuntimeException("이미 삭제된 메뉴 카테고리입니다.");
+        }
+
+        entity.setDelYn("Y");
+
+        // 하위 메뉴까지 전부 삭제 처리
+        if (entity.getMenuList() != null) {
+            entity.getMenuList().forEach(menu -> menu.setDelYn("Y"));
+        }
+
+        menuCategoryRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 삭제
+     * @param menuId 메뉴 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void deleteMenu(int menuId) throws Exception {
+
+        MenuEntity entity = menuRepository.findById(menuId)
+            .orElseThrow(() -> new RuntimeException("해당 메뉴가 존재하지 않습니다."));
+
+        // 이미 삭제된 경우 예외처리
+        if ("Y".equals(entity.getDelYn())) {
+            throw new RuntimeException("이미 삭제된 메뉴입니다.");
+        }
+
+        entity.setDelYn("Y");
+
+        // 하위 옵션 그룹까지 전부 삭제 처리
+        if (entity.getMenuOptionGroupList() != null) {
+            entity.getMenuOptionGroupList().forEach(group -> group.setDelYn("Y"));
+        }
+
+        menuRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 옵션 그룹 삭제
+     * @param menuOptGrpId 메뉴 옵션 그룹 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void deleteMenuOptionGroup(int menuOptGrpId) throws Exception {
+
+        MenuOptionGroupEntity entity = menuOptionGroupRepository.findById(menuOptGrpId)
+            .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션 그룹이 존재하지 않습니다."));
+
+        // 이미 삭제된 경우 예외처리
+        if ("Y".equals(entity.getDelYn())) {
+            throw new RuntimeException("이미 삭제된 옵션 그룹입니다.");
+        }
+
+        entity.setDelYn("Y");
+
+        // 하위 메뉴 옵션까지 전부 삭제 처리
+        if (entity.getMenuOptionList() != null) {
+            entity.getMenuOptionList().forEach(option -> option.setDelYn("Y"));
+        }
+
+        menuOptionGroupRepository.save(entity);
+    }
+
+    /**
+     * 메뉴 옵션 삭제
+     * @param menuOptId 메뉴 옵션 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void deleteMenuOption(int menuOptId) throws Exception {
+
+        MenuOptionEntity entity = menuOptionRepository.findById(menuOptId)
+            .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션이 존재하지 않습니다."));
+
+        // 이미 삭제된 경우 예외처리
+        if ("Y".equals(entity.getDelYn())) {
+            throw new RuntimeException("이미 삭제된 메뉴 옵션입니다.");
+        }
+
+        entity.setDelYn("Y");
+
+        menuOptionRepository.save(entity);
+    }
+
+    /**
+     * 파일 삭제과정 공통화해서 분리
+     * @param imageFilePath 이미지 파일 경로
+     * @param storedName 저장 파일명
+     * @param fileThumbName 파일 썸네일명
+     * @throws Exception
+     */
+    private void deleteImageFiles(String imageFilePath, String storedName, String fileThumbName) throws Exception {
+        // 파일 정보
+        String fullPath = imageFilePath + storedName;
+        String thumbFilePath = filePath + "thumb" + File.separator + fileThumbName;
+
+        try {
+            File file = new File(fullPath);
+
+            if (file.exists()) {
+                // 원본 파일 삭제
+                fileUtils.deleteFile(fullPath);
+            } else {
+                log.warn("삭제하려는 원본 파일이 없습니다. path={}", fullPath);
+            }
+
+            File thumbFile = new File(thumbFilePath);
+
+            if (thumbFile.exists()) {
+                // 썸네일 파일 삭제
+                fileUtils.deleteFile(thumbFilePath);
+            } else {
+                log.warn("삭제하려는 썸네일 파일이 없습니다. path={}", thumbFilePath);
+            }
+
+        } catch (Exception e) {
+            // 파일 삭제 실패 시 전체 트랜잭션을 깨뜨리지 않도록 함
+            log.error("파일 삭제 중 오류가 발생했습니다. {}", e.getMessage(), e);
+        }
+    }
+}

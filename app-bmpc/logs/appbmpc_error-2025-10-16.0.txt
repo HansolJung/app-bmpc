@@ -1,0 +1,326 @@
+2025-10-16 09:06:14.108[ERROR] : Failed to initialize JPA EntityManagerFactory: Table [bmpc_orders] contains physical column name [order_id] referred to by multiple logical column names: [order_id], [orderId]
+2025-10-16 09:06:14.170[ERROR] : Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Table [bmpc_orders] contains physical column name [order_id] referred to by multiple logical column names: [order_id], [orderId]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at it.korea.app_bmpc.AppBmpcApplication.main(AppBmpcApplication.java:10)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.hibernate.DuplicateMappingException: Table [bmpc_orders] contains physical column name [order_id] referred to by multiple logical column names: [order_id], [orderId]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl$TableColumnNameBinding.bindPhysicalToLogical(InFlightMetadataCollectorImpl.java:1135)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl$TableColumnNameBinding.addBinding(InFlightMetadataCollectorImpl.java:1104)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.addColumnNameBinding(InFlightMetadataCollectorImpl.java:1174)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.addColumnNameBinding(InFlightMetadataCollectorImpl.java:1155)
+	at org.hibernate.boot.model.internal.AnnotatedJoinColumn.addColumnBinding(AnnotatedJoinColumn.java:409)
+	at org.hibernate.boot.model.internal.AnnotatedColumn.linkWithValue(AnnotatedColumn.java:445)
+	at org.hibernate.boot.model.internal.TableBinder.linkJoinColumnWithValueOverridingNameIfImplicit(TableBinder.java:838)
+	at org.hibernate.boot.model.internal.TableBinder.bindImplicitPrimaryKeyReference(TableBinder.java:609)
+	at org.hibernate.boot.model.internal.TableBinder.bindExplicitColumns(TableBinder.java:587)
+	at org.hibernate.boot.model.internal.TableBinder.bindForeignKey(TableBinder.java:568)
+	at org.hibernate.boot.model.internal.ToOneFkSecondPass.doSecondPass(ToOneFkSecondPass.java:123)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processEndOfQueue(InFlightMetadataCollectorImpl.java:1937)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processFkSecondPassesInOrder(InFlightMetadataCollectorImpl.java:1886)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processSecondPasses(InFlightMetadataCollectorImpl.java:1794)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:334)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 18 common frames omitted
+2025-10-16 09:14:10.198[ERROR] : Failed to initialize JPA EntityManagerFactory: Collection 'it.korea.app_bmpc.menu.entity.MenuCategoryEntity.menuList' is 'mappedBy' a property named 'store' which does not exist in the target entity 'it.korea.app_bmpc.menu.entity.MenuEntity'
+2025-10-16 09:14:10.249[ERROR] : Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Collection 'it.korea.app_bmpc.menu.entity.MenuCategoryEntity.menuList' is 'mappedBy' a property named 'store' which does not exist in the target entity 'it.korea.app_bmpc.menu.entity.MenuEntity'
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at it.korea.app_bmpc.AppBmpcApplication.main(AppBmpcApplication.java:10)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.hibernate.AnnotationException: Collection 'it.korea.app_bmpc.menu.entity.MenuCategoryEntity.menuList' is 'mappedBy' a property named 'store' which does not exist in the target entity 'it.korea.app_bmpc.menu.entity.MenuEntity'
+	at org.hibernate.boot.model.internal.CollectionBinder.isReversePropertyInJoin(CollectionBinder.java:1638)
+	at org.hibernate.boot.model.internal.CollectionBinder.noAssociationTable(CollectionBinder.java:1652)
+	at org.hibernate.boot.model.internal.CollectionBinder.bindStarToManySecondPass(CollectionBinder.java:1613)
+	at org.hibernate.boot.model.internal.CollectionBinder$1.secondPass(CollectionBinder.java:1604)
+	at org.hibernate.boot.model.internal.CollectionSecondPass.doSecondPass(CollectionSecondPass.java:45)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processSecondPasses(InFlightMetadataCollectorImpl.java:1842)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processSecondPasses(InFlightMetadataCollectorImpl.java:1800)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:334)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 18 common frames omitted
+2025-10-16 16:31:38.424[ERROR] : Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminUserApiController' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\admin\controller\AdminUserApiController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'adminUserService' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\admin\service\AdminUserService.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'securityConfig' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\config\SecurityConfig.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'JWTUtils' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\common\utils\JWTUtils.class]: Unexpected exception during bean creation
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1222)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1188)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1123)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:987)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at it.korea.app_bmpc.AppBmpcApplication.main(AppBmpcApplication.java:10)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminUserService' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\admin\service\AdminUserService.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'securityConfig' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\config\SecurityConfig.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'JWTUtils' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\common\utils\JWTUtils.class]: Unexpected exception during bean creation
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1752)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1635)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 24 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\config\SecurityConfig.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'JWTUtils' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\common\utils\JWTUtils.class]: Unexpected exception during bean creation
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:413)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1375)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1205)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1752)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1635)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 38 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'JWTUtils' defined in file [C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main\it\korea\app_bmpc\common\utils\JWTUtils.class]: Unexpected exception during bean creation
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1752)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1635)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 61 common frames omitted
+Caused by: org.springframework.util.PlaceholderResolutionException: Could not resolve placeholder 'spring.jwt.secretKey' in value "${spring.jwt.secretKey}"
+	at org.springframework.util.PlaceholderResolutionException.withValue(PlaceholderResolutionException.java:81)
+	at org.springframework.util.PlaceholderParser$ParsedValue.resolve(PlaceholderParser.java:423)
+	at org.springframework.util.PlaceholderParser.replacePlaceholders(PlaceholderParser.java:128)
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:118)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:114)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:293)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:264)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:186)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:971)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1657)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1635)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	... 70 common frames omitted
+2025-10-16 16:32:50.352[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:32:51.401[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:32:54.424[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:32:55.446[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:33:09.192[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:33:10.219[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:33:55.001[ERROR] : accessToken is null
+2025-10-16 16:33:55.211[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:33:56.232[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:37:01.783[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:37:02.841[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:37:04.485[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:37:05.509[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:37:06.206[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:37:07.235[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:37:12.745[ERROR] : accessToken is null
+2025-10-16 16:37:12.941[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:37:13.956[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:37:55.619[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 16:37:55.628[ERROR] : accessToken is null
+2025-10-16 16:38:01.963[ERROR] : accessToken is null
+2025-10-16 16:38:02.059[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:03.075[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:28.867[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:29.883[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:31.267[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 16:38:31.276[ERROR] : accessToken is null
+2025-10-16 16:38:41.124[ERROR] : accessToken is null
+2025-10-16 16:38:41.219[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:42.246[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:45.205[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:46.235[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:47.294[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:48.315[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:53.277[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:54.295[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:57.913[ERROR] : accessToken is null
+2025-10-16 16:38:57.992[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:59.012[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:38:59.593[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:39:00.608[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:39:01.510[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:39:02.525[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:39:20.303[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:39:21.317[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:39:23.472[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 16:39:23.478[ERROR] : accessToken is null
+2025-10-16 16:39:27.771[ERROR] : accessToken is null
+2025-10-16 16:39:27.863[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:39:28.876[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:44:47.660[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:44:48.723[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:45:02.811[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 16:45:02.824[ERROR] : accessToken is null
+2025-10-16 16:47:45.194[ERROR] : accessToken is null
+2025-10-16 16:47:45.403[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:47:46.426[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:48:13.636[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 16:48:13.646[ERROR] : accessToken is null
+2025-10-16 16:50:23.042[ERROR] : accessToken is null
+2025-10-16 16:50:23.357[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:50:24.391[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:50:46.743[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 16:50:46.751[ERROR] : accessToken is null
+2025-10-16 16:51:22.833[ERROR] : accessToken is null
+2025-10-16 16:51:22.930[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:51:23.955[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:51:34.996[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 16:51:35.005[ERROR] : accessToken is null
+2025-10-16 16:53:31.977[ERROR] : accessToken is null
+2025-10-16 16:53:32.264[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:53:33.297[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:53:42.182[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 16:53:42.190[ERROR] : accessToken is null
+2025-10-16 16:55:16.860[ERROR] : accessToken is null
+2025-10-16 16:55:17.152[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:55:18.198[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 16:55:27.644[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 16:55:27.654[ERROR] : accessToken is null
+2025-10-16 17:00:26.387[ERROR] : accessToken is null
+2025-10-16 17:00:27.405[ERROR] : accessToken is null
+2025-10-16 17:00:35.339[ERROR] : accessToken is null
+2025-10-16 17:00:35.616[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 17:00:36.650[ERROR] : ===== Exception : No static resource api/v1/board. =====
+2025-10-16 17:00:55.467[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:00:55.477[ERROR] : accessToken is null
+2025-10-16 17:09:48.566[ERROR] : accessToken is null
+2025-10-16 17:10:00.651[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:10:00.667[ERROR] : accessToken is null
+2025-10-16 17:10:20.515[ERROR] : accessToken is null
+2025-10-16 17:10:27.993[ERROR] : accessToken is null
+2025-10-16 17:10:58.520[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:10:58.529[ERROR] : accessToken is null
+2025-10-16 17:11:24.732[ERROR] : accessToken is null
+2025-10-16 17:11:43.485[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:11:43.497[ERROR] : accessToken is null
+2025-10-16 17:12:16.332[ERROR] : accessToken is null
+2025-10-16 17:12:39.901[ERROR] : accessToken is null
+2025-10-16 17:12:57.504[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:12:57.515[ERROR] : accessToken is null
+2025-10-16 17:13:54.561[ERROR] : accessToken is null
+2025-10-16 17:14:04.624[ERROR] : accessToken is null
+2025-10-16 17:20:30.789[ERROR] : accessToken is null
+2025-10-16 17:20:55.952[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:20:55.961[ERROR] : accessToken is null
+2025-10-16 17:21:08.965[ERROR] : accessToken is null
+2025-10-16 17:21:26.662[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:21:26.670[ERROR] : accessToken is null
+2025-10-16 17:25:10.842[ERROR] : accessToken is null
+2025-10-16 17:25:27.198[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:25:27.207[ERROR] : accessToken is null
+2025-10-16 17:26:57.218[ERROR] : accessToken is null
+2025-10-16 17:27:09.986[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:27:09.997[ERROR] : accessToken is null
+2025-10-16 17:29:45.293[ERROR] : accessToken is null
+2025-10-16 17:29:56.886[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:29:56.899[ERROR] : accessToken is null
+2025-10-16 17:34:01.717[ERROR] : accessToken is null
+2025-10-16 17:34:17.189[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:34:17.200[ERROR] : accessToken is null
+2025-10-16 17:40:09.621[ERROR] : accessToken is null
+2025-10-16 17:40:22.007[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:40:22.022[ERROR] : accessToken is null
+2025-10-16 17:41:00.246[ERROR] : accessToken is null
+2025-10-16 17:41:13.816[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:41:13.826[ERROR] : accessToken is null
+2025-10-16 17:45:38.485[ERROR] : accessToken is null
+2025-10-16 17:45:46.194[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:45:46.204[ERROR] : accessToken is null
+2025-10-16 17:46:48.890[ERROR] : accessToken is null
+2025-10-16 17:46:56.854[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:46:56.865[ERROR] : accessToken is null
+2025-10-16 17:47:59.366[ERROR] : accessToken is null
+2025-10-16 17:48:05.990[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-16 17:48:06.001[ERROR] : accessToken is null

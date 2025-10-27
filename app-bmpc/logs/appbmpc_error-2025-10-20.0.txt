@@ -1,0 +1,183 @@
+2025-10-20 09:36:17.168[ERROR] : accessToken is null
+2025-10-20 09:36:33.012[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-20 09:36:33.025[ERROR] : accessToken is null
+2025-10-20 09:37:32.596[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:37:33.622[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:37:35.760[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:37:36.770[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:37:40.076[ERROR] : accessToken is null
+2025-10-20 09:37:40.166[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:37:41.195[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:37:43.611[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:37:44.638[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:38:30.646[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:38:31.700[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:38:33.472[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:38:34.499[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:39:18.280[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:39:19.334[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:41:51.690[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:41:52.742[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:41:53.729[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:41:54.747[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:42:06.337[ERROR] : accessToken is null
+2025-10-20 09:42:06.539[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:42:07.580[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:42:35.237[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-20 09:42:35.247[ERROR] : accessToken is null
+2025-10-20 09:42:35.256[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-20 09:42:42.017[ERROR] : accessToken is null
+2025-10-20 09:42:42.110[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:42:43.123[ERROR] : ===== Exception : No static resource api/v1/ball. =====
+2025-10-20 09:42:51.845[ERROR] : accessToken is null
+2025-10-20 09:42:52.856[ERROR] : accessToken is null
+2025-10-20 09:43:04.694[ERROR] : accessToken is null
+2025-10-20 09:43:05.714[ERROR] : accessToken is null
+2025-10-20 09:43:25.257[ERROR] : accessToken is null
+2025-10-20 09:43:26.284[ERROR] : accessToken is null
+2025-10-20 09:44:23.745[ERROR] : accessToken is null
+2025-10-20 09:45:00.618[ERROR] : accessToken is null
+2025-10-20 09:45:01.988[ERROR] : accessToken is null
+2025-10-20 09:45:03.004[ERROR] : accessToken is null
+2025-10-20 09:45:05.879[ERROR] : accessToken is null
+2025-10-20 09:45:06.896[ERROR] : accessToken is null
+2025-10-20 09:45:10.798[ERROR] : accessToken is null
+2025-10-20 09:45:25.365[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-20 09:45:25.374[ERROR] : accessToken is null
+2025-10-20 09:45:30.739[ERROR] : accessToken is null
+2025-10-20 09:48:33.944[ERROR] : accessToken is null
+2025-10-20 09:48:43.762[ERROR] : accessToken is null
+2025-10-20 09:48:44.984[ERROR] : accessToken is null
+2025-10-20 09:48:56.368[ERROR] : accessToken is null
+2025-10-20 09:48:57.384[ERROR] : accessToken is null
+2025-10-20 09:49:08.951[ERROR] : accessToken is null
+2025-10-20 09:49:10.047[ERROR] : accessToken is null
+2025-10-20 09:49:55.753[ERROR] : accessToken is null
+2025-10-20 09:49:56.775[ERROR] : accessToken is null
+2025-10-20 09:50:01.659[ERROR] : accessToken is null
+2025-10-20 09:50:02.682[ERROR] : accessToken is null
+2025-10-20 09:50:11.222[ERROR] : accessToken is null
+2025-10-20 09:50:12.332[ERROR] : accessToken is null
+2025-10-20 09:50:50.419[ERROR] : accessToken is null
+2025-10-20 09:50:51.431[ERROR] : accessToken is null
+2025-10-20 09:51:15.493[ERROR] : accessToken is null
+2025-10-20 09:51:16.618[ERROR] : accessToken is null
+2025-10-20 09:51:48.896[ERROR] : accessToken is null
+2025-10-20 09:51:49.913[ERROR] : accessToken is null
+2025-10-20 09:51:54.388[ERROR] : accessToken is null
+2025-10-20 09:51:55.479[ERROR] : accessToken is null
+2025-10-20 09:52:02.060[ERROR] : accessToken is null
+2025-10-20 09:52:03.158[ERROR] : accessToken is null
+2025-10-20 09:53:37.593[ERROR] : accessToken is null
+2025-10-20 09:53:38.616[ERROR] : accessToken is null
+2025-10-20 09:53:40.474[ERROR] : accessToken is null
+2025-10-20 09:53:41.502[ERROR] : accessToken is null
+2025-10-20 09:53:44.837[ERROR] : accessToken is null
+2025-10-20 09:53:52.259[ERROR] : accessToken is null
+2025-10-20 09:54:11.877[ERROR] : accessToken is null
+2025-10-20 09:54:17.110[ERROR] : accessToken is null
+2025-10-20 09:54:18.207[ERROR] : accessToken is null
+2025-10-20 09:56:56.846[ERROR] : accessToken is null
+2025-10-20 09:57:03.008[ERROR] : accessToken is null
+2025-10-20 09:57:12.632[ERROR] : accessToken is null
+2025-10-20 09:57:39.413[ERROR] : accessToken is null
+2025-10-20 09:57:49.431[ERROR] : accessToken is null
+2025-10-20 09:57:55.945[ERROR] : accessToken is null
+2025-10-20 09:59:39.858[ERROR] : accessToken is null
+2025-10-20 09:59:42.997[ERROR] : accessToken is null
+2025-10-20 09:59:44.199[ERROR] : accessToken is null
+2025-10-20 09:59:50.149[ERROR] : accessToken is null
+2025-10-20 09:59:51.248[ERROR] : accessToken is null
+2025-10-20 10:02:01.840[ERROR] : accessToken is null
+2025-10-20 10:02:02.864[ERROR] : accessToken is null
+2025-10-20 10:02:09.954[ERROR] : accessToken is null
+2025-10-20 10:02:10.305[ERROR] : accessToken is null
+2025-10-20 10:02:10.531[ERROR] : accessToken is null
+2025-10-20 10:02:10.751[ERROR] : accessToken is null
+2025-10-20 10:02:10.938[ERROR] : accessToken is null
+2025-10-20 10:02:12.048[ERROR] : accessToken is null
+2025-10-20 10:02:13.059[ERROR] : accessToken is null
+2025-10-20 10:02:15.894[ERROR] : accessToken is null
+2025-10-20 10:02:16.997[ERROR] : accessToken is null
+2025-10-20 10:13:12.384[ERROR] : accessToken is null
+2025-10-20 10:13:13.408[ERROR] : accessToken is null
+2025-10-20 10:13:13.672[ERROR] : accessToken is null
+2025-10-20 10:13:14.675[ERROR] : accessToken is null
+2025-10-20 10:13:15.694[ERROR] : accessToken is null
+2025-10-20 10:13:16.559[ERROR] : accessToken is null
+2025-10-20 10:13:25.467[ERROR] : accessToken is null
+2025-10-20 10:13:32.459[ERROR] : accessToken is null
+2025-10-20 10:13:41.934[ERROR] : accessToken is null
+2025-10-20 10:13:42.948[ERROR] : accessToken is null
+2025-10-20 10:13:57.565[ERROR] : accessToken is null
+2025-10-20 10:14:01.230[ERROR] : accessToken is null
+2025-10-20 10:14:02.339[ERROR] : accessToken is null
+2025-10-20 10:14:06.690[ERROR] : accessToken is null
+2025-10-20 10:14:13.731[ERROR] : accessToken is null
+2025-10-20 10:14:23.868[ERROR] : accessToken is null
+2025-10-20 10:14:43.796[ERROR] : accessToken is null
+2025-10-20 10:14:48.998[ERROR] : accessToken is null
+2025-10-20 10:14:50.104[ERROR] : accessToken is null
+2025-10-20 10:15:04.063[ERROR] : accessToken is null
+2025-10-20 10:15:05.080[ERROR] : accessToken is null
+2025-10-20 10:15:12.156[ERROR] : accessToken is null
+2025-10-20 10:15:13.253[ERROR] : accessToken is null
+2025-10-20 10:15:15.867[ERROR] : accessToken is null
+2025-10-20 10:18:55.506[ERROR] : accessToken is null
+2025-10-20 10:18:57.537[ERROR] : accessToken is null
+2025-10-20 10:18:58.552[ERROR] : accessToken is null
+2025-10-20 10:19:04.762[ERROR] : accessToken is null
+2025-10-20 10:19:06.060[ERROR] : accessToken is null
+2025-10-20 10:22:50.799[ERROR] : accessToken is null
+2025-10-20 10:22:51.827[ERROR] : accessToken is null
+2025-10-20 10:22:54.329[ERROR] : accessToken is null
+2025-10-20 10:22:55.348[ERROR] : accessToken is null
+2025-10-20 10:23:01.580[ERROR] : accessToken is null
+2025-10-20 10:23:02.887[ERROR] : accessToken is null
+2025-10-20 10:23:08.285[ERROR] : accessToken is null
+2025-10-20 10:23:13.548[ERROR] : accessToken is null
+2025-10-20 10:26:25.481[ERROR] : accessToken is null
+2025-10-20 10:26:29.569[ERROR] : accessToken is null
+2025-10-20 10:26:37.388[ERROR] : accessToken is null
+2025-10-20 10:26:52.130[ERROR] : accessToken is null
+2025-10-20 10:27:04.927[ERROR] : accessToken is null
+2025-10-20 10:28:22.744[ERROR] : accessToken is null
+2025-10-20 10:28:55.400[ERROR] : accessToken is null
+2025-10-20 10:29:20.935[ERROR] : accessToken is null
+2025-10-20 10:39:39.069[ERROR] : accessToken is null
+2025-10-20 10:39:42.472[ERROR] : accessToken is null
+2025-10-20 10:39:47.858[ERROR] : accessToken is null
+2025-10-20 10:39:59.430[ERROR] : accessToken is null
+2025-10-20 10:40:03.347[ERROR] : accessToken is null
+2025-10-20 10:40:29.067[ERROR] : accessToken is null
+2025-10-20 10:40:30.085[ERROR] : accessToken is null
+2025-10-20 10:40:35.812[ERROR] : accessToken is null
+2025-10-20 10:40:42.256[ERROR] : accessToken is null
+2025-10-20 10:40:47.146[ERROR] : accessToken is null
+2025-10-20 11:00:21.695[ERROR] : accessToken is null
+2025-10-20 11:00:26.531[ERROR] : accessToken is null
+2025-10-20 11:00:48.686[ERROR] : accessToken is null
+2025-10-20 11:00:54.494[ERROR] : accessToken is null
+2025-10-20 11:00:58.835[ERROR] : accessToken is null
+2025-10-20 11:03:21.764[ERROR] : accessToken is null
+2025-10-20 11:03:23.577[ERROR] : accessToken is null
+2025-10-20 11:03:29.749[ERROR] : accessToken is null
+2025-10-20 11:03:30.767[ERROR] : accessToken is null
+2025-10-20 11:03:33.371[ERROR] : accessToken is null
+2025-10-20 11:03:34.024[ERROR] : accessToken is null
+2025-10-20 11:03:35.051[ERROR] : accessToken is null
+2025-10-20 11:03:39.960[ERROR] : accessToken is null
+2025-10-20 11:03:49.462[ERROR] : accessToken is null
+2025-10-20 11:03:54.226[ERROR] : accessToken is null
+2025-10-20 11:06:15.948[ERROR] : accessToken is null
+2025-10-20 11:07:16.723[ERROR] : accessToken is null
+2025-10-20 11:07:20.680[ERROR] : accessToken is null
+2025-10-20 11:15:50.756[ERROR] : accessToken is null
+2025-10-20 11:16:25.372[ERROR] : accessToken is null
+2025-10-20 11:19:58.788[ERROR] : accessToken is null
+2025-10-20 11:20:07.114[ERROR] : accessToken is null
+2025-10-20 11:39:09.144[ERROR] : accessToken is null
+2025-10-20 11:39:10.167[ERROR] : accessToken is null
+2025-10-20 11:45:33.273[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-20 11:45:45.153[ERROR] : 유효하지 않은 JWT 서명입니다.
+2025-10-20 11:45:45.162[ERROR] : 유효하지 않은 JWT 서명입니다.

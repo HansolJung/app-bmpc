@@ -1,0 +1,256 @@
+[2025-10-28 08:38:34:880][background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+[2025-10-28 08:38:34:941][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - Starting AppBmpcApplication using Java 21.0.7 with PID 9524 (C:\JHS\boot-workspace\app-boot\app-bmpc\build\classes\java\main started by ITSC in C:\JHS\boot-workspace\app-boot\app-bmpc)
+[2025-10-28 08:38:34:941][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - No active profile set, falling back to 1 default profile: "default"
+[2025-10-28 08:38:34:1144][restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2025-10-28 08:38:34:1144][restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2025-10-28 08:38:35:1847][restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2025-10-28 08:38:35:1963][restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 106 ms. Found 17 JPA repository interfaces.
+[2025-10-28 08:38:35:2097][restartedMain] INFO  o.s.b.f.s.DefaultListableBeanFactory - Overriding bean definition for bean 'characterEncodingFilter' with a different definition: replacing [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=webConfig; factoryMethodName=characterEncodingFilter; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [it/korea/app_bmpc/config/WebConfig.class]] with [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration; factoryMethodName=characterEncodingFilter; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration.class]]
+[2025-10-28 08:38:36:3064][restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+[2025-10-28 08:38:36:3098][restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:38:36:3098][restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2025-10-28 08:38:36:3098][restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.44]
+[2025-10-28 08:38:36:3217][restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2025-10-28 08:38:36:3217][restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2073 ms
+[2025-10-28 08:38:37:3644][restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2025-10-28 08:38:37:3697][restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.26.Final
+[2025-10-28 08:38:37:3716][restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[2025-10-28 08:38:37:3971][restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2025-10-28 08:38:37:3998][restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2025-10-28 08:38:37:4082][restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.mariadb.jdbc.Connection@520110ba
+[2025-10-28 08:38:37:4097][restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2025-10-28 08:38:37:4116][restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[2025-10-28 08:38:37:4132][restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'p6SpyDataSourceDecorator [com.p6spy.engine.spy.P6DataSource] -> dataSource [com.zaxxer.hikari.HikariDataSource]']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2025-10-28 08:38:37:4149][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1726de99) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@bf77f33)
+[2025-10-28 08:38:37:4149][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4859a429) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@3d07c82c)
+[2025-10-28 08:38:37:4150][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1cf40b03) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2c4ae149)
+[2025-10-28 08:38:37:4150][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@29376005) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@2a729ba7)
+[2025-10-28 08:38:37:4150][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@166231f9) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6dd9dad5)
+[2025-10-28 08:38:37:4150][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@7ffcb823) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@416dabd8)
+[2025-10-28 08:38:37:4150][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4687a7f5) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@65abc282)
+[2025-10-28 08:38:37:4150][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7f8c43b4) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@531304f6)
+[2025-10-28 08:38:37:4150][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2850b96e) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1354c134)
+[2025-10-28 08:38:38:5331][restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2025-10-28 08:38:38:5367][restartedMain] INFO  p6spy - 2025-10-28 08:38:38 | OperationTime : 21ms | 
+(P6Spy sql,Hibernate format):
+
+    select
+        table_name 
+    from
+        information_schema.TABLES 
+    where
+        table_schema=database() 
+        and table_type='SEQUENCE'
+[2025-10-28 08:38:38:5382][restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2025-10-28 08:38:39:5788][restartedMain] INFO  o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+[2025-10-28 08:38:40:7444][restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+[2025-10-28 08:38:40:7444][restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+[2025-10-28 08:38:40:7566][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/imgs/**'], Ant [pattern='/static/imgs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:38:40:7566][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/img/**'], Ant [pattern='/static/img/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:38:40:7567][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@7970d2a8. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:38:41:7992][restartedMain] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+[2025-10-28 08:38:41:8059][restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[2025-10-28 08:38:41:8065][restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:38:41:8082][restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path '/'
+[2025-10-28 08:38:41:8099][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - Started AppBmpcApplication in 7.573 seconds (process running for 8.331)
+[2025-10-28 08:47:09:682][background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+[2025-10-28 08:47:09:728][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - Starting AppBmpcApplication using Java 21.0.7 with PID 7500 (C:\JHS\boot-workspace\app-boot\app-bmpc\bin\main started by ITSC in C:\JHS\boot-workspace\app-boot\app-bmpc)
+[2025-10-28 08:47:09:728][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - No active profile set, falling back to 1 default profile: "default"
+[2025-10-28 08:47:09:905][restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2025-10-28 08:47:09:905][restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2025-10-28 08:47:10:1552][restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2025-10-28 08:47:10:1643][restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 85 ms. Found 17 JPA repository interfaces.
+[2025-10-28 08:47:10:1758][restartedMain] INFO  o.s.b.f.s.DefaultListableBeanFactory - Overriding bean definition for bean 'characterEncodingFilter' with a different definition: replacing [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=webConfig; factoryMethodName=characterEncodingFilter; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [it/korea/app_bmpc/config/WebConfig.class]] with [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration; factoryMethodName=characterEncodingFilter; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration.class]]
+[2025-10-28 08:47:11:2649][restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+[2025-10-28 08:47:11:2669][restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:47:11:2671][restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2025-10-28 08:47:11:2671][restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.44]
+[2025-10-28 08:47:11:2754][restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2025-10-28 08:47:11:2754][restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1848 ms
+[2025-10-28 08:47:12:3104][restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2025-10-28 08:47:12:3145][restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.26.Final
+[2025-10-28 08:47:12:3169][restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[2025-10-28 08:47:12:3375][restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2025-10-28 08:47:12:3397][restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2025-10-28 08:47:12:3463][restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.mariadb.jdbc.Connection@520110ba
+[2025-10-28 08:47:12:3465][restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2025-10-28 08:47:12:3486][restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[2025-10-28 08:47:12:3502][restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'p6SpyDataSourceDecorator [com.p6spy.engine.spy.P6DataSource] -> dataSource [com.zaxxer.hikari.HikariDataSource]']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2025-10-28 08:47:12:3510][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1726de99) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@bf77f33)
+[2025-10-28 08:47:12:3510][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4859a429) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@3d07c82c)
+[2025-10-28 08:47:12:3510][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1cf40b03) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2c4ae149)
+[2025-10-28 08:47:12:3510][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@29376005) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@2a729ba7)
+[2025-10-28 08:47:12:3510][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@166231f9) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6dd9dad5)
+[2025-10-28 08:47:12:3510][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@7ffcb823) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@416dabd8)
+[2025-10-28 08:47:12:3510][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4687a7f5) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@65abc282)
+[2025-10-28 08:47:12:3510][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7f8c43b4) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@531304f6)
+[2025-10-28 08:47:12:3510][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2850b96e) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1354c134)
+[2025-10-28 08:47:13:4422][restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2025-10-28 08:47:13:4455][restartedMain] INFO  p6spy - 2025-10-28 08:47:13 | OperationTime : 3ms | 
+(P6Spy sql,Hibernate format):
+
+    select
+        table_name 
+    from
+        information_schema.TABLES 
+    where
+        table_schema=database() 
+        and table_type='SEQUENCE'
+[2025-10-28 08:47:13:4474][restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2025-10-28 08:47:13:4806][restartedMain] INFO  o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+[2025-10-28 08:47:15:6211][restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+[2025-10-28 08:47:15:6211][restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+[2025-10-28 08:47:15:6306][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/imgs/**'], Ant [pattern='/static/imgs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:47:15:6306][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/img/**'], Ant [pattern='/static/img/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:47:15:6306][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@86f4c08. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:47:15:6647][restartedMain] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+[2025-10-28 08:47:15:6702][restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[2025-10-28 08:47:15:6715][restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:47:15:6723][restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path '/'
+[2025-10-28 08:47:15:6723][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - Started AppBmpcApplication in 6.353 seconds (process running for 6.908)
+[2025-10-28 08:49:11:122437][File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+[2025-10-28 08:49:11:122440][Thread-11] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+[2025-10-28 08:49:11:122441][tomcat-shutdown] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:49:11:122444][tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+[2025-10-28 08:49:11:122445][Thread-11] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:49:11:122450][Thread-11] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+[2025-10-28 08:49:11:122452][Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2025-10-28 08:49:11:122457][Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2025-10-28 08:49:11:122539][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - Starting AppBmpcApplication using Java 21.0.7 with PID 7500 (C:\JHS\boot-workspace\app-boot\app-bmpc\bin\main started by ITSC in C:\JHS\boot-workspace\app-boot\app-bmpc)
+[2025-10-28 08:49:11:122539][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - No active profile set, falling back to 1 default profile: "default"
+[2025-10-28 08:49:11:122785][restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2025-10-28 08:49:11:122835][restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 48 ms. Found 17 JPA repository interfaces.
+[2025-10-28 08:49:11:122868][restartedMain] INFO  o.s.b.f.s.DefaultListableBeanFactory - Overriding bean definition for bean 'characterEncodingFilter' with a different definition: replacing [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=webConfig; factoryMethodName=characterEncodingFilter; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [it/korea/app_bmpc/config/WebConfig.class]] with [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration; factoryMethodName=characterEncodingFilter; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration.class]]
+[2025-10-28 08:49:11:122975][restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+[2025-10-28 08:49:11:122976][restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:49:11:122976][restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2025-10-28 08:49:11:122976][restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.44]
+[2025-10-28 08:49:11:123002][restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2025-10-28 08:49:11:123002][restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 463 ms
+[2025-10-28 08:49:11:123069][restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2025-10-28 08:49:12:123071][restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[2025-10-28 08:49:12:123079][restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2025-10-28 08:49:12:123080][restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+[2025-10-28 08:49:12:123083][restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.mariadb.jdbc.Connection@32994595
+[2025-10-28 08:49:12:123083][restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+[2025-10-28 08:49:12:123084][restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[2025-10-28 08:49:12:123085][restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'p6SpyDataSourceDecorator [com.p6spy.engine.spy.P6DataSource] -> dataSource [com.zaxxer.hikari.HikariDataSource]']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2025-10-28 08:49:12:123086][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4d8bcbdf) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@3dfedb03)
+[2025-10-28 08:49:12:123086][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2c29123b) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2fe08dd1)
+[2025-10-28 08:49:12:123086][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@3c267ec1) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@77cb8c85)
+[2025-10-28 08:49:12:123086][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1317f08d) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@3832793b)
+[2025-10-28 08:49:12:123086][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@376dc88a) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1ce9c546)
+[2025-10-28 08:49:12:123086][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@30d6cdce) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1b06814e)
+[2025-10-28 08:49:12:123086][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4276233c) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@10e70dc1)
+[2025-10-28 08:49:12:123086][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@16591aae) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@39faf5da)
+[2025-10-28 08:49:12:123086][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4ae65e1a) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@62c7db82)
+[2025-10-28 08:49:12:123305][restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2025-10-28 08:49:12:123305][restartedMain] INFO  p6spy - 2025-10-28 08:49:12 | OperationTime : 1ms | 
+(P6Spy sql,Hibernate format):
+
+    select
+        table_name 
+    from
+        information_schema.TABLES 
+    where
+        table_schema=database() 
+        and table_type='SEQUENCE'
+[2025-10-28 08:49:12:123305][restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2025-10-28 08:49:12:123708][restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+[2025-10-28 08:49:12:123708][restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+[2025-10-28 08:49:12:123756][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/imgs/**'], Ant [pattern='/static/imgs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:49:12:123756][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/img/**'], Ant [pattern='/static/img/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:49:12:123756][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@35510e3f. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:49:12:123880][restartedMain] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+[2025-10-28 08:49:12:123900][restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[2025-10-28 08:49:12:123907][restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:49:12:123920][restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path '/'
+[2025-10-28 08:49:12:123925][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - Started AppBmpcApplication in 1.418 seconds (process running for 124.097)
+[2025-10-28 08:49:12:123929][restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+[2025-10-28 08:49:20:131618][File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+[2025-10-28 08:49:20:131619][Thread-13] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+[2025-10-28 08:49:20:131619][tomcat-shutdown] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:49:20:131623][tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+[2025-10-28 08:49:20:131623][Thread-13] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:49:20:131626][Thread-13] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+[2025-10-28 08:49:20:131627][Thread-13] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+[2025-10-28 08:49:20:131632][Thread-13] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+[2025-10-28 08:49:20:131708][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - Starting AppBmpcApplication using Java 21.0.7 with PID 7500 (C:\JHS\boot-workspace\app-boot\app-bmpc\bin\main started by ITSC in C:\JHS\boot-workspace\app-boot\app-bmpc)
+[2025-10-28 08:49:20:131708][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - No active profile set, falling back to 1 default profile: "default"
+[2025-10-28 08:49:20:131864][restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2025-10-28 08:49:20:131901][restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 36 ms. Found 17 JPA repository interfaces.
+[2025-10-28 08:49:20:131924][restartedMain] INFO  o.s.b.f.s.DefaultListableBeanFactory - Overriding bean definition for bean 'characterEncodingFilter' with a different definition: replacing [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=webConfig; factoryMethodName=characterEncodingFilter; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [it/korea/app_bmpc/config/WebConfig.class]] with [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration; factoryMethodName=characterEncodingFilter; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration.class]]
+[2025-10-28 08:49:20:132000][restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+[2025-10-28 08:49:20:132000][restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:49:20:132000][restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2025-10-28 08:49:20:132000][restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.44]
+[2025-10-28 08:49:20:132024][restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2025-10-28 08:49:20:132024][restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 315 ms
+[2025-10-28 08:49:21:132074][restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2025-10-28 08:49:21:132077][restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[2025-10-28 08:49:21:132083][restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2025-10-28 08:49:21:132084][restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+[2025-10-28 08:49:21:132086][restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection org.mariadb.jdbc.Connection@566485b2
+[2025-10-28 08:49:21:132086][restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+[2025-10-28 08:49:21:132087][restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[2025-10-28 08:49:21:132087][restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'p6SpyDataSourceDecorator [com.p6spy.engine.spy.P6DataSource] -> dataSource [com.zaxxer.hikari.HikariDataSource]']
+	Database driver: undefined/unknown
+	Database version: 11.8.2
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2025-10-28 08:49:21:132087][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4a9e5ecc) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@26cbbb57)
+[2025-10-28 08:49:21:132088][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7b9c6096) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@ec199dd)
+[2025-10-28 08:49:21:132088][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@3611def7) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4dfbca61)
+[2025-10-28 08:49:21:132088][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@557b9b98) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@57f6ff9b)
+[2025-10-28 08:49:21:132088][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6fa875f4) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@7c1302a2)
+[2025-10-28 08:49:21:132088][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@75bde1e3) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1557d2e8)
+[2025-10-28 08:49:21:132088][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@39fc0263) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5d9e01ec)
+[2025-10-28 08:49:21:132088][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@47365145) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6c5d1bd9)
+[2025-10-28 08:49:21:132088][restartedMain] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@35ebe32b) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1857151b)
+[2025-10-28 08:49:21:132256][restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2025-10-28 08:49:21:132256][restartedMain] INFO  p6spy - 2025-10-28 08:49:21 | OperationTime : 1ms | 
+(P6Spy sql,Hibernate format):
+
+    select
+        table_name 
+    from
+        information_schema.TABLES 
+    where
+        table_schema=database() 
+        and table_type='SEQUENCE'
+[2025-10-28 08:49:21:132256][restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2025-10-28 08:49:21:132640][restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+[2025-10-28 08:49:21:132640][restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+[2025-10-28 08:49:21:132657][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/imgs/**'], Ant [pattern='/static/imgs/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:49:21:132657][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore Deferred [Mvc [pattern='/static/img/**'], Ant [pattern='/static/img/**']]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:49:21:132657][restartedMain] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@3e9b8116. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2025-10-28 08:49:21:132773][restartedMain] INFO  o.s.w.s.a.s.AnnotationActionEndpointMapping - Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+[2025-10-28 08:49:21:132783][restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[2025-10-28 08:49:21:132791][restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+[2025-10-28 08:49:21:132793][restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path '/'
+[2025-10-28 08:49:21:132795][restartedMain] INFO  i.korea.app_bmpc.AppBmpcApplication - Started AppBmpcApplication in 1.116 seconds (process running for 132.967)
+[2025-10-28 08:49:21:132795][restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
