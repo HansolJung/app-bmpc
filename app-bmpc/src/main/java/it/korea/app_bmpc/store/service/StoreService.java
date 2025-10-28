@@ -26,6 +26,8 @@ import it.korea.app_bmpc.store.entity.StoreHourEntity;
 import it.korea.app_bmpc.store.repository.CategoryRepository;
 import it.korea.app_bmpc.store.repository.StoreRepository;
 import it.korea.app_bmpc.store.repository.StoreSearchSpecification;
+import it.korea.app_bmpc.user.entity.UserEntity;
+import it.korea.app_bmpc.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,6 +41,7 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
     private final FileUtils fileUtils;
 
     /**
@@ -99,7 +102,16 @@ public class StoreService {
      * @throws Exception
      */
     @Transactional
-    public void createStore(StoreDTO.Request request) throws Exception {
+    public void createStore(StoreDTO.Request request, String userId) throws Exception {
+
+        // 호출한 사용자 조회
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        // 중복 가게 등록 방지
+        if (userEntity.getStore() != null) {
+            throw new RuntimeException("이미 등록한 가게가 있습니다. 한 점주는 하나의 가게만 등록 가능합니다.");
+        }
         
         MultipartFile mainImage = request.getMainImage();
 
@@ -181,7 +193,12 @@ public class StoreService {
             }
         }
 
+        // 가게 저장
         storeRepository.save(entity);
+
+        // 사용자와 가게 매핑
+        userEntity.setStore(entity);
+        userRepository.save(userEntity);
     }
 
     /**
@@ -191,11 +208,19 @@ public class StoreService {
      * @throws Exception
      */
     @Transactional
-    public void updateStore(StoreDTO.Request request) throws Exception {
+    public void updateStore(StoreDTO.Request request, String userId) throws Exception {
 
         // 1. 수정하기 위해 기존 정보를 불러온다 
         StoreEntity entity = storeRepository.getStore(request.getStoreId())   
             .orElseThrow(()-> new RuntimeException("해당 가게가 존재하지 않습니다."));
+
+        // 점주 소유 여부 확인
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != entity.getStoreId()) {
+            throw new RuntimeException("해당 가게를 수정할 권한이 없습니다.");
+        }
 
         StoreDTO.Detail detail = StoreDTO.Detail.of(entity);
 
@@ -330,13 +355,27 @@ public class StoreService {
      * @throws Exception
      */
     @Transactional
-    public void deleteStore(int storeId) throws Exception {
+    public void deleteStore(int storeId, String userId) throws Exception {
 
         StoreEntity entity = storeRepository.getStore(storeId)   // fetch join 을 사용한 getStore 메서드 호출
             .orElseThrow(()-> new RuntimeException("해당 가게가 존재하지 않습니다."));
+
+        // 점주 소유 여부 확인
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != entity.getStoreId()) {
+            throw new RuntimeException("해당 가게를 수정할 권한이 없습니다.");
+        }
+
         entity.setDelYn("Y");  // 삭제 여부 Y로 변경    
 
         storeRepository.save(entity);
+
+
+        // 점주의 storeId 비우기
+        userEntity.setStore(null);
+        userRepository.save(userEntity);
 
         // 모든 사람들의 장바구니에서 해당 가게 내용들 전부 삭제하기
         //basketRepository.deleteAllByStore_storeId(entity.getStoreId());

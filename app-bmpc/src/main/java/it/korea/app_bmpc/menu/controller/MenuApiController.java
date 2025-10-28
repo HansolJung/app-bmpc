@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,7 @@ import it.korea.app_bmpc.menu.dto.MenuDTO;
 import it.korea.app_bmpc.menu.dto.MenuOptionDTO;
 import it.korea.app_bmpc.menu.dto.MenuOptionGroupDTO;
 import it.korea.app_bmpc.menu.service.MenuService;
+import it.korea.app_bmpc.user.dto.UserSecureDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -56,9 +58,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PostMapping("/menu/category")
-    public ResponseEntity<?> createMenuCategory(@Valid @RequestBody MenuCategoryDTO.Request request) throws Exception {
+    public ResponseEntity<?> createMenuCategory(@Valid @RequestBody MenuCategoryDTO.Request request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
         
-        menuService.createMenuCategory(request);
+        menuService.createMenuCategory(request, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -71,9 +74,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PutMapping("/menu/category")
-    public ResponseEntity<?> updateMenuCategory(@Valid @RequestBody MenuCategoryDTO.Request request) throws Exception {
+    public ResponseEntity<?> updateMenuCategory(@Valid @RequestBody MenuCategoryDTO.Request request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
         
-        menuService.updateMenuCategory(request);
+        menuService.updateMenuCategory(request, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -86,9 +90,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @DeleteMapping("/menu/category/{menuCategoryId}")
-    public ResponseEntity<?> deleteMenuCategory(@PathVariable(name = "menuCategoryId") int menuCategoryId) throws Exception {
+    public ResponseEntity<?> deleteMenuCategory(@PathVariable(name = "menuCategoryId") int menuCategoryId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 
-        menuService.deleteMenuCategory(menuCategoryId);
+        menuService.deleteMenuCategory(menuCategoryId, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -101,9 +106,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PostMapping("/menu")
-    public ResponseEntity<?> createMenu(@Valid @ModelAttribute MenuDTO.Request request) throws Exception {
+    public ResponseEntity<?> createMenu(@Valid @ModelAttribute MenuDTO.Request request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
         
-        menuService.createMenu(request);
+        menuService.createMenu(request, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -116,9 +122,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PutMapping("/menu")
-    public ResponseEntity<?> updateMenu(@Valid @ModelAttribute MenuDTO.Request request) throws Exception {
+    public ResponseEntity<?> updateMenu(@Valid @ModelAttribute MenuDTO.Request request, 
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
         
-        menuService.updateMenu(request);
+        menuService.updateMenu(request, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -131,9 +138,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @DeleteMapping("/menu/{menuId}")
-    public ResponseEntity<?> deleteMenu(@PathVariable(name = "menuId") int menuId) throws Exception {
+    public ResponseEntity<?> deleteMenu(@PathVariable(name = "menuId") int menuId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 
-        menuService.deleteMenu(menuId);
+        menuService.deleteMenu(menuId, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -146,9 +154,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PostMapping("/menu/group")
-    public ResponseEntity<?> createMenuOptionGroup(@Valid @RequestBody MenuOptionGroupDTO.Request request) throws Exception {
+    public ResponseEntity<?> createMenuOptionGroup(@Valid @RequestBody MenuOptionGroupDTO.Request request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
         
-        menuService.createMenuOptionGroup(request);
+        menuService.createMenuOptionGroup(request, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -161,9 +170,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PutMapping("/menu/group")
-    public ResponseEntity<?> updateMenuOptionGroup(@Valid @RequestBody MenuOptionGroupDTO.Request request) throws Exception {
+    public ResponseEntity<?> updateMenuOptionGroup(@Valid @RequestBody MenuOptionGroupDTO.Request request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 
-        menuService.updateMenuOptionGroup(request);
+        menuService.updateMenuOptionGroup(request, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -176,9 +186,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @DeleteMapping("/menu/group/{menuOptGrpId}")
-    public ResponseEntity<?> deleteMenuOptionGroup(@PathVariable(name = "menuOptGrpId") int menuOptGrpId) throws Exception {
+    public ResponseEntity<?> deleteMenuOptionGroup(@PathVariable(name = "menuOptGrpId") int menuOptGrpId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 
-        menuService.deleteMenuOptionGroup(menuOptGrpId);
+        menuService.deleteMenuOptionGroup(menuOptGrpId, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -191,9 +202,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PostMapping("/menu/option")
-    public ResponseEntity<?> createMenuOption(@Valid @RequestBody MenuOptionDTO.Request request) throws Exception {
+    public ResponseEntity<?> createMenuOption(@Valid @RequestBody MenuOptionDTO.Request request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 
-        menuService.createMenuOption(request);
+        menuService.createMenuOption(request, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -206,9 +218,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PutMapping("/menu/option")
-    public ResponseEntity<?> updateMenuOption(@Valid @RequestBody MenuOptionDTO.Request request) throws Exception {
+    public ResponseEntity<?> updateMenuOption(@Valid @RequestBody MenuOptionDTO.Request request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 
-        menuService.updateMenuOption(request);
+        menuService.updateMenuOption(request, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -221,9 +234,10 @@ public class MenuApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @DeleteMapping("/menu/option/{menuOptId}")
-    public ResponseEntity<?> deleteMenuOption(@PathVariable(name = "menuOptId") int menuOptId) throws Exception {
+    public ResponseEntity<?> deleteMenuOption(@PathVariable(name = "menuOptId") int menuOptId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 
-        menuService.deleteMenuOption(menuOptId);
+        menuService.deleteMenuOption(menuOptId, user.getUserId());
         
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }

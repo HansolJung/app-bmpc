@@ -1,5 +1,6 @@
 package it.korea.app_bmpc.user.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,10 @@ public class UserService {
             userEntity.setDeposit(0);
             userEntity.setBalance(0);
             userEntity.setRole(userRoleEntity);
+            
+            if (StringUtils.isNotBlank(userRequestDTO.getBusinessNo())) {
+                userEntity.setBusinessNo(userRequestDTO.getBusinessNo());
+            }
             
             userRepository.save(userEntity);
         } else {

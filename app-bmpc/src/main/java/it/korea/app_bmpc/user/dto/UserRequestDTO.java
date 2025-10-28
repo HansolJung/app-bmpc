@@ -24,6 +24,7 @@ public class UserRequestDTO {
     private String userRole;
     private int deposit;
     private int balace;
+    private String businessNo;
 
     public String getUseYn() {
         return "Y";

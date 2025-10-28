@@ -24,6 +24,8 @@ import it.korea.app_bmpc.menu.repository.MenuOptionRepository;
 import it.korea.app_bmpc.menu.repository.MenuRepository;
 import it.korea.app_bmpc.store.entity.StoreEntity;
 import it.korea.app_bmpc.store.repository.StoreRepository;
+import it.korea.app_bmpc.user.entity.UserEntity;
+import it.korea.app_bmpc.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +42,7 @@ public class MenuService {
     private final MenuOptionGroupRepository menuOptionGroupRepository;
     private final MenuOptionRepository menuOptionRepository;
     private final StoreRepository storeRepository;
+    private final UserRepository userRepository;
     private final FileUtils fileUtils;
 
     /**
@@ -60,10 +63,18 @@ public class MenuService {
      * @return 
      */
     @Transactional
-    public void createMenuCategory(MenuCategoryDTO.Request request) throws Exception {
+    public void createMenuCategory(MenuCategoryDTO.Request request, String userId) throws Exception {
 
         StoreEntity storeEntity = storeRepository.findById(request.getStoreId())
             .orElseThrow(()-> new RuntimeException("해당 가게가 존재하지 않습니다."));
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != storeEntity.getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
+        }
         
         MenuCategoryEntity entity = new MenuCategoryEntity();
         entity.setMenuCaName(request.getMenuCaName());
@@ -82,7 +93,7 @@ public class MenuService {
      * @return 
      */
     @Transactional
-    public void updateMenuCategory(MenuCategoryDTO.Request request) throws Exception {
+    public void updateMenuCategory(MenuCategoryDTO.Request request, String userId) throws Exception {
 
         MenuCategoryEntity entity = menuCategoryRepository.findById(request.getMenuCaId())
             .orElseThrow(() -> new RuntimeException("해당 메뉴 카테고리가 존재하지 않습니다."));
@@ -90,6 +101,14 @@ public class MenuService {
         // 삭제 여부 확인
         if ("Y".equals(entity.getDelYn())) {
             throw new RuntimeException("삭제된 메뉴 카테고리는 수정할 수 없습니다.");
+        }
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != entity.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
         }
 
         entity.setMenuCaName(request.getMenuCaName());
@@ -104,7 +123,7 @@ public class MenuService {
      * @throws Exception
      */
     @Transactional
-    public void createMenu(MenuDTO.Request request) throws Exception {
+    public void createMenu(MenuDTO.Request request, String userId) throws Exception {
 
         MultipartFile mainImage = request.getMainImage();
 
@@ -115,6 +134,14 @@ public class MenuService {
         // 메뉴 카테고리 조회
         MenuCategoryEntity category = menuCategoryRepository.findById(request.getMenuCategoryId())
             .orElseThrow(() -> new RuntimeException("해당 메뉴 카테고리가 존재하지 않습니다."));
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
+        }
 
         MenuEntity entity = new MenuEntity();
         entity.setMenuCategory(category);
@@ -149,7 +176,7 @@ public class MenuService {
      * @throws Exception
      */
     @Transactional
-    public void updateMenu(MenuDTO.Request request) throws Exception {
+    public void updateMenu(MenuDTO.Request request, String userId) throws Exception {
 
         // 1. 수정하기 위해 기존 정보를 불러온다 
         MenuEntity entity = menuRepository.getMenu(request.getMenuId())   
@@ -160,6 +187,16 @@ public class MenuService {
             throw new RuntimeException("삭제된 메뉴는 수정할 수 없습니다.");
         }
 
+        MenuCategoryEntity category = entity.getMenuCategory();
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
+        }
+
         MenuDTO.Detail detail = MenuDTO.Detail.of(entity);
 
         entity.setMenuName(request.getMenuName());
@@ -168,7 +205,7 @@ public class MenuService {
         entity.setSoldoutYn(request.getSoldoutYn());
 
         // 2. 메뉴 카테고리 변경시 수정한다
-        if (request.getMenuCategoryId() != entity.getMenuCategory().getMenuCaId()) {
+        if (request.getMenuCategoryId() != category.getMenuCaId()) {
             MenuCategoryEntity newCategory = menuCategoryRepository.findById(request.getMenuCategoryId())
                 .orElseThrow(() -> new RuntimeException("해당 메뉴 카테고리가 존재하지 않습니다."));
             
@@ -179,8 +216,6 @@ public class MenuService {
             newCategory.addMenu(entity, true);
             entity.setMenuCategory(newCategory);
         }
-
-        
         
         // 3. 업로드 할 메인 이미지 파일이 있으면 업로드
         if (request.getMainImage() != null && !request.getMainImage().isEmpty()) {
@@ -226,11 +261,21 @@ public class MenuService {
      * @throws Exception
      */
     @Transactional
-    public void createMenuOptionGroup(MenuOptionGroupDTO.Request request) throws Exception {
+    public void createMenuOptionGroup(MenuOptionGroupDTO.Request request, String userId) throws Exception {
 
         // 메뉴 조회
         MenuEntity menuEntity = menuRepository.findById(request.getMenuId())
             .orElseThrow(() -> new RuntimeException("해당 메뉴가 존재하지 않습니다."));
+
+        MenuCategoryEntity category = menuEntity.getMenuCategory();
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
+        }
 
         // 옵션 그룹 엔티티 생성
         MenuOptionGroupEntity entity = new MenuOptionGroupEntity();
@@ -253,11 +298,23 @@ public class MenuService {
      * @throws Exception
      */
     @Transactional
-    public void updateMenuOptionGroup(MenuOptionGroupDTO.Request request) throws Exception {
+    public void updateMenuOptionGroup(MenuOptionGroupDTO.Request request, String userId) throws Exception {
 
         // 기존 옵션 그룹 조회
         MenuOptionGroupEntity entity = menuOptionGroupRepository.findById(request.getMenuOptGrpId())
             .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션 그룹이 존재하지 않습니다."));
+
+        MenuEntity menuEntity = entity.getMenu();
+
+        MenuCategoryEntity category = menuEntity.getMenuCategory();
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
+        }
         
         // 삭제 여부 확인
         if ("Y".equals(entity.getDelYn())) {
@@ -279,11 +336,24 @@ public class MenuService {
      * @throws Exception
      */
     @Transactional
-    public void createMenuOption(MenuOptionDTO.Request request) throws Exception {
+    public void createMenuOption(MenuOptionDTO.Request request, String userId) throws Exception {
 
         // 옵션 그룹 조회
         MenuOptionGroupEntity groupEntity = menuOptionGroupRepository.findById(request.getMenuOptGrpId())
             .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션 그룹이 존재하지 않습니다."));
+        
+        MenuEntity menuEntity = groupEntity.getMenu();
+
+        MenuCategoryEntity category = menuEntity.getMenuCategory();
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
+        }
+        
 
         // 옵션 엔티티 생성
         MenuOptionEntity entity = new MenuOptionEntity();
@@ -305,7 +375,8 @@ public class MenuService {
      * @param request
      * @throws Exception
      */
-    public void updateMenuOption(MenuOptionDTO.Request request) throws Exception {
+    @Transactional
+    public void updateMenuOption(MenuOptionDTO.Request request, String userId) throws Exception {
 
         MenuOptionEntity entity = menuOptionRepository.findById(request.getMenuOptId())
             .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션이 존재하지 않습니다."));
@@ -313,6 +384,20 @@ public class MenuService {
         // 삭제 여부 확인
         if ("Y".equals(entity.getDelYn())) {
             throw new RuntimeException("삭제된 옵션은 수정할 수 없습니다.");
+        }
+
+        MenuOptionGroupEntity groupEntity = entity.getMenuOptionGroup();
+
+        MenuEntity menuEntity = groupEntity.getMenu();
+
+        MenuCategoryEntity category = menuEntity.getMenuCategory();
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
         }
 
         entity.setMenuOptName(request.getMenuOptName());
@@ -330,7 +415,7 @@ public class MenuService {
      * @throws Exception
      */
     @Transactional
-    public void deleteMenuCategory(int menuCategoryId) throws Exception {
+    public void deleteMenuCategory(int menuCategoryId, String userId) throws Exception {
 
         MenuCategoryEntity entity = menuCategoryRepository.findById(menuCategoryId)
             .orElseThrow(() -> new RuntimeException("해당 메뉴 카테고리가 존재하지 않습니다."));
@@ -338,6 +423,14 @@ public class MenuService {
         // 이미 삭제된 경우 예외처리
         if ("Y".equals(entity.getDelYn())) {
             throw new RuntimeException("이미 삭제된 메뉴 카테고리입니다.");
+        }
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != entity.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
         }
 
         entity.setDelYn("Y");
@@ -356,7 +449,7 @@ public class MenuService {
      * @throws Exception
      */
     @Transactional
-    public void deleteMenu(int menuId) throws Exception {
+    public void deleteMenu(int menuId, String userId) throws Exception {
 
         MenuEntity entity = menuRepository.findById(menuId)
             .orElseThrow(() -> new RuntimeException("해당 메뉴가 존재하지 않습니다."));
@@ -364,6 +457,16 @@ public class MenuService {
         // 이미 삭제된 경우 예외처리
         if ("Y".equals(entity.getDelYn())) {
             throw new RuntimeException("이미 삭제된 메뉴입니다.");
+        }
+        
+        MenuCategoryEntity category = entity.getMenuCategory();
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
         }
 
         entity.setDelYn("Y");
@@ -382,7 +485,7 @@ public class MenuService {
      * @throws Exception
      */
     @Transactional
-    public void deleteMenuOptionGroup(int menuOptGrpId) throws Exception {
+    public void deleteMenuOptionGroup(int menuOptGrpId, String userId) throws Exception {
 
         MenuOptionGroupEntity entity = menuOptionGroupRepository.findById(menuOptGrpId)
             .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션 그룹이 존재하지 않습니다."));
@@ -390,6 +493,18 @@ public class MenuService {
         // 이미 삭제된 경우 예외처리
         if ("Y".equals(entity.getDelYn())) {
             throw new RuntimeException("이미 삭제된 옵션 그룹입니다.");
+        }
+
+        MenuEntity menuEntity = entity.getMenu();
+
+        MenuCategoryEntity category = menuEntity.getMenuCategory();
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
         }
 
         entity.setDelYn("Y");
@@ -408,7 +523,7 @@ public class MenuService {
      * @throws Exception
      */
     @Transactional
-    public void deleteMenuOption(int menuOptId) throws Exception {
+    public void deleteMenuOption(int menuOptId, String userId) throws Exception {
 
         MenuOptionEntity entity = menuOptionRepository.findById(menuOptId)
             .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션이 존재하지 않습니다."));
@@ -416,6 +531,20 @@ public class MenuService {
         // 이미 삭제된 경우 예외처리
         if ("Y".equals(entity.getDelYn())) {
             throw new RuntimeException("이미 삭제된 메뉴 옵션입니다.");
+        }
+
+        MenuOptionGroupEntity groupEntity = entity.getMenuOptionGroup();
+
+        MenuEntity menuEntity = groupEntity.getMenu();
+
+        MenuCategoryEntity category = menuEntity.getMenuCategory();
+
+        // 점주 소유 여부 체크
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
         }
 
         entity.setDelYn("Y");

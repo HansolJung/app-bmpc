@@ -12,12 +12,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.korea.app_bmpc.common.dto.ApiResponse;
 import it.korea.app_bmpc.order.dto.OrderDTO;
+import it.korea.app_bmpc.order.dto.OrderStatusDTO;
 import it.korea.app_bmpc.order.service.OrderService;
 import it.korea.app_bmpc.user.dto.UserSecureDTO;
 import jakarta.validation.Valid;
@@ -92,6 +94,17 @@ public class OrderApiController {
         resultMap.put("vo", dto);
         
         return ResponseEntity.ok().body(ApiResponse.ok(resultMap));
+    }
+
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
+    @PutMapping("/order/status/{orderId}")
+    public ResponseEntity<?> changeStatus(@Valid @RequestBody OrderStatusDTO request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
+
+        //request.setUserId(user.getUserId());
+        //orderService.orderMenu(request);
+
+        return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
 
     /**

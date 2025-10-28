@@ -39,7 +39,7 @@ public class MenuOptionDTO {
     @Data
 	public static class Request {
 
-		private int menuOptId;    
+		private int menuOptId;
         private int menuOptGrpId;        
         private String menuOptName;
         private int price;
