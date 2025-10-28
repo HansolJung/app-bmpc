@@ -103,7 +103,7 @@ public class OrderApiController {
      * @throws Exception
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
-    @PutMapping("/order/status/{orderId}")
+    @PutMapping("/order/status")
     public ResponseEntity<?> changeStatus(@Valid @RequestBody OrderStatusDTO request,
             @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 

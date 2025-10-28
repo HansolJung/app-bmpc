@@ -48,9 +48,9 @@ public class BasketDTO {
     @Data
     public static class InnerRequest {
         @NotNull(message = "메뉴 아이디는 필수 항목입니다.")
-        private int menuId;
+        private Integer menuId;
         @NotNull(message = "개수는 필수 항목입니다.")
-        private int quantity;
+        private Integer quantity;
 
         private List<@Valid InnerOptionRequest> optionList;
     }
@@ -58,9 +58,9 @@ public class BasketDTO {
     @Data
     public static class InnerOptionRequest {
         @NotNull(message = "메뉴 옵션 아이디는 필수 항목입니다.")
-        private int menuOptId;
+        private Integer menuOptId;
         @NotNull(message = "개수는 필수 항목입니다.")
-        private int quantity;
+        private Integer quantity;
     }
 
     @Data

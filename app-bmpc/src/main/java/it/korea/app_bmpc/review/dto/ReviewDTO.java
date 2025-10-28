@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import it.korea.app_bmpc.review.entity.ReviewEntity;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -63,18 +65,23 @@ public class ReviewDTO {
     @Data
     public static class Request {
         private int reviewId;
-        private int orderId;
+
+        @NotNull(message = "주문 아이디는 필수 항목입니다.")
+        private Integer orderId;
         private String userId;
-        private int rating;
+        @NotNull(message = "별점은 필수 항목입니다.")
+        private Integer rating;
+        @NotNull(message = "내용은 필수 항목입니다.")
         private String content;
 
         // 이미지
-        private List<InnerRequest> imageList;
+        private List<@Valid InnerRequest> imageList;
     }
 
     @Data
     public static class InnerRequest {
         private MultipartFile image;
-        private int displayOrder;
+        @NotNull(message = "메뉴 옵션 아이디는 필수 항목입니다.")
+        private Integer displayOrder;
     }
 }
