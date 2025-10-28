@@ -21,8 +21,35 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer>, Jp
     @EntityGraph(attributePaths = {"user", "itemList"})   // N+1 현상 해결
     Page<OrderEntity> findAll(Specification<OrderEntity> searchSpecification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"user", "itemList", "itemList.itemOptionList"})   // N+1 현상 해결
-    Page<OrderEntity> findAllByUser_userId(String userId, Pageable pageable);
+    // @EntityGraph(attributePaths = {
+    //     "user", 
+    //     "itemList",
+    //     "itemList.menu",
+    //     "itemList.menu.file",
+    //     "itemList.itemOptionList",
+    //     "itemList.itemOptionList.menuOption"
+    // })   // N+1 현상 해결
+    @Query(
+        value = """
+            select distinct o
+            from OrderEntity o
+            join fetch o.user u
+            join fetch o.itemList i
+            join fetch i.menu m
+            left join fetch m.file f
+            left join fetch i.itemOptionList io
+            left join fetch io.menuOption mo
+            where u.userId = :userId
+            order by o.orderDate desc
+        """,
+        countQuery = """
+            select count(distinct o)
+            from OrderEntity o
+            join o.user u
+            where u.userId = :userId
+        """
+    )
+    Page<OrderEntity> findAllByUser_userId(@Param("userId") String userId, Pageable pageable);
 
     @EntityGraph(attributePaths = {"user", "itemList", "itemList.itemOptionList"})   // N+1 현상 해결
     Page<OrderEntity> findAllByStore_storeId(int storeId, Pageable pageable);

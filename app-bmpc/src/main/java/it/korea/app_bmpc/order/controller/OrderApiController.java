@@ -38,6 +38,7 @@ public class OrderApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @GetMapping("/order/user/{userId}")
     public ResponseEntity<?> getMyOrderList(@PageableDefault(page = 0, size = 10, 
             sort = "orderDate", direction = Direction.DESC) Pageable pageable,
@@ -72,12 +73,13 @@ public class OrderApiController {
     }
 
     /**
-     * 나의 주문내역 상세 보기
+     * 주문내역 상세 보기
      * @param orderId 주문 아이디
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @GetMapping("/order/{orderId}")
     public ResponseEntity<?> getOrderDetail(@PathVariable(name = "orderId") int orderId,
             @AuthenticationPrincipal UserSecureDTO user) throws Exception {
