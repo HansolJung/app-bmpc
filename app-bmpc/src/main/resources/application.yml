@@ -2,6 +2,7 @@
 server:
   port: 9090
   file:
+    base-path-mac: /Users/username/files/upload/  # /files/upload/ 는 고정하기. 앞에 /Users/username 만 변경할 것.
     book:
       path: C:\files\upload\book\
     menu:

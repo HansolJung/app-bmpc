@@ -12,25 +12,59 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.Filter;
 import jakarta.servlet.MultipartConfigElement;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${server.file.book.path}")
-    private String bookPath;
+    private String storePath;
+    private String menuPath;
+    private String reviewPath;
 
-    /**
-     * resource 경로 설정
-     */
+    @Value("${server.file.base-path-mac}")
+    private String basePathMac;
+
+    @Value("${server.file.store.path}")
+    private String storePathWindows;
+    @Value("${server.file.menu.path}")
+    private String menuPathWindows;
+    @Value("${server.file.review.path}")
+    private String reviewPathWindows;
+
+    @PostConstruct
+    public void init() {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("mac") || os.contains("linux")) {
+            // Mac/Linux용 경로 설정 (yml에서 읽음)
+            storePath = basePathMac + "store/";
+            menuPath = basePathMac + "menu/";
+            reviewPath = basePathMac + "review/";
+        } else {
+            // Windows 경로
+            storePath = storePathWindows.replace("\\", "/");
+            menuPath = menuPathWindows.replace("\\", "/");
+            reviewPath = reviewPathWindows.replace("\\", "/");
+        }
+
+        // 경로 끝에 '/' 없으면 추가
+        if (!storePath.endsWith("/")) storePath += "/";
+        if (!menuPath.endsWith("/")) menuPath += "/";
+        if (!reviewPath.endsWith("/")) reviewPath += "/";
+    }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/imgs/**")
-            .addResourceLocations("file:" + bookPath)
-            .setCachePeriod(0)
-            .resourceChain(true)
-            .addResolver(new PathResourceResolver());
+                .addResourceLocations(
+                        "file:" + storePath,
+                        "file:" + menuPath,
+                        "file:" + reviewPath
+                )
+                .setCachePeriod(0)
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver());
     }
 
     /**

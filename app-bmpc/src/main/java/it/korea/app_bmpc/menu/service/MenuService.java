@@ -200,7 +200,11 @@ public class MenuService {
 
                 // 기존 파일 연관관계 끊기
                 MenuFileEntity oldFile = entity.getFile();
-                oldFile.setMenu(null);
+                
+                if (oldFile != null) {
+                    oldFile.setMenu(null);
+                }
+
                 entity.setFile(null);
 
                 entity.addFile(fileEntity, true);
