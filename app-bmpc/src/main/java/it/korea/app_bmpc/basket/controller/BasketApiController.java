@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,7 @@ public class BasketApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @GetMapping("/basket/user/{userId}")
     public ResponseEntity<?> getBasket(@PathVariable(name = "userId") String userId,
             @AuthenticationPrincipal UserSecureDTO user) throws Exception {
@@ -58,6 +60,7 @@ public class BasketApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @PostMapping("/basket/user/{userId}/order")
     public ResponseEntity<?> orderAllMenu(@PathVariable(name = "userId") String userId,
             @Valid @RequestBody BasketDTO.OrderRequest request,
@@ -80,6 +83,7 @@ public class BasketApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @PostMapping("/basket")
     public ResponseEntity<?> addMenu(@Valid @RequestBody BasketDTO.Request request,
             @AuthenticationPrincipal UserSecureDTO user) throws Exception {
@@ -98,6 +102,7 @@ public class BasketApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @DeleteMapping("/basket/user/{userId}/item/{basketItemId}")
     public ResponseEntity<?> deleteMenu(@PathVariable(name = "userId") String userId,
             @PathVariable(name = "basketItemId") int basketItemId,
@@ -119,6 +124,7 @@ public class BasketApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @DeleteMapping("/basket/user/{userId}")
     public ResponseEntity<?> deleteAllMenu(@PathVariable(name = "userId") String userId,
             @AuthenticationPrincipal UserSecureDTO user) throws Exception {
