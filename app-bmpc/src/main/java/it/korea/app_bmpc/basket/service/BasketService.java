@@ -86,8 +86,6 @@ public class BasketService {
         orderEntity.setAddr(request.getAddr());
         orderEntity.setAddrDetail(request.getAddrDetail());
 
-        int totalOrderPrice = 0;
-
         // 장바구니 항목을 주문 아이템으로 변환
         for (BasketItemEntity basketItemEntity : basketEntity.getItemList()) {
 
@@ -97,8 +95,6 @@ public class BasketService {
             orderItemEntity.setMenuPrice(basketItemEntity.getMenuPrice());
             orderItemEntity.setQuantity(basketItemEntity.getQuantity());
             orderItemEntity.setTotalPrice(basketItemEntity.getTotalPrice());
-
-            int totalOptionPrice = 0;
 
             // 장바구니 옵션을 주문 옵션으로 변환
             for (BasketItemOptionEntity basketItemOptionEntity : basketItemEntity.getItemOptionList()) {
@@ -111,21 +107,14 @@ public class BasketService {
 
                 // 양방향 연관관계 세팅
                 orderItemEntity.addItemOption(orderItemOptionEntity);
-
-                totalOptionPrice += basketItemOptionEntity.getTotalPrice();
             }
-
-            // 주문 항목 총액 계산
-            int totalItemPrice = basketItemEntity.getTotalPrice() + totalOptionPrice;
-            orderItemEntity.setTotalPrice(totalItemPrice);
-            totalOrderPrice += totalItemPrice;
 
             // 주문에 주문 항목 추가
             orderEntity.addItems(orderItemEntity);
         }
 
         // 주문 총액 저장
-        orderEntity.setTotalPrice(totalOrderPrice);
+        orderEntity.setTotalPrice(basketEntity.getTotalPrice());
 
         // 주문 저장
         orderRepository.save(orderEntity);
