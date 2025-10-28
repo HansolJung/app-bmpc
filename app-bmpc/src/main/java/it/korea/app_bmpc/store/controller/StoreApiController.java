@@ -1,6 +1,7 @@
 package it.korea.app_bmpc.store.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.korea.app_bmpc.common.dto.ApiResponse;
+import it.korea.app_bmpc.store.dto.CategoryDTO;
 import it.korea.app_bmpc.store.dto.StoreDTO;
 import it.korea.app_bmpc.store.dto.StoreSearchDTO;
 import it.korea.app_bmpc.store.service.StoreService;
@@ -30,6 +32,19 @@ import lombok.RequiredArgsConstructor;
 public class StoreApiController {
 
     private final StoreService storeService;
+    
+    /**
+     * 가게 카테고리 리스트 가져오기
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/store/category")
+    public ResponseEntity<?> getCategoryList() throws Exception {
+
+        List<CategoryDTO> categoryList = storeService.getCategoryList();
+
+        return ResponseEntity.ok().body(ApiResponse.ok(categoryList));
+    }
 
     /**
      * 가게 리스트 가져오기

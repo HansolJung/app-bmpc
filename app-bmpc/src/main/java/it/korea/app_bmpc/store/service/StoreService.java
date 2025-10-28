@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.korea.app_bmpc.common.dto.PageVO;
 import it.korea.app_bmpc.common.utils.FileUtils;
+import it.korea.app_bmpc.store.dto.CategoryDTO;
 import it.korea.app_bmpc.store.dto.StoreDTO;
 import it.korea.app_bmpc.store.dto.StoreFileDTO;
 import it.korea.app_bmpc.store.dto.StoreSearchDTO;
@@ -39,6 +40,16 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final CategoryRepository categoryRepository;
     private final FileUtils fileUtils;
+
+    /**
+     * 가게 카테고리 리스트 가져오기 
+     * @return
+     * @throws Exception
+     */
+    @Transactional(readOnly = true)
+    public List<CategoryDTO> getCategoryList() throws Exception {
+        return categoryRepository.findAll().stream().map(CategoryDTO::of).toList();
+    }
 
     /**
      * 가게 리스트 가져오기
