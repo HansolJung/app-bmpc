@@ -87,6 +87,10 @@ public class BasketApiController {
     @PostMapping("/basket")
     public ResponseEntity<?> addMenu(@Valid @RequestBody BasketDTO.Request request,
             @AuthenticationPrincipal UserSecureDTO user) throws Exception {
+
+        if (!user.getUserId().equals(request.getUserId())) {
+            throw new RuntimeException("다른 사용자의 장바구니엔 메뉴를 추가할 수 없습니다.");
+        }
     
         request.setUserId(user.getUserId());
         basketService.addMenu(request);
@@ -134,6 +138,54 @@ public class BasketApiController {
         }
 
         basketService.deleteAllMenu(userId);
+
+        return ResponseEntity.ok().body(ApiResponse.ok("OK"));
+    }
+
+    /**
+     * 장바구니 항목 수량 증가시키기 (+ 버튼 클릭)
+     * @param userId 사용자 아이디
+     * @param basketItemId 장바구니 항목 아이디
+     * @param user 로그인한 사용자
+     * @return
+     * @throws Exception
+     */
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/basket/user/{userId}/item/{basketItemId}/increase")
+    public ResponseEntity<?> increaseMenuQuantity(
+            @PathVariable(name = "userId") String userId,
+            @PathVariable(name = "basketItemId") int basketItemId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
+
+        if (!userId.equals(user.getUserId())) {
+            throw new RuntimeException("다른 사용자의 장바구니는 수정할 수 없습니다.");
+        }
+
+        basketService.increaseMenuQuantity(userId, basketItemId);
+
+        return ResponseEntity.ok().body(ApiResponse.ok("OK"));
+    }
+
+    /**
+     * 장바구니 항목 수량 감소시키기 (- 버튼 클릭)
+     * @param userId 사용자 아이디
+     * @param basketItemId 장바구니 항목 아이디
+     * @param user 로그인한 사용자
+     * @return
+     * @throws Exception
+     */
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/basket/user/{userId}/item/{basketItemId}/decrease")
+    public ResponseEntity<?> decreaseMenuQuantity(
+            @PathVariable(name = "userId") String userId,
+            @PathVariable(name = "basketItemId") int basketItemId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
+
+        if (!userId.equals(user.getUserId())) {
+            throw new RuntimeException("다른 사용자의 장바구니는 수정할 수 없습니다.");
+        }
+
+        basketService.decreaseMenuQuantity(userId, basketItemId);
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }

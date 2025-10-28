@@ -166,12 +166,12 @@ public class BasketService {
             // 장바구니가 없으면 새로 생성
             basketEntity = new BasketEntity();
             basketEntity.setUser(user);
-            basketEntity.setStore(store);
         } else if (basketEntity.getStore() != null && basketEntity.getStore().getStoreId() != store.getStoreId()) {
             // 다른 가게의 메뉴 담으려는 경우는 장바구니 비우기
             basketEntity.getItemList().clear();
-            basketEntity.setStore(store);
         }
+
+        basketEntity.setStore(store);
 
         // 장바구니 항목 생성
         BasketItemEntity basketItemEntity = new BasketItemEntity();
@@ -244,28 +244,28 @@ public class BasketService {
     public void deleteMenu(String userId, int basketItemId) throws Exception {
 
         // 장바구니 조회
-        BasketEntity basket = basketRepository.findByUser_userId(userId)
+        BasketEntity basketEntity = basketRepository.findByUser_userId(userId)
             .orElseThrow(() -> new RuntimeException("해당 사용자가 가진 장바구니가 존재하지 않습니다."));
 
         // 삭제할 장바구니 항목 조회
-        BasketItemEntity basketItemEntity = basket.getItemList().stream()
+        BasketItemEntity basketItemEntity = basketEntity.getItemList().stream()
             .filter(item -> item.getBasketItemId() == basketItemId)
             .findFirst()
             .orElseThrow(() -> new RuntimeException("삭제할 메뉴가 장바구니에 없습니다."));
 
         // 장바구니 항목 삭제
-        basket.getItemList().remove(basketItemEntity);
+        basketEntity.getItemList().remove(basketItemEntity);
 
         // 장바구니 총액 계산
-        int totalBasketPrice = basket.getItemList().stream()
+        int totalBasketPrice = basketEntity.getItemList().stream()
             .mapToInt(BasketItemEntity::getTotalPrice)
             .sum();
 
         // 장바구니 총액 변경
-        basket.setTotalPrice(totalBasketPrice);
+        basketEntity.setTotalPrice(totalBasketPrice);
 
         // 장바구니 저장
-        basketRepository.save(basket);
+        basketRepository.save(basketEntity);
     }
 
     /**
@@ -288,5 +288,89 @@ public class BasketService {
 
         // 장바구니 저장
         basketRepository.save(basket);
+    }
+
+    /**
+     * 장바구니 항목 수량 증가시키기 (+ 버튼 클릭시)
+     * @param userId 사용자 아이디
+     * @param basketItemId 장바구니 항목 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void increaseMenuQuantity(String userId, int basketItemId) throws Exception {
+
+        BasketEntity basketEntity = basketRepository.findByUser_userId(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 가진 장바구니가 존재하지 않습니다."));
+
+        BasketItemEntity basketItemEntity = basketEntity.getItemList().stream()
+            .filter(item -> item.getBasketItemId() == basketItemId)
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("해당 메뉴가 장바구니에 없습니다."));
+
+        basketItemEntity.setQuantity(basketItemEntity.getQuantity() + 1);
+
+        int totalItemPrice = basketItemEntity.getMenuPrice() * basketItemEntity.getQuantity();
+        int totalOptionPrice = 0;
+
+        for (BasketItemOptionEntity option : basketItemEntity.getItemOptionList()) {
+            option.setQuantity(option.getQuantity() + 1);
+            option.setTotalPrice(option.getMenuOptPrice() * option.getQuantity());
+            totalOptionPrice += option.getTotalPrice();
+        }
+
+        totalItemPrice += totalOptionPrice;
+        basketItemEntity.setTotalPrice(totalItemPrice);
+
+        // 장바구니 총액 재계산
+        int totalBasketPrice = basketEntity.getItemList().stream()
+            .mapToInt(BasketItemEntity::getTotalPrice)
+            .sum();
+            
+        basketEntity.setTotalPrice(totalBasketPrice);
+
+        basketRepository.save(basketEntity);
+    }
+
+    /**
+     * 장바구니 항목 수량 감소시키기 (- 버튼 클릭시)
+     * @param userId 사용자 아이디
+     * @param basketItemId 장바구니 항목 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void decreaseMenuQuantity(String userId, int basketItemId) throws Exception {
+
+        BasketEntity basketEntity = basketRepository.findByUser_userId(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 가진 장바구니가 존재하지 않습니다."));
+
+        BasketItemEntity basketItemEntity = basketEntity.getItemList().stream()
+            .filter(item -> item.getBasketItemId() == basketItemId)
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("해당 메뉴가 장바구니에 없습니다."));
+
+        // 수량이 1 보다 큰 경우에만 감소
+        if (basketItemEntity.getQuantity() > 1) {
+            basketItemEntity.setQuantity(basketItemEntity.getQuantity() - 1);
+
+            int totalItemPrice = basketItemEntity.getMenuPrice() * basketItemEntity.getQuantity();
+            int totalOptionPrice = 0;
+
+            for (BasketItemOptionEntity option : basketItemEntity.getItemOptionList()) {
+                option.setQuantity(option.getQuantity() - 1);
+                option.setTotalPrice(option.getMenuOptPrice() * option.getQuantity());
+                totalOptionPrice += option.getTotalPrice();
+            }
+
+            basketItemEntity.setTotalPrice(totalItemPrice + totalOptionPrice);
+
+            // 장바구니 총액 재계산
+            int totalBasketPrice = basketEntity.getItemList().stream()
+                .mapToInt(BasketItemEntity::getTotalPrice)
+                .sum();
+
+            basketEntity.setTotalPrice(totalBasketPrice);
+
+            basketRepository.save(basketEntity);
+        }
     }
 }
