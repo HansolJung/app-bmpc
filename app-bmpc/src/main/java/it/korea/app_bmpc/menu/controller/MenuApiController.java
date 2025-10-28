@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,6 +54,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PostMapping("/menu/category")
     public ResponseEntity<?> createMenuCategory(@Valid @RequestBody MenuCategoryDTO.Request request) throws Exception {
         
@@ -67,6 +69,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PutMapping("/menu/category")
     public ResponseEntity<?> updateMenuCategory(@Valid @RequestBody MenuCategoryDTO.Request request) throws Exception {
         
@@ -81,6 +84,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @DeleteMapping("/menu/category/{menuCategoryId}")
     public ResponseEntity<?> deleteMenuCategory(@PathVariable(name = "menuCategoryId") int menuCategoryId) throws Exception {
 
@@ -95,6 +99,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PostMapping("/menu")
     public ResponseEntity<?> createMenu(@Valid @ModelAttribute MenuDTO.Request request) throws Exception {
         
@@ -109,6 +114,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PutMapping("/menu")
     public ResponseEntity<?> updateMenu(@Valid @ModelAttribute MenuDTO.Request request) throws Exception {
         
@@ -123,6 +129,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @DeleteMapping("/menu/{menuId}")
     public ResponseEntity<?> deleteMenu(@PathVariable(name = "menuId") int menuId) throws Exception {
 
@@ -137,6 +144,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PostMapping("/menu/group")
     public ResponseEntity<?> createMenuOptionGroup(@Valid @RequestBody MenuOptionGroupDTO.Request request) throws Exception {
         
@@ -151,6 +159,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PutMapping("/menu/group")
     public ResponseEntity<?> updateMenuOptionGroup(@Valid @RequestBody MenuOptionGroupDTO.Request request) throws Exception {
 
@@ -165,6 +174,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @DeleteMapping("/menu/group/{menuOptGrpId}")
     public ResponseEntity<?> deleteMenuOptionGroup(@PathVariable(name = "menuOptGrpId") int menuOptGrpId) throws Exception {
 
@@ -179,6 +189,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PostMapping("/menu/option")
     public ResponseEntity<?> createMenuOption(@Valid @RequestBody MenuOptionDTO.Request request) throws Exception {
 
@@ -193,6 +204,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PutMapping("/menu/option")
     public ResponseEntity<?> updateMenuOption(@Valid @RequestBody MenuOptionDTO.Request request) throws Exception {
 
@@ -207,6 +219,7 @@ public class MenuApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @DeleteMapping("/menu/option/{menuOptId}")
     public ResponseEntity<?> deleteMenuOption(@PathVariable(name = "menuOptId") int menuOptId) throws Exception {
 
