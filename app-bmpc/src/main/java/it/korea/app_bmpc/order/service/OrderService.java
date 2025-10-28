@@ -348,10 +348,24 @@ public class OrderService {
      * @throws Exception
      */
     @Transactional
-    public void updateStatus(OrderStatusDTO statusDTO) throws Exception {
+    public void updateStatus(OrderStatusDTO statusDTO, String userId) throws Exception {
 
         OrderEntity orderEntity = orderRepository.findById(statusDTO.getOrderId())
             .orElseThrow(()-> new RuntimeException("해당 주문이 존재하지 않습니다."));
+
+        StoreEntity storeEntity = orderEntity.getStore();
+
+        // 점주 소유 여부 체크
+        UserEntity ownerEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (ownerEntity.getStore() == null || ownerEntity.getStore().getStoreId() != storeEntity.getStoreId()) {
+            throw new RuntimeException("해당 가게 주문에 대한 권한이 없습니다.");
+        }
+        
+        if (!"주문완료".equals(orderEntity.getStatus())) {
+            throw new RuntimeException("주문완료 외 상태인 주문은 변경할 수 없습니다.");
+        }
 
         orderEntity.setStatus(statusDTO.getNewStatus());
 
@@ -362,8 +376,52 @@ public class OrderService {
             int totalPrice = orderEntity.getTotalPrice();
 
             userEntity.setDeposit(originalDeposit + totalPrice);  // 주문이 취소되었기 때문에 보유금 원상복구
+
+            userRepository.save(userEntity);
+        } else if ("배달완료".equals(statusDTO.getNewStatus())) {  // 배달완료일 경우...
+            int ownerBalance = ownerEntity.getBalance();
+            int totalPrice = orderEntity.getTotalPrice();
+
+            ownerEntity.setBalance(ownerBalance + totalPrice);   // 주문이 수락되었기 때문에 점주 수익 반영
+            userRepository.save(ownerEntity);
         }
 
         orderRepository.save(orderEntity);
+    }
+
+    /**
+     * 가게 기간별 매출 통계 구하기
+     * @param storeId 가게 아이디
+     * @return
+     * @throws Exception
+     */
+    @Transactional(readOnly = true)
+    public Map<String, Object> getStoreSalesStat(int storeId, String userId) throws Exception {
+
+        // 점주 소유 여부 체크
+        UserEntity owner = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (owner.getStore() == null || owner.getStore().getStoreId() != storeId) {
+            throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
+        }
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        LocalDateTime now = LocalDateTime.now();
+
+        LocalDateTime todayStart = now.toLocalDate().atStartOfDay(); // 오늘 0시 기준
+        LocalDateTime monthStart = todayStart.minusDays(29); // 오늘 포함해서 30일치
+
+        // 오늘 매출
+        Integer todaySales = orderRepository.sumTotalPrice(storeId, todayStart, now, "배달완료");
+        
+        // 최근 30일 매출
+        Integer monthSales = orderRepository.sumTotalPrice(storeId, monthStart, now, "배달완료");
+
+        resultMap.put("todaySales", todaySales != null ? todaySales : 0);
+        resultMap.put("monthSales", monthSales != null ? monthSales : 0);
+
+        return resultMap;
     }
 }

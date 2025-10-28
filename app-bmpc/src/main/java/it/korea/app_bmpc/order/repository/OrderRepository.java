@@ -1,5 +1,6 @@
 package it.korea.app_bmpc.order.repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -21,15 +22,8 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer>, Jp
     @EntityGraph(attributePaths = {"user", "itemList"})   // N+1 현상 해결
     Page<OrderEntity> findAll(Specification<OrderEntity> searchSpecification, Pageable pageable);
 
-    // @EntityGraph(attributePaths = {
-    //     "user", 
-    //     "itemList",
-    //     "itemList.menu",
-    //     "itemList.menu.file",
-    //     "itemList.itemOptionList",
-    //     "itemList.itemOptionList.menuOption"
-    // })   // N+1 현상 해결
-    @Query(
+    // N+1 현상 해결
+    @Query(  
         value = """
             select distinct o
             from OrderEntity o
@@ -51,7 +45,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer>, Jp
     )
     Page<OrderEntity> findAllByUser_userId(@Param("userId") String userId, Pageable pageable);
 
-    //@EntityGraph(attributePaths = {"user", "itemList", "itemList.itemOptionList"})   // N+1 현상 해결
+    // N+1 현상 해결
     @Query(
         value = """
             select distinct o
@@ -84,4 +78,18 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer>, Jp
         where o.orderId = :orderId
     """)
     Optional<OrderEntity> getOrder(@Param("orderId") int orderId);
+
+    @Query("""
+        select sum(o.totalPrice)
+        from OrderEntity o
+        where o.store.storeId = :storeId
+        and o.status = :status
+        and o.orderDate between :startDate and :endDate
+    """)
+    Integer sumTotalPrice(
+        @Param("storeId") int storeId,
+        @Param("startDate") LocalDateTime startDate,
+        @Param("endDate") LocalDateTime endDate,
+        @Param("status") String status
+    );
 }

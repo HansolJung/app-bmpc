@@ -96,13 +96,18 @@ public class OrderApiController {
         return ResponseEntity.ok().body(ApiResponse.ok(resultMap));
     }
 
+    /**
+     * 주문 상태 변경하기 (주문취소 or 배달완료)
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @PutMapping("/order/status/{orderId}")
     public ResponseEntity<?> changeStatus(@Valid @RequestBody OrderStatusDTO request,
             @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 
-        //request.setUserId(user.getUserId());
-        //orderService.orderMenu(request);
+        orderService.updateStatus(request, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
@@ -122,5 +127,23 @@ public class OrderApiController {
         orderService.orderMenu(request);
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
+    }
+
+    /**
+     * 가게 기간별 매출 통계 구하기
+     * @param storeId 가게 아이디
+     * @param user 로그인한 사용자
+     * @return
+     * @throws Exception
+     */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
+    @GetMapping("/order/store/{storeId}/sales")
+    public ResponseEntity<?> getStoreSalesStat(
+            @PathVariable(name = "storeId") int storeId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
+
+        Map<String, Object> resultMap = orderService.getStoreSalesStat(storeId, user.getUserId());
+
+        return ResponseEntity.ok().body(ApiResponse.ok(resultMap));
     }
 }

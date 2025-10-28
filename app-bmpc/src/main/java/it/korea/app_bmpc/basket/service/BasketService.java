@@ -77,6 +77,18 @@ public class BasketService {
             throw new RuntimeException("장바구니가 비어 있습니다.");
         }
 
+        // 장바구니 총액
+        int totalPrice = basketEntity.getTotalPrice();
+
+        // 사용자 정보 가져오기
+        UserEntity userEntity = basketEntity.getUser();
+
+        // 보유금 잔액 확인
+        if (userEntity.getDeposit() < totalPrice) {
+            throw new RuntimeException("보유금이 부족합니다. 현재 잔액: " 
+                + userEntity.getDeposit() + "원, 주문 금액: " + totalPrice + "원");
+        }
+
         // 주문 생성
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUser(basketEntity.getUser());
@@ -89,8 +101,15 @@ public class BasketService {
         // 장바구니 항목을 주문 아이템으로 변환
         for (BasketItemEntity basketItemEntity : basketEntity.getItemList()) {
 
+            MenuEntity menuEntity = basketItemEntity.getMenu();
+
+            // 메뉴의 품절 여부가 Y 인경우...
+            if ("Y".equals(menuEntity.getSoldoutYn())) {
+                throw new RuntimeException("[" + menuEntity.getMenuName() + "] 메뉴는 현재 품절 상태입니다. 주문할 수 없습니다.");
+            }
+
             OrderItemEntity orderItemEntity = new OrderItemEntity();
-            orderItemEntity.setMenu(basketItemEntity.getMenu());
+            orderItemEntity.setMenu(menuEntity);
             orderItemEntity.setMenuName(basketItemEntity.getMenuName());
             orderItemEntity.setMenuPrice(basketItemEntity.getMenuPrice());
             orderItemEntity.setQuantity(basketItemEntity.getQuantity());
@@ -113,11 +132,18 @@ public class BasketService {
             orderEntity.addItems(orderItemEntity);
         }
 
-        // 주문 총액 저장
-        orderEntity.setTotalPrice(basketEntity.getTotalPrice());
+       // 주문 총액 저장
+        orderEntity.setTotalPrice(totalPrice);
+
+        // 보유금 차감
+        int newDeposit = userEntity.getDeposit() - totalPrice;
+        userEntity.setDeposit(newDeposit);
 
         // 주문 저장
         orderRepository.save(orderEntity);
+
+        // 보유금 수정
+        userRepository.save(userEntity);
 
         // 장바구니 비우기
         basketEntity.getItemList().clear();
