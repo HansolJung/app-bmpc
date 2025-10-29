@@ -120,8 +120,20 @@ public class AdminUserService {
             userEntity.setPhone(userRequestDTO.getPhone());
             userEntity.setEmail(userRequestDTO.getEmail());
             userEntity.setUseYn(userRequestDTO.getUseYn());
-            userEntity.setDelYn("N");
+            userEntity.setDelYn(userRequestDTO.getDelYn());
+            userEntity.setDeposit(0);
+            userEntity.setBalance(0);
             userEntity.setRole(userRoleEntity);
+            
+            // 점주일 때만 사업자 번호 등록 가능
+            String roleId = userRoleEntity.getRoleId();
+            if ("OWNER".equals(roleId)) {
+                if (StringUtils.isNotBlank(userRequestDTO.getBusinessNo())) {
+                    userEntity.setBusinessNo(userRequestDTO.getBusinessNo());
+                } else {
+                    throw new RuntimeException("점주 회원은 사업자 번호를 반드시 입력해야 합니다.");
+                }
+            }
             
             userRepository.save(userEntity);
         } else {
@@ -137,34 +149,30 @@ public class AdminUserService {
     @Transactional
     public void updateUser(AdminUserUpdateRequestDTO userRequestDTO) throws Exception {
 
-        UserRoleEntity userRoleEntity = userRoleRepository.findById(userRequestDTO.getUserRole())  // 해당하는 권한이 존재하는지 체크
-            .orElseThrow(()-> new RuntimeException("해당 권한이 존재하지 않습니다."));
+        UserRoleEntity userRoleEntity = userRoleRepository.findById(userRequestDTO.getUserRole())
+            .orElseThrow(() -> new RuntimeException("해당 권한이 존재하지 않습니다."));
 
         UserEntity userEntity = userRepository.findById(userRequestDTO.getUserId())
-            .orElseThrow(()-> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
 
-        userEntity.setUserId(userRequestDTO.getUserId());
         userEntity.setUserName(userRequestDTO.getUserName());
+        userEntity.setPhone(userRequestDTO.getPhone());
+        userEntity.setEmail(userRequestDTO.getEmail());
+        userEntity.setGender(userRequestDTO.getGender());
 
-        if (StringUtils.isNotBlank(userRequestDTO.getPasswd())) {   // 비밀번호가 입력되어서 넘어왔을 경우에만 수정
+        if (StringUtils.isNotBlank(userRequestDTO.getPasswd())) {
             userEntity.setPasswd(passwordEncoder.encode(userRequestDTO.getPasswd()));
         }
 
-        userEntity.setPhone(userRequestDTO.getPhone());
-        userEntity.setEmail(userRequestDTO.getEmail());
-
-        if (userRequestDTO.getDeposit() < 0) {
-            throw new RuntimeException("보유금은 0보다 작을 수 없습니다.");
-        } 
-
-        if (userRequestDTO.getBalance() < 0) {
-            throw new RuntimeException("수익금은 0보다 작을 수 없습니다.");
-        } 
-
-        userEntity.setDeposit(userRequestDTO.getDeposit());
-        userEntity.setBalance(userRequestDTO.getBalance());
         userEntity.setUseYn(userRequestDTO.getUseYn());
         userEntity.setRole(userRoleEntity);
+
+        // 점주일 때만 사업자번호 설정
+        if ("OWNER".equals(userRoleEntity.getRoleId())) {
+            userEntity.setBusinessNo(userRequestDTO.getBusinessNo());
+        } else {
+            userEntity.setBusinessNo(null);
+        }
 
         userRepository.save(userEntity);
     }

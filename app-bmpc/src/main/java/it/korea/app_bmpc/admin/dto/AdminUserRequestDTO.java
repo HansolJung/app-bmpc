@@ -28,4 +28,8 @@ public class AdminUserRequestDTO {
     private int deposit;
     private int balance;
     private String businessNo;
+
+    public String getDelYn() {
+        return "N";
+    }
 }

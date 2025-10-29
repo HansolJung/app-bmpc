@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
+import it.korea.app_bmpc.store.entity.StoreEntity;
 import it.korea.app_bmpc.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -38,8 +39,13 @@ public class AdminUserDTO {
     private int deposit;
     private int balance;
     private String businessNo;
+    private Integer storeId;
 
     public static AdminUserDTO of(UserEntity entity) {
+
+        StoreEntity storeEntity = entity.getStore();
+        Integer storeId = storeEntity != null ? storeEntity.getStoreId() : null;
+
         return AdminUserDTO.builder()
             .userId(entity.getUserId())
             .userName(entity.getUserName())
@@ -56,6 +62,7 @@ public class AdminUserDTO {
             .deposit(entity.getDeposit())
             .balance(entity.getBalance())
             .businessNo(entity.getBusinessNo())
+            .storeId(storeId)
             .build();
     }
 
