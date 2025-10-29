@@ -3,6 +3,9 @@ package it.korea.app_bmpc.menu.dto;
 import java.util.List;
 
 import it.korea.app_bmpc.menu.entity.MenuOptionGroupEntity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,11 +51,18 @@ public class MenuOptionGroupDTO {
 	public static class Request {
 
 		private int menuOptGrpId;
-        private int menuId;
+        @NotNull(message = "메뉴 아이디는 필수 항목입니다.")
+        private Integer menuId;
+        @NotBlank(message = "메뉴 옵션 그룹명은 필수 항목입니다.")
         private String menuOptGrpName;
-        private String requiredYn;       
-        private int minSelect;
-        private int maxSelect;
-        private int displayOrder;
+        @NotBlank(message = "필수 선택 여부는 필수 항목입니다.")
+        @Pattern(regexp = "^[YN]$", message = "필수 선택 여부는 'Y' 또는 'N'만 가능합니다.")
+        private String requiredYn;
+        @NotNull(message = "최소 선택 개수는 필수 항목입니다.")
+        private Integer minSelect;
+        @NotNull(message = "최대 선택 개수는 필수 항목입니다.")
+        private Integer maxSelect;
+        @NotNull(message = "정렬 순서는 필수 항목입니다.")
+        private Integer displayOrder;
 	}
 }

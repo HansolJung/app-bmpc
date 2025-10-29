@@ -1,6 +1,9 @@
 package it.korea.app_bmpc.menu.dto;
 
 import it.korea.app_bmpc.menu.entity.MenuOptionEntity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,11 +43,18 @@ public class MenuOptionDTO {
 	public static class Request {
 
 		private int menuOptId;
-        private int menuOptGrpId;        
+        @NotNull(message = "메뉴 옵션 그룹은 필수 항목입니다.")
+        private Integer menuOptGrpId;
+        @NotBlank(message = "메뉴 옵션명은 필수 항목입니다.")       
         private String menuOptName;
-        private int price;
-        private String availableYn;      
-        private int maxSelect;
-        private int displayOrder;
+        @NotNull(message = "가격은 필수 항목입니다.")
+        private Integer price;
+        @NotBlank(message = "선택 가능 여부는 필수 항목입니다.")
+        @Pattern(regexp = "^[YN]$", message = "선택 가능 여부는 'Y' 또는 'N'만 가능합니다.")
+        private String availableYn;
+        @NotNull(message = "최대 선택 개수는 필수 항목입니다.") 
+        private Integer maxSelect;
+        @NotNull(message = "정렬 순서는 필수 항목입니다.")
+        private Integer displayOrder;
 	}
 }

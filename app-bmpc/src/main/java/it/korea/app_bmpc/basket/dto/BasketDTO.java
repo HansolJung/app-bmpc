@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.korea.app_bmpc.basket.entity.BasketEntity;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -66,7 +67,7 @@ public class BasketDTO {
     @Data
     public static class OrderRequest {
         private String userId;
-        @NotNull(message = "주소는 필수 항목입니다.")
+        @NotBlank(message = "주소는 필수 항목입니다.")
         private String addr;
         private String addrDetail;
     }

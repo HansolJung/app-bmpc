@@ -17,6 +17,7 @@ import it.korea.app_bmpc.store.entity.StoreEntity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -231,19 +232,19 @@ public class StoreDTO {
     @Data
     public static class Request {
         private int storeId;
-        @NotNull(message = "가게명은 필수 항목입니다.")
+        @NotBlank(message = "가게명은 필수 항목입니다.")
         private String storeName;
         private String branchName;
-        @NotNull(message = "전화번호는 필수 항목입니다.")
+        @NotBlank(message = "전화번호는 필수 항목입니다.")
         private String phone;
-        @NotNull(message = "주소는 필수 항목입니다.")
+        @NotBlank(message = "주소는 필수 항목입니다.")
         private String addr;
         private String addrDetail;
         @NotNull(message = "최소 주문 금액은 필수 항목입니다.")
         private Integer minPrice;
-        @NotNull(message = "원산지표시는 필수 항목입니다.")
+        @NotBlank(message = "원산지표시는 필수 항목입니다.")
         private String origin;
-        @NotNull(message = "공지사항은 필수 항목입니다.")
+        @NotBlank(message = "공지사항은 필수 항목입니다.")
         private String notice;
         private String delYn;
 
@@ -268,11 +269,12 @@ public class StoreDTO {
         @Min(value = 1, message = "요일은 1(월)부터 7(일) 사이여야 합니다.")
         @Max(value = 7, message = "요일은 1(월)부터 7(일) 사이여야 합니다.")
         private int dayOfWeek;       // 1=월, 2=화, ... , 7=일
-        @NotNull(message = "오픈 시간은 필수입니다.")
+        @NotNull(message = "오픈 시간은 필수 항목입니다.")
         private LocalTime openTime;
-        @NotNull(message = "마감 시간은 필수입니다.")
+        @NotNull(message = "마감 시간은 필수 항목입니다.")
         private LocalTime closeTime;
-        @Pattern(regexp = "^[YN]$", message = "휴무 여부 값은 'Y' 또는 'N'이어야 합니다.")
+        @NotBlank(message = "휴우 여부는 필수 항목입니다.")
+        @Pattern(regexp = "^[YN]$", message = "휴무 여부는 'Y' 또는 'N'이어야 합니다.")
         private String closeYn;      
     }
 }
