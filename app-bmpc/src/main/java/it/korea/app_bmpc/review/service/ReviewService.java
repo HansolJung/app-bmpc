@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -281,7 +280,7 @@ public class ReviewService {
     private void deleteImageFiles(String imageFilePath, String storedName, String fileThumbName) throws Exception {
         // 파일 정보
         String fullPath = imageFilePath + storedName;
-        String thumbFilePath = filePath + "thumb" + File.separator + fileThumbName;
+        String thumbFilePath = webConfig.getReviewPath() + "thumb" + File.separator + fileThumbName;
 
         try {
             File file = new File(fullPath);

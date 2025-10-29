@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -260,7 +259,7 @@ public class StoreService {
         // 2. 업로드 할 메인 이미지 파일이 있으면 업로드
         if (request.getMainImage() != null && !request.getMainImage().isEmpty()) {
             // 2-1. 파일 업로드
-            Map<String, Object> fileMap = fileUtils.uploadImageFiles(request.getMainImage(), filePath);   // 파일 업로드 과정 공통화해서 분리
+            Map<String, Object> fileMap = fileUtils.uploadImageFiles(request.getMainImage(), webConfig.getStorePath());   // 파일 업로드 과정 공통화해서 분리
 
             entity.getFileList().removeIf(file -> "Y".equals(file.getMainYn()));  // 메인 이미지만 삭제
             
@@ -290,7 +289,7 @@ public class StoreService {
             for (MultipartFile image : imageList) {
                 if (image != null && !image.isEmpty()) {
                     // 2-1. 파일 업로드
-                    Map<String, Object> fileMap = fileUtils.uploadImageFiles(image, filePath);   // 파일 업로드 과정 공통화해서 분리
+                    Map<String, Object> fileMap = fileUtils.uploadImageFiles(image, webConfig.getStorePath());   // 파일 업로드 과정 공통화해서 분리
 
                     if (isFirst) {   // 기타 이미지 파일 업로드를 처음 시도하는 경우는...
                         entity.getFileList().removeIf(file -> "N".equals(file.getMainYn()));   // 기타 이미지만 삭제
@@ -395,7 +394,7 @@ public class StoreService {
     private void deleteImageFiles(StoreFileDTO dto) throws Exception {
         // 파일 정보
         String fullPath = dto.getFilePath() + dto.getStoredName();
-        String thumbFilePath = filePath + "thumb" + File.separator + dto.getFileThumbName();
+        String thumbFilePath = webConfig.getStorePath() + "thumb" + File.separator + dto.getFileThumbName();
 
         try {
             File file = new File(fullPath);

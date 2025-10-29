@@ -122,7 +122,7 @@ public class AdminUserApiController {
     public ResponseEntity<?> updateStatus(@Valid @RequestBody // JSON 타입으로 받기 때문에 @RequestBody 사용
             OrderStatusDTO statusDTO) throws Exception {
 
-        orderService.updateStatus(statusDTO);
+        //orderService.updateStatus(statusDTO);
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
