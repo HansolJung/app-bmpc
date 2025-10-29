@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.korea.app_bmpc.common.dto.PageVO;
 import it.korea.app_bmpc.common.utils.FileUtils;
+import it.korea.app_bmpc.config.WebConfig;
 import it.korea.app_bmpc.order.entity.OrderEntity;
 import it.korea.app_bmpc.order.repository.OrderRepository;
 import it.korea.app_bmpc.review.dto.ReviewDTO;
@@ -35,8 +36,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ReviewService {
 
-    @Value("${server.file.review.path}")
-    private String filePath;
+    private final WebConfig webConfig;
+
+    //@Value("${server.file.review.path}")
+    //private String filePath;
 
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
@@ -134,7 +137,7 @@ public class ReviewService {
 
                 if (image != null && !image.isEmpty()) {
                     // 이미지 파일 업로드
-                    Map<String, Object> imageMap = fileUtils.uploadImageFiles(image, filePath);
+                    Map<String, Object> imageMap = fileUtils.uploadImageFiles(image, webConfig.getReviewPath());
 
                     // 이미지 파일이 있을 경우에만 파일 엔티티 생성
                     if (imageMap != null) {
@@ -189,7 +192,7 @@ public class ReviewService {
             for (ReviewDTO.InnerRequest innerRequest : imageList) {
                 MultipartFile image = innerRequest.getImage();
                 if (image != null && !image.isEmpty()) {
-                    Map<String, Object> imageMap = fileUtils.uploadImageFiles(image, filePath);
+                    Map<String, Object> imageMap = fileUtils.uploadImageFiles(image, webConfig.getReviewPath());
                     if (imageMap != null) {
                         ReviewFileEntity fileEntity = new ReviewFileEntity();
                         fileEntity.setFileName(imageMap.get("fileName").toString());

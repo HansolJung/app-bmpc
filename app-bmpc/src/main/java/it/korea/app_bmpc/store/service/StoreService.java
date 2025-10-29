@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.korea.app_bmpc.common.dto.PageVO;
 import it.korea.app_bmpc.common.utils.FileUtils;
+import it.korea.app_bmpc.config.WebConfig;
 import it.korea.app_bmpc.store.dto.CategoryDTO;
 import it.korea.app_bmpc.store.dto.StoreDTO;
 import it.korea.app_bmpc.store.dto.StoreFileDTO;
@@ -36,8 +37,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class StoreService {
 
-    @Value("${server.file.store.path}")
-    private String filePath;
+    private final WebConfig webConfig;
+
+    //@Value("${server.file.store.path}")
+    //private String filePath;
 
     private final StoreRepository storeRepository;
     private final CategoryRepository categoryRepository;
@@ -153,7 +156,7 @@ public class StoreService {
         }
 
         // 메인 이미지 파일 업로드
-        Map<String, Object> mainImageMap = fileUtils.uploadImageFiles(request.getMainImage(), filePath);
+        Map<String, Object> mainImageMap = fileUtils.uploadImageFiles(request.getMainImage(), webConfig.getStorePath());
 
 
         // 메인 이미지 파일이 있을 경우에만 파일 엔티티 생성
@@ -175,7 +178,7 @@ public class StoreService {
             for (MultipartFile image : imageList) {
                 if (image != null && !image.isEmpty()) {
                     // 기타 이미지 파일 업로드
-                    Map<String, Object> imageMap = fileUtils.uploadImageFiles(image, filePath);
+                    Map<String, Object> imageMap = fileUtils.uploadImageFiles(image, webConfig.getStorePath());
 
                     // 기타 이미지 파일이 있을 경우에만 파일 엔티티 생성
                     if (imageMap != null) {

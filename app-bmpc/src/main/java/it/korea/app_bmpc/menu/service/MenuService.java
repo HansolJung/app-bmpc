@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.korea.app_bmpc.common.utils.FileUtils;
+import it.korea.app_bmpc.config.WebConfig;
 import it.korea.app_bmpc.menu.dto.MenuCategoryDTO;
 import it.korea.app_bmpc.menu.dto.MenuDTO;
 import it.korea.app_bmpc.menu.dto.MenuOptionDTO;
@@ -34,8 +35,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MenuService {
 
-    @Value("${server.file.menu.path}")
-    private String filePath;
+    private final WebConfig webConfig;
+
+    //@Value("${server.file.menu.path}")
+    //private String filePath;
 
     private final MenuRepository menuRepository;
     private final MenuCategoryRepository menuCategoryRepository;
@@ -154,7 +157,7 @@ public class MenuService {
         category.addMenu(entity, true);   // 메뉴 카테고리와 메뉴 매핑
 
         // 메인 이미지 파일 업로드
-        Map<String, Object> mainImageMap = fileUtils.uploadImageFiles(request.getMainImage(), filePath);
+        Map<String, Object> mainImageMap = fileUtils.uploadImageFiles(request.getMainImage(), webConfig.getMenuPath());
 
         if (mainImageMap != null) {
             MenuFileEntity fileEntity = new MenuFileEntity();
@@ -221,7 +224,7 @@ public class MenuService {
         if (request.getMainImage() != null && !request.getMainImage().isEmpty()) {
      
             // 3-1 파일 업로드
-            Map<String, Object> mainImageMap = fileUtils.uploadImageFiles(request.getMainImage(), filePath);
+            Map<String, Object> mainImageMap = fileUtils.uploadImageFiles(request.getMainImage(), webConfig.getMenuPath());
 
             // 3-2. 파일 등록
             // 파일이 있을 경우에만 파일 엔티티 생성
@@ -562,7 +565,7 @@ public class MenuService {
     private void deleteImageFiles(String imageFilePath, String storedName, String fileThumbName) throws Exception {
         // 파일 정보
         String fullPath = imageFilePath + storedName;
-        String thumbFilePath = filePath + "thumb" + File.separator + fileThumbName;
+        String thumbFilePath = webConfig.getMenuPath() + "thumb" + File.separator + fileThumbName;
 
         try {
             File file = new File(fullPath);

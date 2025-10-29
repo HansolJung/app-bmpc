@@ -92,4 +92,18 @@ public class WebConfig implements WebMvcConfigurer {
 
         return factory.createMultipartConfig();
     }
+
+
+    public String getStorePath() {
+        return storePath;
+    }
+
+    public String getMenuPath() {
+        return menuPath;
+    }
+
+    public String getReviewPath() {
+        return reviewPath;
+    }
+
 }
