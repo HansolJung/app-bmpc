@@ -67,9 +67,10 @@ public class OrderApiController {
     @GetMapping("/order/store/{storeId}")
     public ResponseEntity<?> getStoreOrderList(@PageableDefault(page = 0, size = 10, 
             sort = "orderDate", direction = Direction.DESC) Pageable pageable,
-            @PathVariable(name = "storeId") int storeId) throws Exception {
+            @PathVariable(name = "storeId") int storeId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
 
-        Map<String, Object> resultMap = orderService.getStoreOrderList(pageable, storeId);
+        Map<String, Object> resultMap = orderService.getStoreOrderList(pageable, storeId, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok(resultMap));
     }

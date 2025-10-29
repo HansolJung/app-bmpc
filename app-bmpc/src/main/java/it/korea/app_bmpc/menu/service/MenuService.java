@@ -36,9 +36,6 @@ public class MenuService {
 
     private final WebConfig webConfig;
 
-    //@Value("${server.file.menu.path}")
-    //private String filePath;
-
     private final MenuRepository menuRepository;
     private final MenuCategoryRepository menuCategoryRepository;
     private final MenuOptionGroupRepository menuOptionGroupRepository;

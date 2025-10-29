@@ -5,8 +5,11 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import it.korea.app_bmpc.review.entity.ReviewReplyEntity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,5 +38,16 @@ public class ReviewReplyDTO {
                 .updateDate(entity.getUpdateDate())
                 .build();
         }
+    }
+
+    @Data
+    public static class Request {
+
+        private int reviewReplyId;
+        @NotNull(message = "리뷰 아이디는 필수 항목입니다.")
+        private Integer reviewId;
+        private String userId;
+        @NotBlank(message = "내용은 필수 항목입니다.")
+        private String content;
     }
 }

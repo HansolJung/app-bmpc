@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.korea.app_bmpc.common.dto.ApiResponse;
 import it.korea.app_bmpc.review.dto.ReviewDTO;
+import it.korea.app_bmpc.review.dto.ReviewReplyDTO;
 import it.korea.app_bmpc.review.service.ReviewService;
 import it.korea.app_bmpc.user.dto.UserSecureDTO;
 import jakarta.validation.Valid;
@@ -54,6 +57,7 @@ public class ReviewApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @GetMapping("/review/user/{userId}")
     public ResponseEntity<?> getUserReviewList(@PageableDefault(page = 0, size = 10, 
             sort = "updateDate", direction = Direction.DESC) Pageable pageable,
@@ -76,6 +80,7 @@ public class ReviewApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @PostMapping("/review/user/{userId}")
     public ResponseEntity<?> createReview(@Valid @ModelAttribute ReviewDTO.Request request,
             @PathVariable(name = "userId") String userId,
@@ -98,6 +103,7 @@ public class ReviewApiController {
      * @return
      * @throws Exception
      */
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
     @PutMapping("/review/user/{userId}")
     public ResponseEntity<?> updateReview(@Valid @ModelAttribute ReviewDTO.Request request,
             @PathVariable(name = "userId") String userId,
@@ -120,7 +126,8 @@ public class ReviewApiController {
      * @return
      * @throws Exception
      */
-    @DeleteMapping("/review/user/{userId}/review/{reviewId}")
+    @PreAuthorize("hasRole('USER')") // ROLE_USER 권한이 있어야 접근 가능
+    @DeleteMapping("/review/user/{userId}/{reviewId}")
     public ResponseEntity<?> deleteReview(
             @PathVariable(name = "userId") String userId,
             @PathVariable(name = "reviewId") int reviewId,
@@ -131,6 +138,60 @@ public class ReviewApiController {
         }
 
         reviewService.deleteReview(userId, reviewId);
+
+        return ResponseEntity.ok().body(ApiResponse.ok("OK"));
+    }
+
+    /**
+     * 리뷰 답변 등록하기
+     * @param request
+     * @param user 로그인한 사용자
+     * @return
+     * @throws Exception
+     */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
+    @PostMapping("/review/reply")
+    public ResponseEntity<?> createReviewReply(@Valid @RequestBody ReviewReplyDTO.Request request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
+               
+        request.setUserId(user.getUserId());
+        reviewService.createReviewReply(request);
+
+        return ResponseEntity.ok().body(ApiResponse.ok("OK"));
+    }
+
+    /**
+     * 리뷰 답변 수정하기
+     * @param request
+     * @param user 로그인한 사용자
+     * @return
+     * @throws Exception
+     */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
+    @PutMapping("/review/reply")
+    public ResponseEntity<?> updateReviewReply(@Valid @RequestBody ReviewReplyDTO.Request request,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
+               
+        request.setUserId(user.getUserId());
+        reviewService.updateReviewReply(request);
+
+        return ResponseEntity.ok().body(ApiResponse.ok("OK"));
+    }
+
+    
+    /**
+     * 리뷰 답변 삭제하기
+     * @param request
+     * @param user 로그인한 사용자
+     * @return
+     * @throws Exception
+     */
+    @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
+    @DeleteMapping("/review/reply/{reviewReplyId}")
+    public ResponseEntity<?> updateReviewReply(@PathVariable(name = "reviewReplyId") int reviewReplyId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
+               
+        reviewService.deleteReviewReply(reviewReplyId, user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }

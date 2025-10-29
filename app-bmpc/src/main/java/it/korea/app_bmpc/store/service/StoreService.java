@@ -38,9 +38,6 @@ public class StoreService {
 
     private final WebConfig webConfig;
 
-    //@Value("${server.file.store.path}")
-    //private String filePath;
-
     private final StoreRepository storeRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;

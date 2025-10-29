@@ -20,8 +20,11 @@ import it.korea.app_bmpc.order.entity.OrderEntity;
 import it.korea.app_bmpc.order.repository.OrderRepository;
 import it.korea.app_bmpc.review.dto.ReviewDTO;
 import it.korea.app_bmpc.review.dto.ReviewFileDTO;
+import it.korea.app_bmpc.review.dto.ReviewReplyDTO;
 import it.korea.app_bmpc.review.entity.ReviewEntity;
 import it.korea.app_bmpc.review.entity.ReviewFileEntity;
+import it.korea.app_bmpc.review.entity.ReviewReplyEntity;
+import it.korea.app_bmpc.review.repository.ReviewReplyRepository;
 import it.korea.app_bmpc.review.repository.ReviewRepository;
 import it.korea.app_bmpc.store.entity.StoreEntity;
 import it.korea.app_bmpc.store.repository.StoreRepository;
@@ -37,10 +40,8 @@ public class ReviewService {
 
     private final WebConfig webConfig;
 
-    //@Value("${server.file.review.path}")
-    //private String filePath;
-
     private final ReviewRepository reviewRepository;
+    private final ReviewReplyRepository reviewReplyRepository;
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final StoreRepository storeRepository;
@@ -234,6 +235,7 @@ public class ReviewService {
 
     /**
      * 리뷰 삭제하기
+     * @param userId 사용자 아이디
      * @param reviewId 리뷰 아이디
      * @throws Exception
      */
@@ -252,6 +254,127 @@ public class ReviewService {
 
         // 가게 평균 평점 및 리뷰 수 업데이트
         updateStoreRatingAvg(reviewEntity);
+    }
+
+    /**
+     * 리뷰 답변 등록하기
+     * @param request
+     * @throws Exception
+     */
+    @Transactional
+    public void createReviewReply(ReviewReplyDTO.Request request) throws Exception {
+
+        ReviewEntity reviewEntity = reviewRepository.findById(request.getReviewId())
+            .orElseThrow(() -> new RuntimeException("해당 리뷰가 존재하지 않습니다."));
+
+        // 리뷰 삭제 여부 확인
+        if ("Y".equals(reviewEntity.getDelYn())) {
+            throw new RuntimeException("이미 삭제된 리뷰에는 답변을 작성할 수 없습니다.");
+        }
+
+        // 점주 소유 여부 확인
+        UserEntity ownerEntity = userRepository.findById(request.getUserId())
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        StoreEntity storeEntity = reviewEntity.getStore();
+
+        if (ownerEntity.getStore() == null || ownerEntity.getStore().getStoreId() != storeEntity.getStoreId()) {
+            throw new RuntimeException("해당 리뷰에 답변을 작성할 권한이 없습니다.");
+        }
+
+        // 이미 답변이 존재하는지 체크
+        if (reviewEntity.getReply() != null) {
+            throw new RuntimeException("이미 해당 리뷰에 대한 답변이 존재합니다.");
+        }
+
+        // 답변 엔티티 생성
+        ReviewReplyEntity reviewReplyEntity = new ReviewReplyEntity();
+        reviewReplyEntity.setUser(ownerEntity);
+        reviewReplyEntity.setReview(reviewEntity);
+        reviewReplyEntity.setContent(request.getContent());
+        reviewReplyEntity.setDelYn("N");
+
+        // 리뷰에 매핑
+        reviewEntity.addReply(reviewReplyEntity);
+
+        reviewReplyRepository.save(reviewReplyEntity);
+    }
+
+    /**
+     * 리뷰 답변 수정하기
+     * @param request
+     * @throws Exception
+     */
+    @Transactional
+    public void updateReviewReply(ReviewReplyDTO.Request request) throws Exception {
+
+        ReviewReplyEntity reviewReplyEntity = reviewReplyRepository.findById(request.getReviewReplyId())
+            .orElseThrow(() -> new RuntimeException("해당 리뷰 답변이 존재하지 않습니다."));
+
+        // 답변 삭제 여부 확인
+        if ("Y".equals(reviewReplyEntity.getDelYn())) {
+            throw new RuntimeException("삭제된 리뷰 답변은 수정할 수 없습니다.");
+        }
+
+        ReviewEntity reviewEntity = reviewReplyEntity.getReview();
+
+        // 리뷰 삭제 여부 확인
+        if ("Y".equals(reviewEntity.getDelYn())) {
+            throw new RuntimeException("이미 삭제된 리뷰에는 답변을 수정할 수 없습니다.");
+        }
+
+        // 점주 소유 여부 확인
+        UserEntity ownerEntity = userRepository.findById(request.getUserId())
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        StoreEntity storeEntity = reviewEntity.getStore();
+
+        if (ownerEntity.getStore() == null || ownerEntity.getStore().getStoreId() != storeEntity.getStoreId()) {
+            throw new RuntimeException("해당 리뷰 답변을 수정할 권한이 없습니다.");
+        }
+
+        reviewReplyEntity.setContent(request.getContent());
+
+        reviewReplyRepository.save(reviewReplyEntity);
+    }
+
+    /**
+     * 리뷰 답변 삭제하기
+     * @param reviewReplyId 리뷰 답변 아이디
+     * @param userId 사용자 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void deleteReviewReply(int reviewReplyId, String userId) throws Exception {
+
+        // 삭제할 답글 조회
+        ReviewReplyEntity reviewReplyEntity = reviewReplyRepository.findById(reviewReplyId)
+            .orElseThrow(() -> new RuntimeException("해당 리뷰 답변이 존재하지 않습니다."));
+
+        // 답변 삭제 여부 확인
+        if ("Y".equals(reviewReplyEntity.getDelYn())) {
+            throw new RuntimeException("이미 삭제된 리뷰 답변입니다.");
+        }
+
+        ReviewEntity reviewEntity = reviewReplyEntity.getReview();
+
+        // 리뷰 삭제 여부 확인
+        if ("Y".equals(reviewEntity.getDelYn())) {
+            throw new RuntimeException("삭제된 리뷰의 답변은 삭제할 수 없습니다.");
+        }
+
+        // 점주 권한 확인
+        UserEntity ownerEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        StoreEntity storeEntity = reviewEntity.getStore();
+        if (ownerEntity.getStore() == null || ownerEntity.getStore().getStoreId() != storeEntity.getStoreId()) {
+            throw new RuntimeException("해당 리뷰 답변을 삭제할 권한이 없습니다.");
+        }
+
+        reviewReplyEntity.setDelYn("Y");
+
+        reviewReplyRepository.save(reviewReplyEntity);
     }
 
     /**

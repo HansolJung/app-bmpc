@@ -140,11 +140,19 @@ public class CommonExceptionHandler {
     protected ResponseEntity<ApiErrorResponse> handleUnknownException(Exception e) {
         log.error("===== Exception : {} =====", e.getMessage());
 
+        // JSON 대신 multipart/form-data 로 보낸 경우
+        if (e.getMessage() != null && e.getMessage().contains("multipart/form-data")) {
+            ApiErrorResponse apiErrorResponse = getApiErrorResponse("E500", "JSON 형식으로 보내야 합니다.");
+            return ResponseEntity.status(ErrorCodeEnum.INTERNAL_SERVER_ERROR.getStatus()).body(apiErrorResponse);
+        }
+
         if (isSecurityException(e)) {
             throw (RuntimeException) e;  // security 예외는 다시 던짐
         }
 
-        ApiErrorResponse apiErrorResponse = getApiErrorResponse(ErrorCodeEnum.INTERNAL_SERVER_ERROR);
+        String message = e.getMessage() != null ? e.getMessage() : "서버에서 에러가 발생했습니다.";
+
+        ApiErrorResponse apiErrorResponse = getApiErrorResponse("E500", message);
         return ResponseEntity.status(ErrorCodeEnum.INTERNAL_SERVER_ERROR.getStatus()).body(apiErrorResponse);
     }
 

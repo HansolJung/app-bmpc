@@ -157,7 +157,15 @@ public class OrderService {
      * @throws Exception
      */
     @Transactional(readOnly = true)
-    public Map<String, Object> getStoreOrderList(Pageable pageable, int storeId) throws Exception {
+    public Map<String, Object> getStoreOrderList(Pageable pageable, int storeId, String userId) throws Exception {
+
+        UserEntity ownerEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        if (ownerEntity.getStore() == null || ownerEntity.getStore().getStoreId() != storeId) {
+            throw new RuntimeException("해당 가게 주문 내역에 접근할 권한이 없습니다.");
+        }
+
         Map<String, Object> resultMap = new HashMap<>();
 
         Page<OrderEntity> pageList = orderRepository.findAllByStore_storeId(storeId, pageable);
