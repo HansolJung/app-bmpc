@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.korea.app_bmpc.user.dto.UserDepositRequestDTO;
 import it.korea.app_bmpc.user.dto.UserRequestDTO;
+import it.korea.app_bmpc.user.dto.UserUpdateDTO;
 import it.korea.app_bmpc.user.entity.UserEntity;
 import it.korea.app_bmpc.user.entity.UserRoleEntity;
 import it.korea.app_bmpc.user.repository.UserRepository;
@@ -47,8 +48,14 @@ public class UserService {
             userEntity.setBalance(0);
             userEntity.setRole(userRoleEntity);
             
-            if (StringUtils.isNotBlank(userRequestDTO.getBusinessNo())) {
-                userEntity.setBusinessNo(userRequestDTO.getBusinessNo());
+            // 점주일 때만 사업자 번호 등록 가능
+            String roleId = userRoleEntity.getRoleId();
+            if ("OWNER".equals(roleId)) {
+                if (StringUtils.isNotBlank(userRequestDTO.getBusinessNo())) {
+                    userEntity.setBusinessNo(userRequestDTO.getBusinessNo());
+                } else {
+                    throw new RuntimeException("점주 회원은 사업자 번호를 반드시 입력해야 합니다.");
+                }
             }
             
             userRepository.save(userEntity);
@@ -80,6 +87,41 @@ public class UserService {
         // 기존 보유금 + 충전 금액
         int newDeposit = userEntity.getDeposit() + request.getDeposit();
         userEntity.setDeposit(newDeposit);
+
+        userRepository.save(userEntity);
+    }
+
+    /**
+     * 사용자 정보 수정하기
+     * @param request
+     * @throws Exception
+     */
+    @Transactional
+    public void updateUser(UserUpdateDTO request) throws Exception {
+
+        UserEntity userEntity = userRepository.findById(request.getUserId())
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        // 삭제된 사용자 여부 체크
+        if ("Y".equals(userEntity.getDelYn())) {
+            throw new RuntimeException("삭제된 사용자의 정보는 수정할 수 없습니다.");
+        }
+
+        userEntity.setUserName(request.getUserName());
+        userEntity.setBirth(request.getBirth());
+        userEntity.setPhone(request.getPhone());
+        userEntity.setEmail(request.getEmail());
+
+        String roleId = userEntity.getRole().getRoleId();
+    
+        // 점주일때만 사업자 번호 수정
+        if ("OWNER".equals(roleId)) {
+            userEntity.setBusinessNo(request.getBusinessNo());
+        } else {
+            if (request.getBusinessNo() != null && !request.getBusinessNo().isBlank()) {
+                throw new RuntimeException("사업자 번호는 점주만 수정할 수 있습니다.");
+            }
+        }
 
         userRepository.save(userEntity);
     }
