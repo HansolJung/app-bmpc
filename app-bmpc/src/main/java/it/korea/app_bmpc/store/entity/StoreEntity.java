@@ -18,6 +18,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -59,6 +60,7 @@ public class StoreEntity extends BaseEntity {
     // 메뉴 카테고리 매핑
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
+    @OrderBy("displayOrder ASC")
     private List<MenuCategoryEntity> menuCategoryList = new ArrayList<>();
 
     // 영업시간 매핑

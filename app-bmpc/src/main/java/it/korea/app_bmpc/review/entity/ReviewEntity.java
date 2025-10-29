@@ -18,6 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -54,6 +55,7 @@ public class ReviewEntity extends BaseEntity {
 
     // 파일(이미지) 매핑
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true) // 기본적으로 fetch = FetchType.LAZY
+    @OrderBy("displayOrder ASC")
     private List<ReviewFileEntity> fileList = new ArrayList<>();
 
     // 리뷰 답변 매핑
