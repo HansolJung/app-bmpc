@@ -58,7 +58,7 @@ public class ReviewService {
     public Map<String, Object> getStoreReviewList(Pageable pageable, int storeId) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
-        Page<ReviewEntity> pageList = reviewRepository.findAllByStore_storeId(storeId, pageable);
+        Page<ReviewEntity> pageList = reviewRepository.findAllByStore_storeIdAndDelYn(storeId, "N", pageable);
 
         List<ReviewDTO.Response> reviewList = pageList.getContent().stream().map(ReviewDTO.Response::of).toList();
 
@@ -84,7 +84,7 @@ public class ReviewService {
     public Map<String, Object> getUserReviewList(Pageable pageable, String userId) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
-        Page<ReviewEntity> pageList = reviewRepository.findAllByUser_userId(userId, pageable);
+        Page<ReviewEntity> pageList = reviewRepository.findAllByUser_userIdAndDelYn(userId, "N", pageable);
 
         List<ReviewDTO.Response> reviewList = pageList.getContent().stream().map(ReviewDTO.Response::of).toList();
 

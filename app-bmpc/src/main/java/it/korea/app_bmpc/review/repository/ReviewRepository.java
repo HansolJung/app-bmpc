@@ -12,10 +12,10 @@ import it.korea.app_bmpc.review.entity.ReviewEntity;
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 
     @EntityGraph(attributePaths = {"user", "fileList", "reply", "reply.user"})   // N+1 현상 해결
-    Page<ReviewEntity> findAllByStore_storeId(int storeId, Pageable pageable);
+    Page<ReviewEntity> findAllByStore_storeIdAndDelYn(int storeId, String delYn, Pageable pageable);
 
     @EntityGraph(attributePaths = {"user", "fileList", "reply", "reply.user"})   // N+1 현상 해결
-    Page<ReviewEntity> findAllByUser_userId(String userId, Pageable pageable);
+    Page<ReviewEntity> findAllByUser_userIdAndDelYn(String userId, String delYn, Pageable pageable);
 
     boolean existsByOrder_orderId(int orderId);
 

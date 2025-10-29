@@ -1,5 +1,7 @@
 package it.korea.app_bmpc.review.entity;
 
+import org.hibernate.annotations.SQLRestriction;
+
 import it.korea.app_bmpc.common.entity.BaseEntity;
 import it.korea.app_bmpc.user.entity.UserEntity;
 import jakarta.persistence.Column;
@@ -19,6 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "bmpc_review_reply")
+@SQLRestriction("del_yn = 'N'")
 public class ReviewReplyEntity extends BaseEntity {
 
     @Id
