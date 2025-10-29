@@ -6,6 +6,8 @@ import java.util.List;
 import it.korea.app_bmpc.favorite.entity.FavoriteStoreEntity;
 import it.korea.app_bmpc.store.dto.StoreFileDTO;
 import it.korea.app_bmpc.store.entity.StoreEntity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -62,7 +64,10 @@ public class FavoriteStoreDTO {
 
     @Data
     public static class Request {
+
+        @NotBlank(message = "사용자 아이디는 필수 항목입니다.")
         private String userId;
-        private int storeId;
+        @NotNull(message = "가게 아이디는 필수 항목입니다.")
+        private Integer storeId;
     }
 }

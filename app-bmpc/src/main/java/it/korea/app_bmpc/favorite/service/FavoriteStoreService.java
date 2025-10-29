@@ -86,6 +86,11 @@ public class FavoriteStoreService {
         StoreEntity store = storeRepository.findById(requestDTO.getStoreId())
             .orElseThrow(() -> new RuntimeException("해당 가게가 존재하지 않습니다."));
 
+        // 가게 삭제 여부 판단
+        if ("Y".equals(store.getDelYn())) {
+            throw new RuntimeException("삭제된 가게는 찜할 수 없습니다.");
+        }
+
         // 이미 찜한 가게인지 중복 체크
         boolean exists = favoriteStoreRepository.existsByUserAndStore(user, store);
         if (exists) {

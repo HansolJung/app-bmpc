@@ -53,7 +53,7 @@ public class FavoriteStoreApiController {
     }
 
     /**
-     * 찜 목록 존재 여부 요청
+     * 찜 목록 존재 여부 확인 요청
      * @param userId 사용자 아이디
      * @param storeId 가게 아아디
      * @param user 로그인한 사용자
