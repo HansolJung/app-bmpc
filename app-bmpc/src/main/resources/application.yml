@@ -100,3 +100,9 @@ logging:
           descriptor:
             sql: trace
   config: classpath:logback.xml
+
+coolsms:
+  api:
+    key: NCSQVL1KBTAIBVIY
+    secret: KUSZJIWNCPW69MBQMOQSDPU36XRINQXQ
+    number: 01055283638
