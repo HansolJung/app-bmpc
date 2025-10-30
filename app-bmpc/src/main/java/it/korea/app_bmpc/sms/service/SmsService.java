@@ -1,45 +1,47 @@
 package it.korea.app_bmpc.sms.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.solapi.sdk.SolapiClient;
-import com.solapi.sdk.message.dto.response.MultipleDetailMessageSentResponse;
 import com.solapi.sdk.message.model.Message;
 import com.solapi.sdk.message.service.DefaultMessageService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class SmsService {
 
     private final DefaultMessageService messageService;
-    private final String number;
+    private final String fromNumber;
 
     public SmsService(@Value("${coolsms.api.key}") String apiKey,
                       @Value("${coolsms.api.secret}") String apiSecret,
-                      @Value("${coolsms.api.number}") String number) {
+                      @Value("${coolsms.api.number}") String fromNumber) {
         this.messageService = SolapiClient.INSTANCE.createInstance(apiKey, apiSecret);
-        this.number = number;
+        this.fromNumber = fromNumber;
     }
 
-    public DefaultMessageService getMessageService() {
-        return messageService;
-    }
-
-    public MultipleDetailMessageSentResponse sendOne() {
+    /**
+     * 점주에게 주문 내용 SMS 발송하기
+     * @param toNumber 점주 전화번호
+     * @param orderSummary 주문 요약
+     */
+    @Async
+    public void sendToOwner(String toNumber, String orderSummary) {
         try {
             Message message = new Message();
-            // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-            message.setFrom(number);
-            message.setTo(number);
-            message.setText("테스트 문자");
+            message.setFrom(fromNumber);
+            message.setTo(toNumber);
+            message.setText("[배달의민족]\n새 주문이 들어왔습니다.\n\n주문내역: " + orderSummary);
 
-            MultipleDetailMessageSentResponse response = this.messageService.send(message);
-            System.out.println(response);
+            this.messageService.send(message);
 
-            return response;
+            log.info("번호 {}로 문자 전송 성공. {}", toNumber);
         } catch (Exception e) {
-            e.fillInStackTrace();
+            log.error("번호 {}로 문자 전송 실패. {}", toNumber, e.getMessage());
         }
-        return null;
     }
 }

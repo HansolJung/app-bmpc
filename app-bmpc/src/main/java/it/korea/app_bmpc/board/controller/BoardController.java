@@ -36,7 +36,7 @@ public class BoardController {
     @GetMapping("/test/sms")
     public ResponseEntity<?> test() throws Exception {
 
-        smsService.sendOne();
+        smsService.sendToOwner("01055283638", "테스트 문자입니다!!!");
     
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.ok("OK"));
     }

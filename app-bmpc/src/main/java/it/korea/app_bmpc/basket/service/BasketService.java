@@ -22,6 +22,7 @@ import it.korea.app_bmpc.order.entity.OrderEntity;
 import it.korea.app_bmpc.order.entity.OrderItemEntity;
 import it.korea.app_bmpc.order.entity.OrderItemOptionEntity;
 import it.korea.app_bmpc.order.repository.OrderRepository;
+import it.korea.app_bmpc.sms.service.SmsService;
 import it.korea.app_bmpc.store.entity.StoreEntity;
 import it.korea.app_bmpc.user.entity.UserEntity;
 import it.korea.app_bmpc.user.repository.UserRepository;
@@ -36,6 +37,7 @@ public class BasketService {
     private final OrderRepository orderRepository;
     private final MenuRepository menuRepository;
     private final MenuOptionRepository menuOptionRepository;
+    private final SmsService smsService;
 
     /**
      * 장바구니 가져오기
@@ -149,6 +151,9 @@ public class BasketService {
         basketEntity.getItemList().clear();
         basketEntity.setTotalPrice(0);
         basketRepository.save(basketEntity);
+
+        // 점주에게 sms 발송하기
+        // do Something
     }
 
     /**
