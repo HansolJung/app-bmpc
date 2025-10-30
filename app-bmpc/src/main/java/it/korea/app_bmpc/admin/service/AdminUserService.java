@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.korea.app_bmpc.admin.dto.AdminUserDTO;
-import it.korea.app_bmpc.admin.dto.AdminUserProjection;
 import it.korea.app_bmpc.admin.dto.AdminUserRequestDTO;
 import it.korea.app_bmpc.admin.dto.AdminUserSearchDTO;
 import it.korea.app_bmpc.admin.dto.AdminUserUpdateRequestDTO;
@@ -92,11 +91,11 @@ public class AdminUserService {
      */
     @Transactional(readOnly = true)   // LAZY 모드로 가져오려면 Transactional 이어야 한다
     public AdminUserDTO getUser(String userId) throws Exception {
-        AdminUserProjection user = userRepository.getUserById(userId)
+        
+        UserEntity userEntity = userRepository.findById(userId)
             .orElseThrow(()-> new RuntimeException("해당 사용자가 존재하지 않습니다."));
 
-        return AdminUserDTO.of(user);
-       // return AdminUserDTO.of(userRepository.findById(userId).orElseThrow(()-> new RuntimeException("회원 없음")));
+        return AdminUserDTO.of(userEntity);
     }
 
     /**

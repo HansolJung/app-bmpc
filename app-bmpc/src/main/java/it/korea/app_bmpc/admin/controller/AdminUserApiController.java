@@ -1,5 +1,6 @@
 package it.korea.app_bmpc.admin.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.korea.app_bmpc.admin.dto.AdminUserDTO;
 import it.korea.app_bmpc.admin.dto.AdminUserRequestDTO;
 import it.korea.app_bmpc.admin.dto.AdminUserSearchDTO;
 import it.korea.app_bmpc.admin.dto.AdminUserUpdateRequestDTO;
@@ -48,6 +50,23 @@ public class AdminUserApiController {
         
         Map<String, Object> resultMap = userService.getUserList(pageable, searchDTO);
         
+        return ResponseEntity.ok().body(ApiResponse.ok(resultMap));
+    }
+
+    /**
+     * 회원 상세 정보 요청
+     * @param userId 사용자 아이디
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/admin/user/{userId}")
+    public ResponseEntity<?> getUser(@PathVariable(name = "userId") String userId) throws Exception {
+        
+        Map<String, Object> resultMap = new HashMap<>();
+        AdminUserDTO userDTO = userService.getUser(userId);
+
+        resultMap.put("vo", userDTO);
+
         return ResponseEntity.ok().body(ApiResponse.ok(resultMap));
     }
 

@@ -40,8 +40,8 @@ public interface UserRepository extends JpaRepository<UserEntity, String>, JpaSp
                 u.balance,
                 r.role_id,
                 r.role_name
-            from kb_users u
-            join user_role r on u.user_role = r.role_id
+            from bmpc_users
+            join bmpc_user_role r on u.user_role = r.role_id
             where user_id = :userId
         """, nativeQuery = true)
     Optional<AdminUserProjection> getUserById(@Param("userId") String userId);   // 네이티브 쿼리 사용

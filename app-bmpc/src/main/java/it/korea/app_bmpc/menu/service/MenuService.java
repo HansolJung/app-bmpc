@@ -1,6 +1,7 @@
 package it.korea.app_bmpc.menu.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -74,12 +75,29 @@ public class MenuService {
         if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != storeEntity.getStoreId()) {
             throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
         }
+
+        // 기존 카테고리 리스트 displayOrder 오름차순으로 가져오기
+        List<MenuCategoryEntity> categories = menuCategoryRepository
+            .findByStoreAndDelYnOrderByDisplayOrderAsc(storeEntity, "N");
+
+        int newOrder = request.getDisplayOrder();
+
+        // 만약 새로운 displayOrder 값이 기존 카테고리 리스트 사이즈보다 크다면 고정시키기
+        if (newOrder > categories.size() + 1) {
+            newOrder = categories.size() + 1;
+        }
+
+        // displayOrder가 newOrder 이상인 항목들은 모두 +1 씩 밀어내기
+        for (MenuCategoryEntity category : categories) {
+            if (category.getDisplayOrder() >= newOrder) {
+                category.setDisplayOrder(category.getDisplayOrder() + 1);
+            }
+        }
         
         MenuCategoryEntity entity = new MenuCategoryEntity();
         entity.setMenuCaName(request.getMenuCaName());
-        entity.setDisplayOrder(request.getDisplayOrder());
+        entity.setDisplayOrder(newOrder);
         entity.setDelYn("N");
-        entity.setStore(storeEntity);
 
         storeEntity.addMenuCategory(entity, false);
 
@@ -105,13 +123,51 @@ public class MenuService {
         // 점주 소유 여부 체크
         UserEntity userEntity = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+        
+        StoreEntity storeEntity = entity.getStore();
+        if (storeEntity == null) {
+            throw new RuntimeException("삭제된 가게 하위에 있는 메뉴 카테고리는 수정할 수 없습니다.");
+        }
 
-        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != entity.getStore().getStoreId()) {
+        if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != storeEntity.getStoreId()) {
             throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
         }
 
+        // 기존 카테고리 리스트 가져오기 (삭제되지 않은 것만)
+        List<MenuCategoryEntity> menuCategoryList = menuCategoryRepository
+            .findByStoreAndDelYnOrderByDisplayOrderAsc(storeEntity, "N");
+
+        // 원래 정렬 순서
+        int oldOrder = entity.getDisplayOrder();
+        // 새로운 정렬 순서
+        int newOrder = request.getDisplayOrder();
+
+        if (newOrder > menuCategoryList.size()) {
+            newOrder = menuCategoryList.size();
+        }
+
+        // displayOrder 재정렬
+        for (MenuCategoryEntity menuCategory : menuCategoryList) {
+            // 나는 비교할 필요가 없으니 continue
+            if (menuCategory.getMenuCaId() == entity.getMenuCaId()) {
+                continue;
+            }
+            // oldOrder 보다 newOrder 가 크면 중간 카테고리들의 정렬순서를 -1 씩 수정하고, 작으면 +1 씩 수정함
+            if (oldOrder < newOrder &&
+                menuCategory.getDisplayOrder() > oldOrder && 
+                menuCategory.getDisplayOrder() <= newOrder) {
+                    
+                menuCategory.setDisplayOrder(menuCategory.getDisplayOrder() - 1);
+            } else if (oldOrder > newOrder &&
+                menuCategory.getDisplayOrder() < oldOrder && 
+                menuCategory.getDisplayOrder() >= newOrder) {
+                    
+                menuCategory.setDisplayOrder(menuCategory.getDisplayOrder() + 1);
+            }
+        }
+
         entity.setMenuCaName(request.getMenuCaName());
-        entity.setDisplayOrder(request.getDisplayOrder());
+        entity.setDisplayOrder(newOrder);
 
         menuCategoryRepository.save(entity);
     }
@@ -187,6 +243,9 @@ public class MenuService {
         }
 
         MenuCategoryEntity category = entity.getMenuCategory();
+        if (category == null) {
+            throw new RuntimeException("삭제된 메뉴 카테고리 하위에 있는 메뉴는 수정할 수 없습니다.");
+        }
 
         // 점주 소유 여부 체크
         UserEntity userEntity = userRepository.findById(userId)
@@ -267,6 +326,9 @@ public class MenuService {
             .orElseThrow(() -> new RuntimeException("해당 메뉴가 존재하지 않습니다."));
 
         MenuCategoryEntity category = menuEntity.getMenuCategory();
+        if (category == null) {
+            throw new RuntimeException("삭제된 메뉴 카테고리 하위엔 새로운 옵션 그룹을 등록할 수 없습니다.");
+        }
 
         // 점주 소유 여부 체크
         UserEntity userEntity = userRepository.findById(userId)
@@ -274,6 +336,24 @@ public class MenuService {
 
         if (userEntity.getStore() == null || userEntity.getStore().getStoreId() != category.getStore().getStoreId()) {
             throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
+        }
+
+        // 기존 옵션 그룹 리스트 displayOrder 오름차순으로 가져오기
+        List<MenuOptionGroupEntity> optionGroupList = menuOptionGroupRepository
+            .findByMenuAndDelYnOrderByDisplayOrderAsc(menuEntity, "N");
+
+        int newOrder = request.getDisplayOrder();
+
+        // displayOrder 값이 기존 옵션 그룹 리스트 사이즈보다 크면 고정
+        if (newOrder > optionGroupList.size() + 1) {
+            newOrder = optionGroupList.size() + 1;
+        }
+
+        // displayOrder가 newOrder 이상인 항목들은 모두 +1 씩 밀어내기
+        for (MenuOptionGroupEntity group : optionGroupList) {
+            if (group.getDisplayOrder() >= newOrder) {
+                group.setDisplayOrder(group.getDisplayOrder() + 1);
+            }
         }
 
         // 옵션 그룹 엔티티 생성
@@ -284,7 +364,7 @@ public class MenuService {
         entity.setDelYn("N");
         entity.setMinSelect(request.getMinSelect());
         entity.setMaxSelect(request.getMaxSelect());
-        entity.setDisplayOrder(request.getDisplayOrder());
+        entity.setDisplayOrder(newOrder);
 
         menuEntity.addMenuOptionGroup(entity, true);   // 메뉴와 메뉴 옵션 그룹 매핑
 
@@ -304,8 +384,14 @@ public class MenuService {
             .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션 그룹이 존재하지 않습니다."));
 
         MenuEntity menuEntity = entity.getMenu();
+        if (menuEntity == null) {
+            throw new RuntimeException("삭제된 메뉴 하위에 있는 옵션 그룹은 수정할 수 없습니다.");
+        }
 
         MenuCategoryEntity category = menuEntity.getMenuCategory();
+        if (category == null) {
+            throw new RuntimeException("삭제된 메뉴 카테고리 하위에 있는 옵션 그룹은 수정할 수 없습니다.");
+        }
 
         // 점주 소유 여부 체크
         UserEntity userEntity = userRepository.findById(userId)
@@ -320,11 +406,43 @@ public class MenuService {
             throw new RuntimeException("삭제된 옵션 그룹은 수정할 수 없습니다.");
         }
 
+        // 기존 옵션 그룹 리스트 가져오기 (삭제되지 않은 것만)
+        List<MenuOptionGroupEntity> optionGroupList = menuOptionGroupRepository
+            .findByMenuAndDelYnOrderByDisplayOrderAsc(menuEntity, "N");
+
+        int oldOrder = entity.getDisplayOrder();
+        int newOrder = request.getDisplayOrder();
+
+        if (newOrder > optionGroupList.size()) {
+            newOrder = optionGroupList.size();
+        }
+
+        // displayOrder 재정렬
+        for (MenuOptionGroupEntity optionGroup : optionGroupList) {
+            // 나는 비교할 필요가 없으니 continue
+            if (optionGroup.getMenuOptGrpId() == entity.getMenuOptGrpId()) {
+                continue;
+            }
+
+            // oldOrder 보다 newOrder 가 크면 중간 카테고리들의 정렬순서를 -1 씩 수정하고, 작으면 +1 씩 수정함
+            if (oldOrder < newOrder &&
+                optionGroup.getDisplayOrder() > oldOrder &&
+                optionGroup.getDisplayOrder() <= newOrder) {
+
+                optionGroup.setDisplayOrder(optionGroup.getDisplayOrder() - 1);
+            } else if (oldOrder > newOrder &&
+                    optionGroup.getDisplayOrder() < oldOrder &&
+                    optionGroup.getDisplayOrder() >= newOrder) {
+
+                optionGroup.setDisplayOrder(optionGroup.getDisplayOrder() + 1);
+            }
+        }
+
         entity.setMenuOptGrpName(request.getMenuOptGrpName());
         entity.setRequiredYn(request.getRequiredYn());
         entity.setMinSelect(request.getMinSelect());
         entity.setMaxSelect(request.getMaxSelect());
-        entity.setDisplayOrder(request.getDisplayOrder());
+        entity.setDisplayOrder(newOrder);
 
         menuOptionGroupRepository.save(entity);
     }
@@ -342,8 +460,14 @@ public class MenuService {
             .orElseThrow(() -> new RuntimeException("해당 메뉴 옵션 그룹이 존재하지 않습니다."));
         
         MenuEntity menuEntity = groupEntity.getMenu();
+        if (menuEntity == null) {
+            throw new RuntimeException("삭제된 메뉴 하위엔 새로운 메뉴 옵션을 등록할 수 없습니다.");
+        }
 
         MenuCategoryEntity category = menuEntity.getMenuCategory();
+        if (category == null) {
+            throw new RuntimeException("삭제된 메뉴 카테고리 하위엔 새로운 메뉴 옵션을 등록할 수 없습니다.");
+        }
 
         // 점주 소유 여부 체크
         UserEntity userEntity = userRepository.findById(userId)
@@ -386,10 +510,19 @@ public class MenuService {
         }
 
         MenuOptionGroupEntity groupEntity = entity.getMenuOptionGroup();
+        if (groupEntity == null) {
+            throw new RuntimeException("삭제된 메뉴 옵션 그룹 하위에 있는 메뉴 옵션은 수정할 수 없습니다.");
+        }
 
         MenuEntity menuEntity = groupEntity.getMenu();
+        if (menuEntity == null) {
+            throw new RuntimeException("삭제된 메뉴 하위에 있는 메뉴 옵션은 수정할 수 없습니다.");
+        }
 
         MenuCategoryEntity category = menuEntity.getMenuCategory();
+        if (category == null) {
+            throw new RuntimeException("삭제된 메뉴 카테고리 하위에 있는 메뉴 옵션은 수정할 수 없습니다.");
+        }
 
         // 점주 소유 여부 체크
         UserEntity userEntity = userRepository.findById(userId)
@@ -432,11 +565,29 @@ public class MenuService {
             throw new RuntimeException("해당 가게에 대한 권한이 없습니다.");
         }
 
+        int oldOrder = entity.getDisplayOrder();
+
+        StoreEntity storeEntity = entity.getStore();
+        if (storeEntity == null) {
+            throw new RuntimeException("삭제된 가게 하위에 있는 메뉴 카테고리는 삭제할 수 없습니다.");
+        }
+
         entity.setDelYn("Y");
 
         // 하위 메뉴까지 전부 삭제 처리
         if (entity.getMenuList() != null) {
             entity.getMenuList().forEach(menu -> menu.setDelYn("Y"));
+        }
+
+        // 기존 카테고리 리스트 가져오기
+        List<MenuCategoryEntity> menuCategoryList = menuCategoryRepository
+            .findByStoreAndDelYnOrderByDisplayOrderAsc(storeEntity, "N");
+
+        // 삭제된 위치 이후의 카테고리들의 displayOrder를 -1 씩 당기기
+        for (MenuCategoryEntity menuCategory : menuCategoryList) {
+            if (menuCategory.getDisplayOrder() > oldOrder) {
+                menuCategory.setDisplayOrder(menuCategory.getDisplayOrder() - 1);
+            }
         }
 
         menuCategoryRepository.save(entity);
@@ -459,6 +610,9 @@ public class MenuService {
         }
         
         MenuCategoryEntity category = entity.getMenuCategory();
+        if (category == null) {
+            throw new RuntimeException("삭제된 메뉴 카테고리 하위에 있는 메뉴는 삭제할 수 없습니다.");
+        }
 
         // 점주 소유 여부 체크
         UserEntity userEntity = userRepository.findById(userId)
@@ -495,8 +649,14 @@ public class MenuService {
         }
 
         MenuEntity menuEntity = entity.getMenu();
+        if (menuEntity == null) {
+            throw new RuntimeException("삭제된 메뉴 하위에 있는 메뉴 옵션 그룹은 삭제할 수 없습니다.");
+        }
 
         MenuCategoryEntity category = menuEntity.getMenuCategory();
+        if (category == null) {
+            throw new RuntimeException("삭제된 메뉴 카테고리 하위에 있는 메뉴 옵션 그룹은 삭제할 수 없습니다.");
+        }
 
         // 점주 소유 여부 체크
         UserEntity userEntity = userRepository.findById(userId)
@@ -511,6 +671,18 @@ public class MenuService {
         // 하위 메뉴 옵션까지 전부 삭제 처리
         if (entity.getMenuOptionList() != null) {
             entity.getMenuOptionList().forEach(option -> option.setDelYn("Y"));
+        }
+
+        // 삭제된 위치 이후의 옵션 그룹들의 displayOrder를 -1 씩 당기기
+        List<MenuOptionGroupEntity> optionGroupList = menuOptionGroupRepository
+            .findByMenuAndDelYnOrderByDisplayOrderAsc(menuEntity, "N");
+
+        int oldOrder = entity.getDisplayOrder();
+
+        for (MenuOptionGroupEntity optionGroup : optionGroupList) {
+            if (optionGroup.getDisplayOrder() > oldOrder) {
+                optionGroup.setDisplayOrder(optionGroup.getDisplayOrder() - 1);
+            }
         }
 
         menuOptionGroupRepository.save(entity);
@@ -533,10 +705,19 @@ public class MenuService {
         }
 
         MenuOptionGroupEntity groupEntity = entity.getMenuOptionGroup();
+        if (groupEntity == null) {
+            throw new RuntimeException("삭제된 메뉴 옵션 그룹 하위에 있는 메뉴 옵션은 삭제할 수 없습니다.");
+        }
 
         MenuEntity menuEntity = groupEntity.getMenu();
+        if (menuEntity == null) {
+            throw new RuntimeException("삭제된 메뉴 하위에 있는 메뉴 옵션은 삭제할 수 없습니다.");
+        }
 
         MenuCategoryEntity category = menuEntity.getMenuCategory();
+        if (category == null) {
+            throw new RuntimeException("삭제된 메뉴 카테고리 하위에 있는 메뉴 옵션은 삭제할 수 없습니다.");
+        }
 
         // 점주 소유 여부 체크
         UserEntity userEntity = userRepository.findById(userId)
