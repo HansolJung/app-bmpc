@@ -125,4 +125,26 @@ public class UserService {
 
         userRepository.save(userEntity);
     }
+
+    /**
+     * 내 계정 탈퇴하기
+     * @param userId 사용자 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void deleteUser(String userId) throws Exception {
+
+        UserEntity userEntity = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("해당 사용자가 존재하지 않습니다."));
+
+        // 사용자 삭제 여부 확인
+        if ("Y".equals(userEntity.getDelYn())) {
+            throw new RuntimeException("이미 탈퇴된 사용자입니다.");
+        }
+
+        userEntity.setUseYn("N");  // 사용 여부 N
+        userEntity.setDelYn("Y");  // 삭제 여부 Y
+
+        userRepository.save(userEntity);
+    }
 }

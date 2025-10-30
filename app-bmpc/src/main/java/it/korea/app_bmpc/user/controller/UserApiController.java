@@ -3,6 +3,8 @@ package it.korea.app_bmpc.user.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,6 +79,26 @@ public class UserApiController {
         }
 
         userService.updateUser(request);
+
+        return ResponseEntity.ok().body(ApiResponse.ok("OK"));
+    }
+
+    /**
+     * 내 계정 탈퇴하기
+     * @param userId 사용자 아이디
+     * @param user 로그인한 사용자
+     * @return
+     * @throws Exception
+     */
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable(name = "userId") String userId,
+            @AuthenticationPrincipal UserSecureDTO user) throws Exception {
+
+        if (!user.getUserId().equals(userId)) {
+            throw new RuntimeException("다른 사용자의 계정은 탈퇴할 수 없습니다.");
+        }
+
+        userService.deleteUser(user.getUserId());
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }

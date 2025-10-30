@@ -11,8 +11,13 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import it.korea.app_bmpc.common.dto.ApiErrorResponse;
 import it.korea.app_bmpc.common.utils.JWTUtils;
 import it.korea.app_bmpc.user.dto.UserSecureDTO;
+import it.korea.app_bmpc.user.entity.UserEntity;
+import it.korea.app_bmpc.user.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JWTFilter extends OncePerRequestFilter {
     
     private final JWTUtils jwtUtils;
+    private final UserRepository userRepository;
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -88,6 +94,16 @@ public class JWTFilter extends OncePerRequestFilter {
         String userName = jwtUtils.getUserName(accessToken);
         String userRole = jwtUtils.getUserRole(accessToken);
 
+        // 사용자 조회
+        UserEntity user = userRepository.findById(userId).orElse(null);
+
+        // 사용자 삭제 여부 확인
+        if (user == null || "Y".equals(user.getDelYn())) {
+            sendErrorResponse(response, "해당 계정은 삭제되었습니다. 다시 로그인해주세요.", HttpServletResponse.SC_UNAUTHORIZED);
+            
+            return;
+        }
+
         UserSecureDTO dto = new UserSecureDTO(userId, userName, "", userRole);
 
         // 시큐리티 세션에 저장
@@ -117,7 +133,6 @@ public class JWTFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-
     private JSONObject getErrorMessage(String message, int status) {
 
         JSONObject jsonObject = new JSONObject();
@@ -125,6 +140,17 @@ public class JWTFilter extends OncePerRequestFilter {
         jsonObject.put("status", status);
 
         return jsonObject;
+    }
+
+    private void sendErrorResponse(HttpServletResponse response, String message, int status) throws IOException {
+        response.setContentType("application/json");
+        response.setStatus(status);
+
+        ApiErrorResponse apiErrorResponse = ApiErrorResponse.error("E401", message);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(apiErrorResponse);
+        
+        response.getWriter().write(json);
     }
 }
 

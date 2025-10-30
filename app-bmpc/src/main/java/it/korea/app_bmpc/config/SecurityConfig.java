@@ -34,6 +34,7 @@ import it.korea.app_bmpc.common.utils.JWTUtils;
 import it.korea.app_bmpc.filter.CustomLogoutFilter;
 import it.korea.app_bmpc.filter.JWTFilter;
 import it.korea.app_bmpc.filter.LoginFilter;
+import it.korea.app_bmpc.user.repository.UserRepository;
 import it.korea.app_bmpc.user.service.UserServiceDetails;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,7 @@ public class SecurityConfig {
 
     private final UserServiceDetails userServiceDetails;
     private final JWTUtils jwtUtils;
+    private final UserRepository userRepository;
 
     // 시큐리티 무시하기
     // WebSecurityCustomizer 는 추상화 메서드를 하나만 가지는 함수형 인터페이스기 때문에,
@@ -98,7 +100,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/menu/**").permitAll()   // GET 방식인 /api/v1/menu 는 모두 허용
                 .requestMatchers("/api/v1/admin/**").hasAnyRole("ADMIN")   // ADMIN 권한을 가지고 있어야만 허용
                 .anyRequest().authenticated())
-            .addFilterBefore(new JWTFilter(jwtUtils), LoginFilter.class)    // 로그인 필터를 사용하기 전에 JWTFilter 를 먼저 사용하겠다는 뜻
+            .addFilterBefore(new JWTFilter(jwtUtils, userRepository), LoginFilter.class)    // 로그인 필터를 사용하기 전에 JWTFilter 를 먼저 사용하겠다는 뜻
             .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class)   //  UsernamePasswordAuthenticationFilter 대신 LoginFilter 를 사용하라는 뜻
             .addFilterBefore(new CustomLogoutFilter(jwtUtils), LogoutFilter.class)   // 로그아웃 필터를 사용하기 전에 CustomLogoutFilter 를 먼저 사용하겠다는 뜻
             .sessionManagement(session -> session

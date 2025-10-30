@@ -5,12 +5,18 @@ import java.util.Iterator;
 
 import org.json.JSONObject;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import it.korea.app_bmpc.common.dto.ApiErrorResponse;
 import it.korea.app_bmpc.common.utils.JWTUtils;
 import it.korea.app_bmpc.user.dto.UserSecureDTO;
 import jakarta.servlet.FilterChain;
@@ -99,25 +105,30 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException failed) throws IOException, ServletException {
         
-        response.setContentType("application/json");   // 던지는 데이터 타입이 json 임을 명시해줘야 함
+        response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        // JSON 전송
-        try {
+        String message;
+        String errorCode = "E401";
 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("resultMsg", "FAIL");
-            jsonObject.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+        Throwable cause = failed.getCause();  // 로그인 실패 원인의 예외 받아오기
 
-            JSONObject data = new JSONObject();
-            jsonObject.put("content", data);
-
-            response.setContentType("application/json");   // 던지는 데이터 타입이 json 임을 명시해줘야 함
-            //response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(jsonObject.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (failed instanceof UsernameNotFoundException || cause instanceof UsernameNotFoundException) {
+            message = "존재하지 않는 사용자입니다.";
+        } else if (failed instanceof BadCredentialsException || cause instanceof BadCredentialsException) {
+            message = "비밀번호가 올바르지 않습니다.";
+        } else if (failed instanceof DisabledException || cause instanceof DisabledException) {
+            message = "해당 계정은 삭제되었습니다.";
+        } else {
+            message = "로그인에 실패했습니다.";
         }
+
+        ApiErrorResponse apiErrorResponse = ApiErrorResponse.error(errorCode, message);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(apiErrorResponse);
+
+        response.getWriter().write(json);
     }
 
     // 토큰 저장
