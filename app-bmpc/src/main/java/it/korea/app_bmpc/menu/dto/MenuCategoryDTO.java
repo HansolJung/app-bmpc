@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import it.korea.app_bmpc.menu.entity.MenuCategoryEntity;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -53,6 +54,7 @@ public class MenuCategoryDTO {
         @NotBlank(message = "메뉴 카테고리명은 필수 항목입니다.")
         private String menuCaName;
         @NotNull(message = "정렬순서는 필수 항목입니다.")
+        @Min(value = 1, message = "정렬순서는 1 이상이어야 합니다.")
         private Integer displayOrder;
         private String delYn;
 	}

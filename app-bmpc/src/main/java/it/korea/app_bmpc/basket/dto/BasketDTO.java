@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.korea.app_bmpc.basket.entity.BasketEntity;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -51,6 +52,7 @@ public class BasketDTO {
         @NotNull(message = "메뉴 아이디는 필수 항목입니다.")
         private Integer menuId;
         @NotNull(message = "개수는 필수 항목입니다.")
+        @Min(value = 1, message = "개수는 1개 이상이어야 합니다.")
         private Integer quantity;
 
         private List<@Valid InnerOptionRequest> optionList;
@@ -61,6 +63,7 @@ public class BasketDTO {
         @NotNull(message = "메뉴 옵션 아이디는 필수 항목입니다.")
         private Integer menuOptId;
         @NotNull(message = "개수는 필수 항목입니다.")
+        @Min(value = 1, message = "개수는 1개 이상이어야 합니다.")
         private Integer quantity;
     }
 

@@ -241,6 +241,7 @@ public class StoreDTO {
         private String addr;
         private String addrDetail;
         @NotNull(message = "최소 주문 금액은 필수 항목입니다.")
+        @Min(value = 0, message = "최소 주문 금액은 0원 이상이어야 합니다.")
         private Integer minPrice;
         @NotBlank(message = "원산지표시는 필수 항목입니다.")
         private String origin;

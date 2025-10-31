@@ -113,7 +113,20 @@ public class CommonExceptionHandler {
     protected ResponseEntity<ApiErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         log.error("===== DataIntegrityViolationException : {} =====", e.getMessage());
 
-        ApiErrorResponse apiErrorResponse = getApiErrorResponse(ErrorCodeEnum.DATABASE_ERROR);
+        String message = "DB 제약조건을 위반했습니다.";
+
+        Throwable cause = e.getRootCause();
+        if (cause != null && cause.getMessage() != null) {
+            String msg = cause.getMessage();
+
+            if (msg.contains("uq_users_phone")) {
+                message = "이미 존재하는 전화번호입니다.";
+            } else if (msg.contains("uq_users_email")) {
+                message = "이미 존재하는 이메일입니다.";
+            }
+        }
+
+        ApiErrorResponse apiErrorResponse = getApiErrorResponse("E409", message);
         return ResponseEntity.status(ErrorCodeEnum.DATABASE_ERROR.getStatus()).body(apiErrorResponse);
     }
 

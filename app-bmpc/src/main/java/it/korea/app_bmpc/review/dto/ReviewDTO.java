@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import it.korea.app_bmpc.review.entity.ReviewEntity;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -71,6 +73,8 @@ public class ReviewDTO {
         private Integer orderId;
         private String userId;
         @NotNull(message = "별점은 필수 항목입니다.")
+        @Min(value = 1, message = "별점은 최소 1점이어야 합니다.")
+        @Max(value = 5, message = "별점은 최대 5점까지 가능합니다.")
         private Integer rating;
         @NotBlank(message = "내용은 필수 항목입니다.")
         private String content;
@@ -82,7 +86,8 @@ public class ReviewDTO {
     @Data
     public static class InnerRequest {
         private MultipartFile image;
-        @NotNull(message = "메뉴 옵션 아이디는 필수 항목입니다.")
+        @NotNull(message = "정렬 순서는 필수 항목입니다.")
+        @Min(value = 1, message = "정렬 순서는 1 이상이어야 합니다.")
         private Integer displayOrder;
     }
 }
