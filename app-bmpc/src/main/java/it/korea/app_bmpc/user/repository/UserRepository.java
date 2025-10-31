@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import it.korea.app_bmpc.admin.dto.AdminUserProjection;
+import it.korea.app_bmpc.store.entity.StoreEntity;
 import it.korea.app_bmpc.user.entity.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, String>, JpaSpecificationExecutor<UserEntity> {
@@ -45,5 +46,6 @@ public interface UserRepository extends JpaRepository<UserEntity, String>, JpaSp
             where user_id = :userId
         """, nativeQuery = true)
     Optional<AdminUserProjection> getUserById(@Param("userId") String userId);   // 네이티브 쿼리 사용
-    
+
+    Optional<UserEntity> findByStore(StoreEntity store);
 }

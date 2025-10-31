@@ -10,6 +10,9 @@ import com.solapi.sdk.message.service.DefaultMessageService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * SMS 발송 서비스
+ */
 @Slf4j
 @Service
 public class SmsService {
@@ -32,16 +35,17 @@ public class SmsService {
     @Async
     public void sendToOwner(String toNumber, String orderSummary) {
         try {
+
             Message message = new Message();
             message.setFrom(fromNumber);
             message.setTo(toNumber);
-            message.setText("[배달의민족]\n새 주문이 들어왔습니다.\n\n주문내역: " + orderSummary);
+            message.setText("[배달의민족]\n새 주문이 들어왔습니다.\n\n주문내역)\n" + orderSummary);
 
             this.messageService.send(message);
 
-            log.info("번호 {}로 문자 전송 성공. {}", toNumber);
+            log.info("점주 번호 {}로 문자 전송 성공", toNumber);
         } catch (Exception e) {
-            log.error("번호 {}로 문자 전송 실패. {}", toNumber, e.getMessage());
+            log.error("점주 번호 {}로 문자 전송 실패. {}", toNumber, e.getMessage());
         }
     }
 }

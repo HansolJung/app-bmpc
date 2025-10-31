@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +22,8 @@ import it.korea.app_bmpc.menu.repository.MenuRepository;
 import it.korea.app_bmpc.order.entity.OrderEntity;
 import it.korea.app_bmpc.order.entity.OrderItemEntity;
 import it.korea.app_bmpc.order.entity.OrderItemOptionEntity;
+import it.korea.app_bmpc.order.event.OrderCreatedEvent;
 import it.korea.app_bmpc.order.repository.OrderRepository;
-import it.korea.app_bmpc.sms.service.SmsService;
 import it.korea.app_bmpc.store.entity.StoreEntity;
 import it.korea.app_bmpc.user.entity.UserEntity;
 import it.korea.app_bmpc.user.repository.UserRepository;
@@ -37,7 +38,7 @@ public class BasketService {
     private final OrderRepository orderRepository;
     private final MenuRepository menuRepository;
     private final MenuOptionRepository menuOptionRepository;
-    private final SmsService smsService;
+    private final ApplicationEventPublisher eventPublisher;
 
     /**
      * 장바구니 가져오기
@@ -152,8 +153,14 @@ public class BasketService {
         basketEntity.setTotalPrice(0);
         basketRepository.save(basketEntity);
 
-        // 점주에게 sms 발송하기
-        // do Something
+        // 점주 전화번호 찾기
+        // UserEntity owner = userRepository.findByStore(orderEntity.getStore())
+        //     .orElseThrow(() -> new RuntimeException("해당 가게의 점주를 찾을 수 없습니다."));
+
+        // String ownerPhone = owner.getPhone().replace("-", "");
+
+        // 점주에게 sms 발송하기위해 이벤트 발행 (모든 save가 정상적으로 실행이 된 이후 발송됨)
+        //eventPublisher.publishEvent(new OrderCreatedEvent(orderEntity.getOrderId(), ownerPhone));
     }
 
     /**
