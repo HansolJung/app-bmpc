@@ -25,6 +25,7 @@ import it.korea.app_bmpc.common.dto.ApiResponse;
 import it.korea.app_bmpc.order.dto.OrderSearchDTO;
 import it.korea.app_bmpc.order.dto.OrderStatusDTO;
 import it.korea.app_bmpc.order.service.OrderService;
+import it.korea.app_bmpc.review.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +36,7 @@ public class AdminUserApiController {
 
     private final AdminUserService userService;
     private final OrderService orderService;
+    private final ReviewService reviewService;
 
     /**
      * 회원 리스트 가져오기
@@ -142,6 +144,40 @@ public class AdminUserApiController {
             OrderStatusDTO statusDTO) throws Exception {
 
         //orderService.updateStatus(statusDTO);
+
+        return ResponseEntity.ok().body(ApiResponse.ok("OK"));
+    }
+
+
+    /**
+     * 리뷰 삭제하기
+     * @param userId 사용자 아이디
+     * @param reviewId 리뷰 아이디
+     * @param user 로그인한 사용자
+     * @return
+     * @throws Exception
+     */
+    @DeleteMapping("/admin/review/{reviewId}")
+    public ResponseEntity<?> deleteReview(
+            @PathVariable(name = "userId") String userId,
+            @PathVariable(name = "reviewId") int reviewId) throws Exception {
+
+        reviewService.deleteReview(userId, reviewId);
+
+        return ResponseEntity.ok().body(ApiResponse.ok("OK"));
+    }
+
+    /**
+     * 리뷰 답변 삭제하기
+     * @param reviewReplyId 리뷰 답변 아이디
+     * @param user 로그인한 사용자
+     * @return
+     * @throws Exception
+     */
+    @DeleteMapping("/review/reply/{reviewReplyId}")
+    public ResponseEntity<?> deleteReviewReplyByAdmin(@PathVariable(name = "reviewReplyId") int reviewReplyId) throws Exception {
+               
+        reviewService.deleteReviewReplyByAdmin(reviewReplyId);
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }

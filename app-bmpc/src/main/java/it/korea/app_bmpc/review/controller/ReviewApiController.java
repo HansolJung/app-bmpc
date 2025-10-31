@@ -191,7 +191,7 @@ public class ReviewApiController {
      */
     @PreAuthorize("hasRole('OWNER')") // ROLE_OWNER 권한이 있어야 접근 가능
     @DeleteMapping("/review/reply/{reviewReplyId}")
-    public ResponseEntity<?> updateReviewReply(@PathVariable(name = "reviewReplyId") int reviewReplyId,
+    public ResponseEntity<?> deleteReviewReply(@PathVariable(name = "reviewReplyId") int reviewReplyId,
             @AuthenticationPrincipal UserSecureDTO user) throws Exception {
                
         reviewService.deleteReviewReply(reviewReplyId, user.getUserId());

@@ -428,4 +428,55 @@ public class ReviewService {
             log.error("파일 삭제 중 오류가 발생했습니다. {}", e.getMessage(), e);
         }
     }
+
+    /**
+     * 리뷰 삭제하기 (어드민)
+     * @param reviewId 리뷰 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void deleteReviewByAdmin(int reviewId) throws Exception {
+
+        ReviewEntity reviewEntity = reviewRepository.findById(reviewId)
+            .orElseThrow(() -> new RuntimeException("해당 리뷰가 존재하지 않습니다."));
+
+        reviewEntity.setDelYn("Y");
+        reviewRepository.save(reviewEntity);
+
+        // 가게 평균 평점 및 리뷰 수 업데이트
+        updateStoreRatingAvg(reviewEntity);
+    }
+
+    /**
+     * 리뷰 답변 삭제하기 (어드민)
+     * @param reviewReplyId 리뷰 답변 아이디
+     * @throws Exception
+     */
+    @Transactional
+    public void deleteReviewReplyByAdmin(int reviewReplyId) throws Exception {
+
+        // 삭제할 답글 조회
+        ReviewReplyEntity reviewReplyEntity = reviewReplyRepository.findById(reviewReplyId)
+            .orElseThrow(() -> new RuntimeException("해당 리뷰 답변이 존재하지 않습니다."));
+
+        // 답변 삭제 여부 확인
+        if ("Y".equals(reviewReplyEntity.getDelYn())) {
+            throw new RuntimeException("이미 삭제된 리뷰 답변입니다.");
+        }
+
+        ReviewEntity reviewEntity = reviewReplyEntity.getReview();
+
+        if (reviewEntity == null) {
+            throw new RuntimeException("해당 답변이 달린 리뷰가 존재하지 않습니다.");
+        }
+
+        // 리뷰 삭제 여부 확인
+        if ("Y".equals(reviewEntity.getDelYn())) {
+            throw new RuntimeException("삭제된 리뷰의 답변은 삭제할 수 없습니다.");
+        }
+
+        reviewReplyEntity.setDelYn("Y");
+
+        reviewReplyRepository.save(reviewReplyEntity);
+    }
 }
