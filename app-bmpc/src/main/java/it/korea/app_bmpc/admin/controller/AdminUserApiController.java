@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.korea.app_bmpc.admin.dto.AdminReviewSearchDTO;
 import it.korea.app_bmpc.admin.dto.AdminUserDTO;
 import it.korea.app_bmpc.admin.dto.AdminUserRequestDTO;
 import it.korea.app_bmpc.admin.dto.AdminUserSearchDTO;
@@ -148,8 +149,22 @@ public class AdminUserApiController {
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
 
+    /**
+     * 리뷰 리스트 가져오기
+     * @param pageable 페이징 객체
+     * @param searchDTO 검색 내용
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/admin/review")
-    
+    public ResponseEntity<?> getReviewList(@PageableDefault(page = 0, size = 10, 
+            sort = "updateDate", direction = Direction.DESC) Pageable pageable,
+            AdminReviewSearchDTO searchDTO) throws Exception {
+        
+        Map<String, Object> resultMap = reviewService.getReviewList(pageable, searchDTO);
+
+        return ResponseEntity.ok().body(ApiResponse.ok(resultMap));
+    }
 
     /**
      * 리뷰 삭제하기

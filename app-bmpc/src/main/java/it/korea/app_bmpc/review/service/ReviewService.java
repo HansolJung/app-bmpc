@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.korea.app_bmpc.admin.dto.AdminReviewSearchDTO;
 import it.korea.app_bmpc.common.dto.PageVO;
 import it.korea.app_bmpc.common.utils.FileUtils;
 import it.korea.app_bmpc.config.WebConfig;
@@ -26,8 +27,11 @@ import it.korea.app_bmpc.review.entity.ReviewFileEntity;
 import it.korea.app_bmpc.review.entity.ReviewReplyEntity;
 import it.korea.app_bmpc.review.repository.ReviewReplyRepository;
 import it.korea.app_bmpc.review.repository.ReviewRepository;
+import it.korea.app_bmpc.review.repository.ReviewSearchSpecification;
+import it.korea.app_bmpc.store.dto.StoreDTO;
 import it.korea.app_bmpc.store.entity.StoreEntity;
 import it.korea.app_bmpc.store.repository.StoreRepository;
+import it.korea.app_bmpc.store.repository.StoreSearchSpecification;
 import it.korea.app_bmpc.user.entity.UserEntity;
 import it.korea.app_bmpc.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -159,7 +163,6 @@ public class ReviewService {
         // 가게 평균 평점 및 리뷰 수 업데이트
         updateStoreRatingAvg(reviewEntity);
     }
-
 
     /**
      * 리뷰 수정하기
@@ -435,14 +438,18 @@ public class ReviewService {
     /**
      * 모든 리뷰 리스트 가져오기
      * @param pageable 페이징 객체
+     * @param searchDTO 검색 내용
      * @return
      * @throws Exception
      */
     @Transactional(readOnly = true)
-    public Map<String, Object> getReviewList(Pageable pageable) throws Exception {
+    public Map<String, Object> getReviewList(Pageable pageable, AdminReviewSearchDTO searchDTO) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
-        Page<ReviewEntity> pageList = reviewRepository.findAllByDelYn("N", pageable);
+        Page<ReviewEntity> pageList = null;
+
+        ReviewSearchSpecification searchSpecification = new ReviewSearchSpecification(searchDTO);
+        pageList = reviewRepository.findAll(searchSpecification, pageable);
 
         List<ReviewDTO.Response> reviewList = pageList.getContent().stream().map(ReviewDTO.Response::of).toList();
 
@@ -456,7 +463,6 @@ public class ReviewService {
         
         return resultMap;
     }
-
 
     /**
      * 리뷰 삭제하기 (어드민)
