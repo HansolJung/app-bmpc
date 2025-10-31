@@ -174,7 +174,7 @@ public class AdminUserApiController {
      * @return
      * @throws Exception
      */
-    @DeleteMapping("/review/reply/{reviewReplyId}")
+    @DeleteMapping("/admin/review/reply/{reviewReplyId}")
     public ResponseEntity<?> deleteReviewReplyByAdmin(@PathVariable(name = "reviewReplyId") int reviewReplyId) throws Exception {
                
         reviewService.deleteReviewReplyByAdmin(reviewReplyId);
