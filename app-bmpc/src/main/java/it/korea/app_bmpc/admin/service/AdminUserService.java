@@ -58,8 +58,9 @@ public class AdminUserService {
     }
 
     /**
-     * 회원 리스트 가져오기 (with Axios 호출 or 검색)
+     * 회원 리스트 가져오기 (with 검색)
      * @param pageable 페이징 객체
+     * @param searchDTO 검색 내용
      * @return
      * @throws Exception
      */
@@ -178,7 +179,7 @@ public class AdminUserService {
     }
 
     /**
-     * 회원 삭제 처리하기
+     * 회원 삭제하기
      * @param userId 회원 아이디
      * @throws Exception
      */

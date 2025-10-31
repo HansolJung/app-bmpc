@@ -10,9 +10,6 @@ import com.solapi.sdk.message.service.DefaultMessageService;
 
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * SMS 발송 서비스
- */
 @Slf4j
 @Service
 public class SmsService {

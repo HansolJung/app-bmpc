@@ -25,7 +25,9 @@ public class UserEntity extends BaseEntity {
     private String userName;
     private String birth;
     private String gender;
+    @Column(unique = true)
     private String phone;
+    @Column(unique = true)
     private String email;
     private int deposit;
     private int balance;

@@ -65,8 +65,9 @@ public class OrderService {
     }
 
     /**
-     * 주문 내역 리스트 가져오기 (with Axios 호출 or 검색)
+     * 주문 내역 리스트 가져오기 (with 검색)
      * @param pageable 페이징 객체
+     * @param searchDTO 검색 내용
      * @return
      * @throws Exception
      */
@@ -119,9 +120,9 @@ public class OrderService {
     }
 
     /**
-     * 나의 주문 내역 리스트 가져오기 (with Axios 호출 or 검색)
+     * 나의 주문 내역 리스트 가져오기 (with 검색)
      * @param pageable 페이징 객체
-     * @param searchDTO 검색 객체
+     * @param searchDTO 검색 내용
      * @param userId 사용자 아이디
      * @return
      * @throws Exception
@@ -153,6 +154,7 @@ public class OrderService {
      * 가게 주문 내역 리스트 가져오기 (with Axios 호출)
      * @param pageable 페이징 객체
      * @param storeId 가게 아이디
+     * @param userId 사용자 아이디
      * @return
      * @throws Exception
      */
@@ -217,7 +219,7 @@ public class OrderService {
 
     /**
      * 메뉴 주문하기
-     * @param request
+     * @param request 주문 객체
      * @return
      * @throws Exception
      */
@@ -352,7 +354,8 @@ public class OrderService {
 
     /**
      * 주문 상태 변경하기
-     * @param orderId 주문 아이디
+     * @param statusDTO 주문 상태 객체
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -400,6 +403,7 @@ public class OrderService {
     /**
      * 가게 기간별 매출 통계 구하기
      * @param storeId 가게 아이디
+     * @param userId 사용자 아이디
      * @return
      * @throws Exception
      */

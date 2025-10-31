@@ -67,10 +67,10 @@ public class BasketService {
 
     /**
      * 장바구니 전부 주문하기
-     * @param userId 사용자 아이디
-     * @return
+     * @param request 장바구니 객체
+     * @throws Exception
      */
-     @Transactional
+    @Transactional
     public void orderAllMenu(BasketDTO.OrderRequest request) throws Exception {
 
         BasketEntity basketEntity = basketRepository.findByUser_userId(request.getUserId())
@@ -165,7 +165,7 @@ public class BasketService {
 
     /**
      * 장바구니에 메뉴 추가하기
-     * @param request
+     * @param request 장바구니 객체
      * @return
      * @throws Exception
      */

@@ -74,7 +74,7 @@ public class FavoriteStoreService {
 
     /**
      * 찜 등록하기
-     * @param requestDTO
+     * @param requestDTO 찜 객체
      * @throws Exception
      */
     @Transactional

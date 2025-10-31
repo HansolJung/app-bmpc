@@ -59,8 +59,9 @@ public class MenuService {
 
     /**
      * 메뉴 카테고리 등록하기
-     * @param request
-     * @return 
+     * @param request 메뉴 카테고리 객체
+     * @param userId 사용자 아이디
+     * @throws Exception
      */
     @Transactional
     public void createMenuCategory(MenuCategoryDTO.Request request, String userId) throws Exception {
@@ -106,8 +107,9 @@ public class MenuService {
 
     /**
      * 메뉴 카테고리 수정하기
-     * @param request
-     * @return 
+     * @param request 메뉴 카테고리 객체
+     * @param userId 사용자 아이디
+     * @throws Exception
      */
     @Transactional
     public void updateMenuCategory(MenuCategoryDTO.Request request, String userId) throws Exception {
@@ -174,7 +176,8 @@ public class MenuService {
 
     /**
      * 메뉴 등록하기
-     * @param request
+     * @param request 메뉴 객체
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -227,7 +230,8 @@ public class MenuService {
 
     /**
      * 메뉴 수정
-     * @param request
+     * @param request 메뉴 객체
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -315,7 +319,8 @@ public class MenuService {
 
     /**
      * 메뉴 옵션 그룹 등록하기
-     * @param request
+     * @param request 메뉴 옵션 그룹 객체
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -373,7 +378,8 @@ public class MenuService {
 
     /**
      * 메뉴 옵션 그룹 수정하기
-     * @param request
+     * @param request 메뉴 옵션 그룹 객체
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -449,7 +455,8 @@ public class MenuService {
 
     /**
      * 메뉴 옵션 등록하기
-     * @param request
+     * @param request 메뉴 옵션 객체
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -495,7 +502,8 @@ public class MenuService {
 
     /**
      * 메뉴 옵션 수정하기
-     * @param request
+     * @param request 메뉴 옵션 객체
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -542,8 +550,9 @@ public class MenuService {
     }
 
     /**
-     * 메뉴 카테고리 삭제
+     * 메뉴 카테고리 삭제하기
      * @param menuCategoryId 메뉴 카테고리 아이디
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -594,8 +603,9 @@ public class MenuService {
     }
 
     /**
-     * 메뉴 삭제
+     * 메뉴 삭제하기
      * @param menuId 메뉴 아이디
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -633,8 +643,9 @@ public class MenuService {
     }
 
     /**
-     * 메뉴 옵션 그룹 삭제
+     * 메뉴 옵션 그룹 삭제하기
      * @param menuOptGrpId 메뉴 옵션 그룹 아이디
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -689,8 +700,9 @@ public class MenuService {
     }
 
     /**
-     * 메뉴 옵션 삭제
+     * 메뉴 옵션 삭제하기
      * @param menuOptId 메뉴 옵션 아이디
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional

@@ -52,7 +52,8 @@ public class MenuApiController {
 
     /**
      * 메뉴 카테고리 등록하기
-     * @param request
+     * @param request 메뉴 카테고리 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -68,7 +69,8 @@ public class MenuApiController {
 
     /**
      * 메뉴 카테고리 수정하기
-     * @param request
+     * @param request 메뉴 카테고리 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -85,6 +87,7 @@ public class MenuApiController {
     /**
      * 메뉴 카테고리 삭제하기
      * @param menuCategoryId 메뉴 카테고리 아이디
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -100,7 +103,8 @@ public class MenuApiController {
 
     /**
      * 메뉴 등록하기
-     * @param request
+     * @param request 메뉴 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -116,7 +120,8 @@ public class MenuApiController {
 
     /**
      * 메뉴 수정하기
-     * @param request
+     * @param request 메뉴 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -133,6 +138,7 @@ public class MenuApiController {
     /**
      * 메뉴 삭제하기
      * @param menuId 메뉴 아이디
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -148,7 +154,8 @@ public class MenuApiController {
 
     /**
      * 메뉴 옵션 그룹 등록하기
-     * @param request
+     * @param request 메뉴 옵션 그룹 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -164,7 +171,8 @@ public class MenuApiController {
 
     /**
      * 메뉴 옵션 그룹 수정하기
-     * @param request 
+     * @param request 메뉴 옵션 그룹 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -181,6 +189,7 @@ public class MenuApiController {
     /**
      * 메뉴 옵션 그룹 삭제하기
      * @param menuOptGrpId 메뉴 옵션 그룹 아이디
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -196,7 +205,8 @@ public class MenuApiController {
 
     /**
      * 메뉴 옵션 등록하기
-     * @param request
+     * @param request 메뉴 옵션 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -212,7 +222,8 @@ public class MenuApiController {
 
     /**
      * 메뉴 옵션 수정하기
-     * @param request
+     * @param request 메뉴 옵션 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -227,8 +238,9 @@ public class MenuApiController {
     }
 
     /**
-     * 메뉴 옵션 삭제
+     * 메뉴 옵션 삭제하기
      * @param menuOptId 메뉴 옵션 아이디
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */

@@ -24,7 +24,7 @@ public class UserService {
 
     /**
      * 회원 가입하기
-     * @param userRequestDTO
+     * @param userRequestDTO 사용자 객체
      * @throws Exception
      */
     @Transactional
@@ -66,7 +66,7 @@ public class UserService {
 
     /**
      * 보유금 충전하기
-     * @param request
+     * @param request 보유금 객체
      * @throws Exception
      */
     @Transactional
@@ -93,7 +93,7 @@ public class UserService {
 
     /**
      * 사용자 정보 수정하기
-     * @param request
+     * @param request 사용자 객체
      * @throws Exception
      */
     @Transactional

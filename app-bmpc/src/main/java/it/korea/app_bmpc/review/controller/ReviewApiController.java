@@ -54,6 +54,7 @@ public class ReviewApiController {
      * 사용자가 작성한 리뷰 리스트 요청
      * @param pageable 페이징 객체
      * @param userId 사용자 아이디
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -75,7 +76,8 @@ public class ReviewApiController {
 
     /**
      * 리뷰 등록하기
-     * @param request 
+     * @param request 리뷰 객체
+     * @param userId 사용자 아이디
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
@@ -98,7 +100,8 @@ public class ReviewApiController {
 
     /**
      * 리뷰 수정하기
-     * @param request 
+     * @param request 리뷰 객체 
+     * @param userId 사용자 아이디
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
@@ -121,7 +124,8 @@ public class ReviewApiController {
 
     /**
      * 리뷰 삭제하기
-     * @param request 
+     * @param userId 사용자 아이디
+     * @param reviewId 리뷰 아이디
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
@@ -144,7 +148,7 @@ public class ReviewApiController {
 
     /**
      * 리뷰 답변 등록하기
-     * @param request
+     * @param request 리뷰 답변 객체
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
@@ -162,7 +166,7 @@ public class ReviewApiController {
 
     /**
      * 리뷰 답변 수정하기
-     * @param request
+     * @param request 리뷰 답변 객체
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
@@ -178,10 +182,9 @@ public class ReviewApiController {
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
 
-    
     /**
      * 리뷰 답변 삭제하기
-     * @param request
+     * @param reviewReplyId 리뷰 답변 아이디
      * @param user 로그인한 사용자
      * @return
      * @throws Exception

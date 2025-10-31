@@ -51,7 +51,7 @@ public class StoreApiController {
     /**
      * 가게 리스트 가져오기
      * @param pageable 페이징 객체
-     * @param searchDTO 검색 객체
+     * @param searchDTO 검색 내용
      * @return
      * @throws Exception
      */
@@ -84,7 +84,8 @@ public class StoreApiController {
 
     /**
      * 가게 등록하기
-     * @param request
+     * @param request 가게 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -100,7 +101,8 @@ public class StoreApiController {
 
     /**
      * 가게 수정하기
-     * @param request
+     * @param request 가게 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -117,6 +119,7 @@ public class StoreApiController {
     /**
      * 가게 삭제하기
      * @param storeId 가게 아이디
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -129,5 +132,4 @@ public class StoreApiController {
 
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
-
 }

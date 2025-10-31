@@ -101,8 +101,7 @@ public class ReviewService {
 
     /**
      * 리뷰 등록하기
-     * @param request
-     * @return
+     * @param request 리뷰 객체
      * @throws Exception
      */
     @Transactional
@@ -164,7 +163,7 @@ public class ReviewService {
 
     /**
      * 리뷰 수정하기
-     * @param request
+     * @param request 리뷰 객체
      * @throws Exception
      */
     @Transactional
@@ -258,7 +257,7 @@ public class ReviewService {
 
     /**
      * 리뷰 답변 등록하기
-     * @param request
+     * @param request 리뷰 답변 객체
      * @throws Exception
      */
     @Transactional
@@ -302,7 +301,7 @@ public class ReviewService {
 
     /**
      * 리뷰 답변 수정하기
-     * @param request
+     * @param request 리뷰 답변 객체
      * @throws Exception
      */
     @Transactional

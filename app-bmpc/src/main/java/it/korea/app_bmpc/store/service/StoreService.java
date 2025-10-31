@@ -56,7 +56,7 @@ public class StoreService {
     /**
      * 가게 리스트 가져오기
      * @param pageable 페이징 객체
-     * @param searchDTO 검색 객체
+     * @param searchDTO 검색 내용
      * @return
      * @throws Exception
      */
@@ -95,9 +95,9 @@ public class StoreService {
     }
 
     /**
-     * 가게 등록
-     * @param request
-     * @return
+     * 가게 등록하기
+     * @param request 가게 객체
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -201,9 +201,9 @@ public class StoreService {
     }
 
     /**
-     * 가게 수정
-     * @param request
-     * @return
+     * 가게 수정하기
+     * @param request 가게 객체
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional
@@ -348,9 +348,9 @@ public class StoreService {
     }
 
     /**
-     * 가게 삭제(실제로 삭제되지는 않음. 삭제 여부만 변경)
+     * 가게 삭제하기
      * @param storeId 가게 아이디
-     * @return
+     * @param userId 사용자 아이디
      * @throws Exception
      */
     @Transactional

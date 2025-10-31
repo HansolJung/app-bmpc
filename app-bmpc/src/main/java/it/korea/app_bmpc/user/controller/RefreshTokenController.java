@@ -25,6 +25,13 @@ public class RefreshTokenController {
     private final JWTUtils jwtUtils;
     private final CookieUtils cookieUtils;
 
+    /**
+     * refresh 토큰으로 재로그인 하기
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/refresh")
     public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
 

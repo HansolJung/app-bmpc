@@ -56,7 +56,7 @@ public class BasketApiController {
     /**
      * 장바구니 전부 주문하기
      * @param userId 사용자 아이디
-     * @param request
+     * @param request 장바구니 객체
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
@@ -80,7 +80,8 @@ public class BasketApiController {
 
     /**
      * 장바구니에 메뉴 추가하기
-     * @param request
+     * @param request 장바구니 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -103,7 +104,7 @@ public class BasketApiController {
      * 장바구니 메뉴 삭제하기
      * @param userId 사용자 아이디
      * @param basketItemId 장바구니 항목 아이디
-     * @param user
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */

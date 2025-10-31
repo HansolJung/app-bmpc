@@ -37,9 +37,9 @@ public class AdminUserApiController {
     private final OrderService orderService;
 
     /**
-     * 회원 리스트 요청
+     * 회원 리스트 가져오기
      * @param pageable 페이징 객체
-     * @param searchDTO 검색 내용 DTO
+     * @param searchDTO 검색 내용
      * @return
      * @throws Exception
      */
@@ -54,7 +54,7 @@ public class AdminUserApiController {
     }
 
     /**
-     * 회원 상세 정보 요청
+     * 회원 상세 정보 가져오기
      * @param userId 사용자 아이디
      * @return
      * @throws Exception
@@ -71,7 +71,7 @@ public class AdminUserApiController {
     }
 
     /**
-     * 회원 등록 요청
+     * 회원 등록하기
      * @param userRequestDTO 회원 등록 내용 DTO
      * @return
      * @throws Exception
@@ -86,7 +86,7 @@ public class AdminUserApiController {
     }
 
     /**
-     * 회원 정보 수정 요청
+     * 회원 정보 수정하기
      * @param userRequestDTO 회워 정보 수정 내용 DTO
      * @return
      * @throws Exception
@@ -101,7 +101,7 @@ public class AdminUserApiController {
     }
 
     /**
-     * 회원 삭제 요청
+     * 회원 삭제하기
      * @param userId 회원 아이디
      * @return
      * @throws Exception
@@ -115,7 +115,7 @@ public class AdminUserApiController {
     }
 
     /**
-     * 주문 내역 리스트 요청
+     * 주문 내역 리스트 가져오기
      * @param pageable 페이징 객체
      * @param searchDTO 검색 내용 DTO
      * @return
@@ -132,7 +132,7 @@ public class AdminUserApiController {
     }
 
     /**
-     * 주문 상태 변경 요청
+     * 주문 상태 변경하기
      * @param orderStatusDTO 주문 상태 변경 내용 DTO
      * @return
      * @throws Exception

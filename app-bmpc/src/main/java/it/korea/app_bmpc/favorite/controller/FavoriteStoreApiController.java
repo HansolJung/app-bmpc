@@ -30,10 +30,10 @@ public class FavoriteStoreApiController {
     private final FavoriteStoreService favoriteStoreService;
 
     /**
-     * 찜 리스트 요청
+     * 찜 리스트 가져오기
      * @param pageable 페이징 객체
-     * @param searchDTO 검색 객체
      * @param userId 사용자 아이디
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -53,9 +53,9 @@ public class FavoriteStoreApiController {
     }
 
     /**
-     * 찜 목록 존재 여부 확인 요청
+     * 찜 목록 존재 여부 확인하기
      * @param userId 사용자 아이디
-     * @param storeId 가게 아아디
+     * @param storeId 가게 아이디
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
@@ -75,8 +75,8 @@ public class FavoriteStoreApiController {
     }
 
     /**
-     * 찜 등록 요청
-     * @param request
+     * 찜 등록하기
+     * @param request 찜 객체
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
@@ -95,7 +95,7 @@ public class FavoriteStoreApiController {
     }
 
     /**
-     * 찜 목록에서 삭제 요청
+     * 찜 목록에서 삭제하기
      * @param userId 사용자 아이디
      * @param storeId 가게 아이디
      * @param user 로그인한 사용자

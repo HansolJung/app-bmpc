@@ -29,7 +29,7 @@ public class UserApiController {
 
     /**
      * 회원 가입하기 
-     * @param userRequestDTO
+     * @param userRequestDTO 사용자 객체
      * @return
      * @throws Exception
      */
@@ -44,7 +44,7 @@ public class UserApiController {
 
     /**
      * 내 보유금 충전하기
-     * @param request
+     * @param request 보유금 객체
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
@@ -65,7 +65,7 @@ public class UserApiController {
 
     /**
      * 내 정보 수정하기
-     * @param request
+     * @param request 사용자 객체
      * @param user 로그인한 사용자
      * @return
      * @throws Exception

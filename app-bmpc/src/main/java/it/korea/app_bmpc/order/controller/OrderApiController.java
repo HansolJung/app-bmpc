@@ -35,8 +35,8 @@ public class OrderApiController {
     /**
      * 나의 주문내역 리스트 요청
      * @param pageable 페이징 객체
-     * @param searchDTO 검색 객체
      * @param userId 사용자 아이디
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -60,6 +60,7 @@ public class OrderApiController {
      * 가게의 주문내역 리스트 요청
      * @param pageable 페이징 객체
      * @param storeId 가게 아이디
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -99,7 +100,8 @@ public class OrderApiController {
 
     /**
      * 주문 상태 변경하기 (주문취소 or 배달완료)
-     * @param request
+     * @param request 주문 상태 객체
+     * @param user 로그인한 사용자
      * @return
      * @throws Exception
      */
@@ -115,7 +117,7 @@ public class OrderApiController {
 
     /**
      * 메뉴 주문하기
-     * @param request 
+     * @param request 주문 객체
      * @param user 로그인한 사용자
      * @return
      * @throws Exception
