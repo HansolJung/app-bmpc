@@ -17,6 +17,9 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     @EntityGraph(attributePaths = {"user", "fileList", "reply", "reply.user"})   // N+1 현상 해결
     Page<ReviewEntity> findAllByUser_userIdAndDelYn(String userId, String delYn, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"user", "fileList", "reply", "reply.user"})  // N+1 현상 해결
+    Page<ReviewEntity> findAllByDelYn(String delYn, Pageable pageable);
+
     boolean existsByOrder_orderId(int orderId);
 
     @Query("select avg(r.rating) from ReviewEntity r where r.store.storeId = :storeId and r.delYn = 'N'")

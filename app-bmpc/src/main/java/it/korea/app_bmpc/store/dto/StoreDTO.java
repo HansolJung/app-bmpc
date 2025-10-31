@@ -245,7 +245,6 @@ public class StoreDTO {
         private Integer minPrice;
         @NotBlank(message = "원산지표시는 필수 항목입니다.")
         private String origin;
-        @NotBlank(message = "공지사항은 필수 항목입니다.")
         private String notice;
         private String delYn;
 

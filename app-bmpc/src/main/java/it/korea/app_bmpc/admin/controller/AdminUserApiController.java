@@ -148,6 +148,8 @@ public class AdminUserApiController {
         return ResponseEntity.ok().body(ApiResponse.ok("OK"));
     }
 
+    @GetMapping("/admin/review")
+    
 
     /**
      * 리뷰 삭제하기

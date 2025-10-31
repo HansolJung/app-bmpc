@@ -429,6 +429,35 @@ public class ReviewService {
         }
     }
 
+
+    ///////////////// 어드민 전용 메서드들 /////////////////
+    
+    /**
+     * 모든 리뷰 리스트 가져오기
+     * @param pageable 페이징 객체
+     * @return
+     * @throws Exception
+     */
+    @Transactional(readOnly = true)
+    public Map<String, Object> getReviewList(Pageable pageable) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        Page<ReviewEntity> pageList = reviewRepository.findAllByDelYn("N", pageable);
+
+        List<ReviewDTO.Response> reviewList = pageList.getContent().stream().map(ReviewDTO.Response::of).toList();
+
+        PageVO pageVO = new PageVO();
+        pageVO.setData(pageList.getNumber(), (int) pageList.getTotalElements());
+
+        resultMap.put("total", pageList.getTotalElements());
+        resultMap.put("content", reviewList);
+        resultMap.put("pageHTML", pageVO.pageHTML());
+        resultMap.put("page", pageList.getNumber());
+        
+        return resultMap;
+    }
+
+
     /**
      * 리뷰 삭제하기 (어드민)
      * @param reviewId 리뷰 아이디
